@@ -5,9 +5,12 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "all": "docker compose up -d && nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "startMongo": "docker compose up -d",
+    "stopMongo": "docker compose down"
   },
   "dependencies": {
     "mongoose": "^8.2.1",
