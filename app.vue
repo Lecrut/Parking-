@@ -2,9 +2,11 @@
     <NuxtLayout>
       <v-app>
         <v-main>
-          no i co kaman
+          <NuxtPage />
         </v-main>
       </v-app>
     </NuxtLayout>
   
 </template>
+<script setup lang="ts">
+</script>
