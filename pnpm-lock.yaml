@@ -21,6 +21,9 @@ dependencies:
     version: 4.3.0(vue@3.4.21)
 
 devDependencies:
+  '@mdi/font':
+    specifier: ^7.4.47
+    version: 7.4.47
   vite-plugin-vuetify:
     specifier: ^2.0.2
     version: 2.0.2(vite@5.1.5)(vue@3.4.21)(vuetify@3.5.8)
@@ -855,6 +858,10 @@ packages:
       - supports-color
     dev: false
 
+  /@mdi/font@7.4.47:
+    resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
+    dev: true
+    
   /@mongodb-js/saslprep@1.1.5:
     resolution: {integrity: sha512-XLNOMH66KhJzUJNwT/qlMnS4WsNDWD5ASdyaSH3EtK+F4r/CFGa3jT4GNi4mfOitGvWXtdLgQJkQjxSVrio+jA==}
     dependencies:
