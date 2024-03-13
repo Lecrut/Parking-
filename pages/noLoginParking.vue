@@ -3,30 +3,58 @@
 </script>
 
 <template>
-  <v-container fluid>
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6">
-        <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Aplikacja Parkingowa</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6" md="3">
-                  <v-text-field label="Numer rejestracyjny" outlined></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary">Zarezerwuj miejsce parkingowe</v-btn>
-          </v-card-actions>
-        </v-card>
+  <v-sheet
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
+  >
+    <v-row justify="center">
+      <v-col cols="12" sm="12" md="6">
+        <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
+          <v-img
+              class="mx-auto my-5 elevation-5"
+              rounded="xl"
+              :width="300"
+              aspect-ratio="4/3"
+              cover
+              src="/noLogged.jpeg"
+          />
+        </div>
+      </v-col>
+      <v-col cols="12" sm="12" md="6">
+        <div class="d-flex flex-column align-center justify-center h-100 mx-2 py-3" >
+          <div class="text-h5 my-2">
+            Parkowanie bez konta
+          </div>
+
+          <p class="my-2">
+            Wypełnij formularz aby przejść do płatności i otrzymać bilet parkingowy.
+          </p>
+
+          <form class="w-75 my-2">
+            <v-text-field
+                label="Numer rejestracyjny"
+            ></v-text-field>
+
+            <v-text-field
+                label="Adres Email"
+                placeholder="example@mail.com"
+                type="email"
+            ></v-text-field>
+
+            <v-checkbox
+              label="Akceptuję regulamin"
+            ></v-checkbox>
+
+            <v-btn>
+              Zatwierdź
+            </v-btn>
+          </form>
+        </div>
       </v-col>
     </v-row>
-  </v-container>
+  </v-sheet>
 </template>
 
 <style scoped>

@@ -29,7 +29,9 @@ export default defineNuxtPlugin((app) => {
                 color: 'primary',
                 variant: 'elevated',
             },
-
+            VTextField: {
+                variant: 'underlined',
+            },
         }
     })
     app.vueApp.use(vuetify)
