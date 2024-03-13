@@ -13,7 +13,7 @@
             :width="266"
             aspect-ratio="4/3"
             cover
-            src="../public/parkingFour.jpeg"
+            src="/parkingFour.jpeg"
         />
       </v-col>
       <v-col cols="12" sm="12" md="6">
@@ -50,7 +50,7 @@
           <p class="mt-2">
             Nie musisz zakładać konta aby skorzystać z parkingu. Wpisz numer rejestracyjny swojego samochodu i gotowe.
           </p>
-          <v-btn class="my-4" color="primary">
+          <v-btn class="my-4">
             Parkuj
           </v-btn>
         </div>
@@ -62,7 +62,7 @@
             :width="266"
             aspect-ratio="4/3"
             cover
-            src="../public/parkingTwo.jpeg"
+            src="/parkingTwo.jpeg"
         />
       </v-col>
     </v-row>
@@ -82,7 +82,7 @@
             :width="266"
             aspect-ratio="4/3"
             cover
-            src="../public/parkingThree.jpeg"
+            src="/parkingThree.jpeg"
         />
       </v-col>
       <v-col cols="12" sm="12" md="6">
