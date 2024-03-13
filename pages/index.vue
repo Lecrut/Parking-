@@ -50,7 +50,7 @@
           <p class="mt-2">
             Nie musisz zakładać konta aby skorzystać z parkingu. Wpisz numer rejestracyjny swojego samochodu i gotowe.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" color="primary">
             Parkuj
           </v-btn>
         </div>
