@@ -28,14 +28,17 @@
             BILET JEDNORAZOWY
           </div>
 
-          <p class="mb-2">
-            Płać stałą sumę za każdą rozpoczętą godzinę.
+          <p class="mb-1 mt-1">
+            Płać stałą sumę za każdą rozpoczętą godzinę. Nie wymaga logowania
           </p>
 
-          <p class="text-h3 mb-5">
+          <p class="text-h3 mt-2 mb-2">
             5 PLN / godzina
           </p>
-
+          
+          <v-btn class="my-4" to="/noLoginParking">
+            Zakup bilet
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -57,14 +60,18 @@
               BILET DZIENNY
             </div>
 
-            <p class="mb-2">
-              Bilet obowiązujący cały dzień od 00:00 do 23:59
+            <p class="mb-1 mt-1">
+              Bilet obowiązujący cały dzień od 00:00 do 23:59. Wymaga logowania.
             </p>
 
-            <p class="text-h3 mb-5">
+            <p class="text-h3 mt-2 mb-2">
               20 PLN
             </p>
-
+            
+            <v-btn class="my-4">
+              Zakup bilet
+            </v-btn>
+            
           </div>
         </div>
       </v-col>
@@ -107,14 +114,18 @@
               BILET TYGODNIOWY
             </div>
 
-            <p class="mb-2">
-              Bilet obowiązujący na 7 dni
+            <p class="mb-1 mt-1">
+              Bilet obowiązujący na 7 dni. Wymaga logowania.
             </p>
 
-            <p class="text-h3 mb-5">
+            <p class="text-h3 mt-2 mb-2">
               100 PLN
             </p>
-
+            
+            <v-btn class="my-4">
+              Zakup bilet
+            </v-btn>
+            
           </div>
         </div>
       </v-col>
@@ -138,14 +149,17 @@
               BILET MIESIĘCZNY
             </div>
 
-            <p class="mb-2">
-              Bilet obowiązujący na 30 dni
+            <p class="mb-1 mt-1">
+              Bilet obowiązujący na 30 dni.  Wymaga logowania.
             </p>
 
-            <p class="text-h3 mb-5">
+            <p class="text-h3 mt-2 mb-2">
               250 PLN
             </p>
-
+            
+            <v-btn class="my-4">
+              Zakup bilet
+            </v-btn>
           </div>
         </div>
       </v-col>
