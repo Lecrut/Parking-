@@ -94,7 +94,7 @@
           <p class="mt-2">
             Do wyboru są różne taryfy i rozwiązania. Możesz sprawdzić jakie są ceny przed parkowaniem.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" to="/priceList">
             Cennik
           </v-btn>
         </div>
