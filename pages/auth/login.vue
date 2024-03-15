@@ -29,9 +29,15 @@
                 type="password"
             ></v-text-field>
 
-            <v-btn>
-              Zaloguj
-            </v-btn>
+            <v-row class="justify-center my-1">
+              <v-btn to="/auth/reset" class="mx-2">
+                Zapomniałeś hasła?
+              </v-btn>
+
+              <v-btn class="mx-2">
+                Zaloguj
+              </v-btn>
+            </v-row>
           </form>
 
           <p class="my-5">
