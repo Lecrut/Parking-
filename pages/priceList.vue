@@ -8,7 +8,7 @@
     <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="800"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
@@ -48,20 +48,11 @@
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="800"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
-      <v-col cols="12" sm="12" md="4">
-        <v-img
-            class="mx-auto my-5 elevation-5"
-            rounded="xl"
-            :width="250"
-            aspect-ratio="4/3"
-            cover
-            src="/ticketTwo.jpg"
-        />
-      </v-col>
+      
       <v-col cols="12" sm="12" md="8">
         
           <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
@@ -84,6 +75,16 @@
           </div>
       </v-col>
       
+      <v-col cols="12" sm="12" md="4">
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketTwo.jpg"
+        />
+      </v-col>
     </v-row>
     
   </v-sheet>
@@ -91,7 +92,7 @@
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="800"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
@@ -136,21 +137,12 @@
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="800"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
 
-      <v-col cols="12" sm="12" md="4">
-        <v-img
-            class="mx-auto my-5 elevation-5"
-            rounded="xl"
-            :width="250"
-            aspect-ratio="4/3"
-            cover
-            src="/ticketFour.jpg"
-        />
-      </v-col>
+      
       <v-col cols="12" sm="12" md="8">
         
           <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
@@ -173,7 +165,16 @@
         
       </v-col>
 
-      
+      <v-col cols="12" sm="12" md="4">
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketFour.jpg"
+        />
+      </v-col>
       
     </v-row>
     
