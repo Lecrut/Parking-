@@ -4,67 +4,60 @@
 </script>
 
 <template>
+  <v-container fluid>
     <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="1100"
+      max-width="900"
       rounded
-    >
-      <v-row justify="center">
-        <v-col cols="12" sm="12" md="6">
-          <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketOne.jpg"
-          />
-        </v-col>
-        <v-col cols="12" sm="12" md="6">
-          <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
-            <div class="text-h5 mb-2">
-              Bilet jednorazowy
-            </div>
-
-            <p class="mb-1 mt-1">
-              Płać stałą sumę za każdą rozpoczętą godzinę. Nie wymaga logowania
-            </p>
-
-            <p class="text-h6 mt-2 mb-2 font-weight-bold" >
-              5 zł za godzinę
-            </p>
-          
-            <v-btn class="my-4" to="/noLoginParking">
-              Zakup bilet
-            </v-btn>
+  >
+    <v-row justify="center">
+      <v-col cols="12" sm="12" md="4">
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketOne.jpg"
+        />
+      </v-col>
+      <v-col cols="12" sm="12" md="8">
+        <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
+          <div class="text-h5 mb-2">
+            BILET JEDNORAZOWY
           </div>
-        </v-col>
-      </v-row>
-    </v-sheet>
 
-    <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-        elevation="4"
-        max-width="1100"
-        rounded
-    >
-      <v-row justify="center">
-        <v-col cols="12" sm="12" md="6">
-          <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketTwo.jpg"
-          />
-        </v-col>
+          <p class="mb-1 mt-1">
+            Płać stałą sumę za każdą rozpoczętą godzinę. Nie wymaga logowania
+          </p>
 
-        <v-col cols="12" sm="12" md="6">
+          <p class="text-h6 mt-2 mb-2 font-weight-bold" >
+            5 PLN / godzina
+          </p>
+          
+          <v-btn class="my-4" to="/noLoginParking">
+            Zakup bilet
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    
+  </v-sheet>
+
+  <v-sheet
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="900"
+      rounded
+  >
+    <v-row justify="center">
+      
+      <v-col cols="12" sm="12" md="8">
+        
           <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
             <div class="text-h5 mb-2">
-              Bilet dzienny
+              BILET DZIENNY
             </div>
 
             <p class="mb-1 mt-1">
@@ -72,25 +65,38 @@
             </p>
 
             <p class="text-h6 mt-2 mb-2 font-weight-bold">
-              20 zł
+              20 PLN
             </p>
             
             <v-btn class="my-4">
               Zakup bilet
             </v-btn>
+            
           </div>
       </v-col>
+      
+      <v-col cols="12" sm="12" md="4">
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketTwo.jpg"
+        />
+      </v-col>
     </v-row>
+    
   </v-sheet>
 
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="1100"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
-      <v-col cols="12" sm="12" md="6">
+      <v-col cols="12" sm="12" md="4">
         <v-img
             class="mx-auto my-5 elevation-5"
             rounded="xl"
@@ -101,7 +107,8 @@
         />
       </v-col>
 
-      <v-col cols="12" sm="12" md="6">
+      <v-col cols="12" sm="12" md="8">
+        
           <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
             <div class="text-h5 mb-2">
               BILET TYGODNIOWY
@@ -130,12 +137,35 @@
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
-      max-width="1100"
+      max-width="900"
       rounded
   >
     <v-row justify="center">
 
-      <v-col cols="12" sm="12" md="6">
+      
+      <v-col cols="12" sm="12" md="8">
+        
+          <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
+            <div class="text-h5 mb-2">
+              BILET MIESIĘCZNY
+            </div>
+
+            <p class="mb-1 mt-1">
+              Bilet obowiązujący na 30 dni.  Wymaga logowania.
+            </p>
+
+            <p class="text-h6 mt-2 mb-2 font-weight-bold">
+              250 PLN
+            </p>
+            
+            <v-btn class="my-4">
+              Zakup bilet
+            </v-btn>
+          </div>
+        
+      </v-col>
+
+      <v-col cols="12" sm="12" md="4">
         <v-img
             class="mx-auto my-5 elevation-5"
             rounded="xl"
@@ -145,27 +175,12 @@
             src="/ticketFour.jpg"
         />
       </v-col>
-      <v-col cols="12" sm="12" md="6">
-          <div class="d-flex flex-column align-center justify-center h-100 mx-2" >
-            <div class="text-h5 mb-2">
-              Bilet miesięczny
-            </div>
-
-            <p class="mb-1 mt-1">
-              Bilet obowiązujący na 30 dni.  Wymaga logowania.
-            </p>
-
-            <p class="text-h6 mt-2 mb-2 font-weight-bold">
-              250 zł
-            </p>
-            
-            <v-btn class="my-4">
-              Zakup bilet
-            </v-btn>
-          </div>
-      </v-col>
+      
     </v-row>
+    
   </v-sheet>
+
+  </v-container>
 </template>
 
 <style scoped>
