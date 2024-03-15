@@ -1,6 +1,13 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
+  '@mdi/js':
+    specifier: ^7.4.47
+    version: 7.4.47
   mongoose:
     specifier: ^8.2.1
     version: 8.2.1
@@ -861,7 +868,11 @@ packages:
   /@mdi/font@7.4.47:
     resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
     dev: true
-    
+
+  /@mdi/js@7.4.47:
+    resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
+    dev: false
+
   /@mongodb-js/saslprep@1.1.5:
     resolution: {integrity: sha512-XLNOMH66KhJzUJNwT/qlMnS4WsNDWD5ASdyaSH3EtK+F4r/CFGa3jT4GNi4mfOitGvWXtdLgQJkQjxSVrio+jA==}
     dependencies:
@@ -4083,10 +4094,6 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /nitro@0.0.0:
-    resolution: {integrity: sha512-01S4adMoYsgKIh5u7Y+sJO8u7hSxRi9ToDBeLTYZJ+L8thyjlCkDrOIWbG+y0SJRE8DpADQYGvJWPebBdJ/xvg==}
-    dev: false
-
   /nitropack@2.9.3:
     resolution: {integrity: sha512-k3wXlhxmTNkkFXnVyRYJ6CCdZmvlqjYJ4oaL8o9uTKIjg7A1udAle+3cVDxUWi2r9owwEysAP2+quNsAujZyTg==}
     engines: {node: ^16.11.0 || >=17.0.0}
@@ -6417,7 +6424,3 @@ packages:
       compress-commons: 6.0.2
       readable-stream: 4.5.2
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

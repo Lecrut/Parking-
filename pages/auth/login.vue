@@ -3,6 +3,9 @@
 </script>
 
 <template>
+
+  <nav-bar />
+
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
@@ -30,11 +33,11 @@
             ></v-text-field>
 
             <v-row class="justify-center my-1">
-              <v-btn to="/auth/reset" class="mx-2">
+              <v-btn to="/auth/reset" class="mx-2 mb-2">
                 Zapomniałeś hasła?
               </v-btn>
 
-              <v-btn class="mx-2">
+              <v-btn class="mx-2 mb-2">
                 Zaloguj
               </v-btn>
             </v-row>
