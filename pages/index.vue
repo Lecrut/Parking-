@@ -26,7 +26,7 @@
             Zaloguj się na swoje konto aby mieć dostęp do całej historii swojego parkowania.
             Uzyskasz także dostęp do kupienia dodatkowych pakietów.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" to="auth/login">
             Logowanie
           </v-btn>
         </div>
