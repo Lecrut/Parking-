@@ -1,4 +1,12 @@
+<script setup lang="ts">
+import NavBar from "~/components/navBar.vue";
+
+</script>
+
 <template>
+
+  <nav-bar />
+
   <v-sheet
       class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
       elevation="4"
@@ -102,5 +110,3 @@
     </v-row>
   </v-sheet>
 </template>
-<script setup lang="ts">
-</script>
