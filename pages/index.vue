@@ -2,6 +2,8 @@
 </script>
 
 <template>
+  <nav-bar />
+
   <v-sheet
     class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
     elevation="4"
@@ -29,7 +31,7 @@
             Zaloguj się na swoje konto aby mieć dostęp do całej historii swojego parkowania.
             Uzyskasz także dostęp do kupienia dodatkowych pakietów.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" to="auth/login">
             Logowanie
           </v-btn>
         </div>
@@ -53,7 +55,7 @@
           <p class="mt-2">
             Nie musisz zakładać konta aby skorzystać z parkingu. Wpisz numer rejestracyjny swojego samochodu i gotowe.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" to="/noLoginParking">
             Parkuj
           </v-btn>
         </div>
@@ -97,7 +99,7 @@
           <p class="mt-2">
             Do wyboru są różne taryfy i rozwiązania. Możesz sprawdzić jakie są ceny przed parkowaniem.
           </p>
-          <v-btn class="my-4">
+          <v-btn class="my-4" to="/priceList">
             Cennik
           </v-btn>
         </div>
