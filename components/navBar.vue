@@ -2,21 +2,21 @@
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
-function toggleTheme () {
+function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
 
 <template>
   <v-app-bar
-      prominent
-      class="px-2"
+    prominent
+    class="px-2"
   >
     <v-btn variant="text" color="default" to="/">
       Parking+
     </v-btn>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
 
     <div class="hidden-sm-and-down">
       <v-btn variant="text" color="default" to="/auth/login">
@@ -31,12 +31,12 @@ function toggleTheme () {
         Szybkie parkowanie
       </v-btn>
 
-      <v-btn variant="text" color="default" @click="toggleTheme" icon="mdi-theme-light-dark"></v-btn>
+      <v-btn variant="text" color="default" icon="mdi-theme-light-dark" @click="toggleTheme" />
     </div>
 
     <div class="hidden-md-and-up">
       <v-btn class="rounded-xl mr-2" color="default">
-        <v-icon icon="mdi-menu"></v-icon>
+        <v-icon icon="mdi-menu" />
         <v-menu activator="parent">
           <v-list class="justify-center">
             <v-list-item to="/auth/login">
@@ -54,7 +54,6 @@ function toggleTheme () {
         </v-menu>
       </v-btn>
     </div>
-
   </v-app-bar>
 </template>
 
