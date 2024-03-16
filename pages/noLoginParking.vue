@@ -14,14 +14,16 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="3">
-                  <v-text-field label="Numer rejestracyjny" outlined></v-text-field>
+                  <v-text-field label="Numer rejestracyjny" outlined />
                 </v-col>
               </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary">Zarezerwuj miejsce parkingowe</v-btn>
+            <v-spacer />
+            <v-btn color="primary">
+              Zarezerwuj miejsce parkingowe
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>

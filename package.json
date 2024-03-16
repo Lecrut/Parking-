@@ -1,7 +1,7 @@
 {
   "name": "nuxt-app",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,7 +10,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "startMongo": "docker compose up -d",
-    "stopMongo": "docker compose down"
+    "stopMongo": "docker compose down",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "mongoose": "^8.2.1",
@@ -21,7 +23,9 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.8.1",
     "@mdi/font": "^7.4.47",
+    "eslint": "^8.57.0",
     "vite-plugin-vuetify": "^2.0.2",
     "vuetify": "^3.5.8"
   }
