@@ -31,12 +31,27 @@ watch(isShow, () => isShowRef.value = isShow.value)
       </v-card-title>
 
       <v-card-text>
-        Info o twoim bolidzie
+        <v-form>
+          <v-text-field
+              label="Nazwa samochodu"
+              type="text"
+          />
+
+          <v-text-field
+              label="Numer rejestracyjny"
+              type="text"
+          />
+
+        </v-form>
       </v-card-text>
 
       <v-card-actions class="justify-end">
-        <v-btn @click="close">
+        <v-btn @click="close" color="error">
           Zamknij
+        </v-btn>
+
+        <v-btn>
+          Dodaj
         </v-btn>
       </v-card-actions>
     </v-card>

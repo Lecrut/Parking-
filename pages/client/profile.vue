@@ -57,6 +57,10 @@ function handleEditCarForm() {
         <v-btn class="my-4" @click="isShowCarForm = true">
           Dodaj samochód
         </v-btn>
+
+        <div>
+          Miejsce na wyswietlenie samochodów
+        </div>
       </v-col>
     </v-row>
   </v-sheet>
