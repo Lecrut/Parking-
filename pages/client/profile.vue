@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import NavBarUser from "~/components/navBars/navBarUser.vue";
+import CarForm from "~/components/user/carForm.vue";
+
+const isShowCarForm = ref(false)
+
+function handleEditCarForm() {
+  isShowCarForm.value = !isShowCarForm.value
+}
 </script>
 
 <template>
@@ -47,12 +54,17 @@ import NavBarUser from "~/components/navBars/navBarUser.vue";
           Lista samochodów
         </div>
 
-        <v-btn class="my-4">
+        <v-btn class="my-4" @click="isShowCarForm = true">
           Dodaj samochód
         </v-btn>
       </v-col>
     </v-row>
   </v-sheet>
+
+  <car-form
+      :is-show="isShowCarForm"
+      @on-close="handleEditCarForm"
+  />
 
 </template>
 
