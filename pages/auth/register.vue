@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NavBar from '~/components/navBar.vue'
+import NavBar from '~/components/navBars/navBar.vue'
 </script>
 
 <template>
@@ -35,6 +35,11 @@ import NavBar from '~/components/navBar.vue'
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
+            />
+
+            <v-text-field
+                label="Nazwa użytkownika"
+                type="text"
             />
 
             <v-text-field
