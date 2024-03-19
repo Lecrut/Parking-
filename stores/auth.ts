@@ -4,7 +4,6 @@ import type { IUser } from '~/models/User'
 
 export const useAuthStore = defineStore('auth', () => {
   const user: Ref<IUser | null> = ref(null)
-
   function setUser(newUser: IUser) {
     user.value = newUser
   }
@@ -20,10 +19,21 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  async function loginUser(email: string, password: string) {
+    const res: IUser = await $fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    })
+
+    if (res)
+      setUser(res)
+  }
+
   return {
     user,
     setUser,
     logout,
     registerUser,
+    loginUser,
   }
 })
