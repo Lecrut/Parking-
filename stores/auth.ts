@@ -8,12 +8,15 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = newUser
   }
 
-  function logout() {
+  async function logout() {
     user.value = null
+    await $fetch('/api/logout', {
+      method: 'POST',
+    })
   }
 
   async function registerUser(user: IUser) {
-    $fetch('/api/register', {
+    await $fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify(user),
     })

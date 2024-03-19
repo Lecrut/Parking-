@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 import UserModel from '~/server/dbModels/User'
 
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
   const { email, password } = await readBody(event)
 
   if (!email || !password)
@@ -14,6 +16,10 @@ export default defineEventHandler(async (event) => {
 
   if (!await bcrypt.compare(password, user.password))
     return new Response('Invalid password', { status: 401 })
+
+  const token = jwt.sign(user.toJSON(), config.secretKey, { expiresIn: '3h' })
+
+  setCookie(event, 'session', token, { httpOnly: true })
 
   return user
 })

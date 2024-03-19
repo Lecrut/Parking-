@@ -20,6 +20,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@typegoose/typegoose": "^12.2.0",
     "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
     "nitropack": "^2.9.3",
     "nuxt": "^3.10.3",
@@ -30,8 +31,11 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.8.1",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@mdi/font": "^7.4.47",
     "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "eslint": "^8.57.0",
     "vite-plugin-vuetify": "^2.0.2",
     "vuetify": "^3.5.8"
