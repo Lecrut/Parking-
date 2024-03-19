@@ -9,6 +9,9 @@ const password1 = ref('')
 const password2 = ref('')
 const rules = ref(false)
 
+const showPasswordOne = ref(false)
+const showPasswordTwo = ref(false)
+
 function verifyEmail() {
   return email.value.includes('@')
 }
@@ -73,30 +76,38 @@ async function registerUser() {
             Rejestracja
           </div>
 
-          <form class="w-75 my-2">
+          <form class="w-75 my-2" @submit.prevent="registerUser">
             <v-text-field
               v-model="email"
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
+              @keyup.enter="registerUser"
             />
 
             <v-text-field
               v-model="name"
               label="Nazwa użytkownika"
               type="text"
+              @keyup.enter="registerUser"
             />
 
             <v-text-field
               v-model="password1"
               label="Hasło"
-              type="password"
+              @keyup.enter="registerUser"
+              :append-inner-icon="showPasswordOne ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPasswordOne ? 'text' : 'password'"
+              @click:append-inner="showPasswordOne = !showPasswordOne"
             />
 
             <v-text-field
               v-model="password2"
               label="Powtórz hasło"
-              type="password"
+              @keyup.enter="registerUser"
+              :append-inner-icon="showPasswordTwo ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPasswordTwo ? 'text' : 'password'"
+              @click:append-inner="showPasswordTwo = !showPasswordTwo"
             />
 
             <v-checkbox

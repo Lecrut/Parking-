@@ -6,6 +6,8 @@ const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 
+const showPassword = ref(false)
+
 async function logIn() {
   if (!email.value || !password.value)
     return alert('Wszystkie pola muszą być wypełnione')
@@ -37,18 +39,22 @@ async function logIn() {
             Logowanie
           </div>
 
-          <form class="w-75 my-2">
+          <form @submit.prevent="logIn" class="w-75 my-2">
             <v-text-field
               v-model="email"
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
+              @keyup.enter="logIn"
             />
 
             <v-text-field
               v-model="password"
               label="Hasło"
-              type="password"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPassword ? 'text' : 'password'"
+              @click:append-inner="showPassword = !showPassword"
+              @keyup.enter="logIn"
             />
 
             <v-row class="justify-center my-1">
