@@ -6,11 +6,18 @@ const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 
-function logIn() {
+async function logIn() {
   if (!email.value || !password.value)
     return alert('Wszystkie pola muszą być wypełnione')
 
-  auth.loginUser(email.value, password.value)
+  await auth.loginUser(email.value, password.value)
+
+  if (auth.user?.role === 'user')
+    navigateTo('/client')
+  else if (auth.user?.role === 'admin')
+    navigateTo('/administration')
+  else
+    alert('Niepoprawne dane logowania')
 }
 </script>
 

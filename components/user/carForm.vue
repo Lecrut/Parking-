@@ -10,7 +10,6 @@ const emit = defineEmits<{
 const { isShow } = toRefs(props)
 const isShowRef = ref<boolean>()
 
-
 function close() {
   emit('onClose')
 }
@@ -20,10 +19,10 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
 <template>
   <v-dialog
-      max-width="800px"
-      :model-value="isShowRef"
-      scrollable
-      @update:model-value="close"
+    max-width="800px"
+    :model-value="isShowRef"
+    scrollable
+    @update:model-value="close"
   >
     <v-card>
       <v-card-title>
@@ -33,20 +32,19 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-text>
         <v-form>
           <v-text-field
-              label="Nazwa samochodu"
-              type="text"
+            label="Nazwa samochodu"
+            type="text"
           />
 
           <v-text-field
-              label="Numer rejestracyjny"
-              type="text"
+            label="Numer rejestracyjny"
+            type="text"
           />
-
         </v-form>
       </v-card-text>
 
       <v-card-actions class="justify-end">
-        <v-btn @click="close" color="error">
+        <v-btn color="error" @click="close">
           Zamknij
         </v-btn>
 

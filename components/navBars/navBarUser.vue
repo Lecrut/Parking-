@@ -2,17 +2,24 @@
 import { useTheme } from 'vuetify'
 
 const theme = useTheme()
+const auth = useAuthStore()
+
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+
+function logOut() {
+  auth.logout()
+  navigateTo('/')
 }
 </script>
 
 <template>
   <v-app-bar
-      prominent
-      class="px-2"
+    prominent
+    class="px-2"
   >
-    <v-btn variant="text" color="default" to="/">
+    <v-btn variant="text" color="default" to="/client">
       Parking+
     </v-btn>
 
@@ -21,6 +28,10 @@ function toggleTheme() {
     <div class="hidden-sm-and-down">
       <v-btn variant="text" color="default" to="/client/profile">
         Profil
+      </v-btn>
+
+      <v-btn variant="text" color="default" @click="logOut">
+        Wyloguj
       </v-btn>
 
       <v-btn variant="text" color="default" icon="mdi-theme-light-dark" @click="toggleTheme" />

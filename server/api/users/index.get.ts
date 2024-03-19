@@ -1,4 +1,4 @@
-import UserModel, { UserClass } from '~/server/dbModels/User'
+import UserModel from '~/server/dbModels/User'
 
 export default defineEventHandler(async (_event) => {
   try {

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import NavBar from "~/components/navBars/navBar.vue";
+import NavBar from '~/components/navBars/navBar.vue'
 </script>
 
 <template>
-
-  <nav-bar />
+  <NavBar />
 
   <v-sheet
     class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"

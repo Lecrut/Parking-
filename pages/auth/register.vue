@@ -39,6 +39,9 @@ async function registerUser() {
     password: password1.value,
     role: 'user',
   })
+
+  navigateTo('/auth/login')
+  alert('Zarejestrowano pomyślnie')
 }
 </script>
 
