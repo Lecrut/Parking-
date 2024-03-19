@@ -1,5 +1,18 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+import { useAuthStore } from '~/stores/auth'
+
+const auth = useAuthStore()
+
+await auth.registerUser({
+  email: 'mail123',
+  name: 'Janusz',
+  surname: 'Kowalski',
+  password: '123456',
+  role: 'user',
+})
+
+console.log('User registered')
 </script>
 
 <template>
@@ -38,8 +51,8 @@ import NavBar from '~/components/navBars/navBar.vue'
             />
 
             <v-text-field
-                label="Nazwa użytkownika"
-                type="text"
+              label="Nazwa użytkownika"
+              type="text"
             />
 
             <v-text-field
