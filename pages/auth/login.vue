@@ -1,9 +1,28 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+
+const auth = useAuthStore()
+
+const email = ref('')
+const password = ref('')
+
+async function logIn() {
+  if (!email.value || !password.value)
+    return alert('Wszystkie pola muszą być wypełnione')
+
+  await auth.loginUser(email.value, password.value)
+
+  if (auth.user?.role === 'user')
+    navigateTo('/client')
+  else if (auth.user?.role === 'admin')
+    navigateTo('/administration')
+  else
+    alert('Niepoprawne dane logowania')
+}
 </script>
 
 <template>
-  <nav-bar />
+  <NavBar />
 
   <v-sheet
     class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
@@ -20,23 +39,25 @@ import NavBar from '~/components/navBars/navBar.vue'
 
           <form class="w-75 my-2">
             <v-text-field
+              v-model="email"
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
             />
 
             <v-text-field
+              v-model="password"
               label="Hasło"
               type="password"
             />
 
             <v-row class="justify-center my-1">
-              <v-btn to="/auth/reset" class="mx-2 mb-2">
-                Zapomniałeś hasła?
+              <v-btn class="mx-2 mb-2" @click="logIn">
+                Zaloguj
               </v-btn>
 
-              <v-btn class="mx-2 mb-2">
-                Zaloguj
+              <v-btn to="/auth/reset" class="mx-2 mb-2">
+                Zapomniałeś hasła?
               </v-btn>
             </v-row>
           </form>

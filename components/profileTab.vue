@@ -1,5 +1,7 @@
 <script setup lang="ts">
+const auth = useAuthStore()
 
+const { user } = storeToRefs(auth)
 </script>
 
 <template>
@@ -8,17 +10,22 @@
   </div>
 
   <form class="w-75 my-2">
-    <v-text-field
+    <div v-if="user">
+      <v-text-field
+        v-model="user.name"
         label="Nazwa użytkownika"
-    />
+        readonly
+      />
 
-    <v-text-field
+      <v-text-field
+        v-model="user.email"
         label="Adres Email"
         placeholder="example@mail.com"
         type="email"
-    />
+        readonly
+      />
+    </div>
   </form>
-
 </template>
 
 <style scoped>
