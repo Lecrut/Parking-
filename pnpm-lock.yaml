@@ -10,6 +10,9 @@ dependencies:
   '@typegoose/typegoose':
     specifier: ^12.2.0
     version: 12.2.0(mongoose@8.2.1)
+  bcrypt:
+    specifier: ^5.1.1
+    version: 5.1.1
   mongoose:
     specifier: ^8.2.1
     version: 8.2.1
@@ -2712,6 +2715,18 @@ packages:
 
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    dev: false
+
+  /bcrypt@5.1.1:
+    resolution: {integrity: sha512-AGBHOG5hPYZ5Xl9KXzU5iKq9516yEmvCKDg3ecP5kX2aB6UqTeXZxk2ELnDgDm6BQSMlLt9rDB4LoSMx0rYwww==}
+    engines: {node: '>= 10.0.0'}
+    requiresBuild: true
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.11
+      node-addon-api: 5.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /binary-extensions@2.2.0:
@@ -5453,6 +5468,10 @@ packages:
       - idb-keyval
       - supports-color
       - uWebSockets.js
+    dev: false
+
+  /node-addon-api@5.1.0:
+    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
     dev: false
 
   /node-addon-api@7.1.0:

@@ -1,8 +1,9 @@
+import bcrypt from 'bcrypt'
 import UserModel from '~/server/dbModels/User'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  console.log(body, 'api post')
+  body.password = await bcrypt.hash(body.password, 10)
 
   await new UserModel(body).save()
 })

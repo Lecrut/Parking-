@@ -4,15 +4,43 @@ import { useAuthStore } from '~/stores/auth'
 
 const auth = useAuthStore()
 
-await auth.registerUser({
-  email: 'mail123',
-  name: 'Janusz',
-  surname: 'Kowalski',
-  password: '123456',
-  role: 'user',
-})
+const email = ref('')
+const name = ref('')
+const password1 = ref('')
+const password2 = ref('')
+const rules = ref(false)
 
-console.log('User registered')
+function verifyEmail() {
+  return email.value.includes('@')
+}
+
+function verifyPassword() {
+  if (password1.value !== password2.value)
+    return false
+
+  return password1.value.length > 5
+}
+
+async function registerUser() {
+  if (email.value.length < 5 || name.value.length < 3 || password1.value.length < 6)
+    return alert('Wszystkie pola muszą być wypełnione')
+
+  if (!verifyEmail())
+    return alert('Niepoprawny email')
+
+  if (!verifyPassword())
+    return alert('Hasło musi mieć minimum 6 znaków i być takie same')
+
+  if (!rules.value)
+    return alert('Musisz zaakceptować regulamin')
+
+  await auth.registerUser({
+    email: email.value,
+    name: name.value,
+    password: password1.value,
+    role: 'user',
+  })
+}
 </script>
 
 <template>
@@ -45,31 +73,36 @@ console.log('User registered')
 
           <form class="w-75 my-2">
             <v-text-field
+              v-model="email"
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
             />
 
             <v-text-field
+              v-model="name"
               label="Nazwa użytkownika"
               type="text"
             />
 
             <v-text-field
+              v-model="password1"
               label="Hasło"
               type="password"
             />
 
             <v-text-field
+              v-model="password2"
               label="Powtórz hasło"
               type="password"
             />
 
             <v-checkbox
+              v-model="rules"
               label="Akceptuję regulamin"
             />
 
-            <v-btn>
+            <v-btn @click="registerUser">
               Zarejestruj się
             </v-btn>
           </form>

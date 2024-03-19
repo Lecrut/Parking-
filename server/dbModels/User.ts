@@ -10,9 +10,6 @@ export class UserClass implements IUser {
   name: string
 
   @prop({ type: String, required: true, trim: true })
-  surname: string
-
-  @prop({ type: String, required: true, trim: true })
   password: string
 
   @prop({ type: String, required: true, trim: true })
