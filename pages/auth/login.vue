@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
 import formValidation from "~/composable/formValidation";
+import {emailRule, passwordRule, requiredRule} from "~/composable/rules";
 
 const auth = useAuthStore()
+const {user, loginError} = storeToRefs(auth)
 
 const email = ref('')
 const password = ref('')
@@ -12,18 +14,17 @@ const showPassword = ref(false)
 const { form, valid, isValid } = formValidation()
 
 async function logIn() {
-  if (!email.value || !password.value)
-    return alert('Wszystkie pola muszą być wypełnione')
+  if (await isValid()) {
+    await auth.loginUser(email.value, password.value)
 
-  await auth.loginUser(email.value, password.value)
-
-  if (auth.user?.role === 'user')
-    navigateTo('/client')
-  else if (auth.user?.role === 'admin')
-    navigateTo('/administration')
-  else
-    alert('Niepoprawne dane logowania')
+    if (user.value?.role === 'user')
+      navigateTo('/client')
+    else if (user.value?.role === 'admin')
+      navigateTo('/administration')
+  }
 }
+
+onMounted(() => loginError.value = false)
 </script>
 
 <template>
@@ -54,6 +55,7 @@ async function logIn() {
               placeholder="example@mail.com"
               type="email"
               @keyup.enter="logIn"
+              :rules="[requiredRule(), emailRule()]"
             />
 
             <v-text-field
@@ -63,6 +65,7 @@ async function logIn() {
               :type="showPassword ? 'text' : 'password'"
               @click:append-inner="showPassword = !showPassword"
               @keyup.enter="logIn"
+              :rules="[requiredRule(), passwordRule()]"
             />
 
             <v-row class="justify-center my-1">
@@ -83,6 +86,15 @@ async function logIn() {
           <v-btn to="/auth/register">
             Zarejestruj się
           </v-btn>
+
+          <v-alert
+              v-if="loginError"
+              color="error"
+              variant="tonal"
+              class="my-4"
+          >
+            Niepoprawne dane logowania
+          </v-alert>
         </div>
       </v-col>
       <v-col cols="12" sm="12" md="6">
