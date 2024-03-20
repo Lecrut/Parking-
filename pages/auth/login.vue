@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+import formValidation from "~/composable/formValidation";
 
 const auth = useAuthStore()
 
@@ -7,6 +8,8 @@ const email = ref('')
 const password = ref('')
 
 const showPassword = ref(false)
+
+const { form, valid, isValid } = formValidation()
 
 async function logIn() {
   if (!email.value || !password.value)
@@ -39,7 +42,12 @@ async function logIn() {
             Logowanie
           </div>
 
-          <form @submit.prevent="logIn" class="w-75 my-2">
+          <v-form
+              ref="form"
+              @submit.prevent="logIn"
+              class="w-75 my-2"
+              v-model="valid"
+          >
             <v-text-field
               v-model="email"
               label="Adres Email"
@@ -66,7 +74,7 @@ async function logIn() {
                 Zapomniałeś hasła?
               </v-btn>
             </v-row>
-          </form>
+          </v-form>
 
           <p class="my-5">
             Nie masz jeszcze konta?
