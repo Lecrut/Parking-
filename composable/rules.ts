@@ -2,6 +2,8 @@ const emailPattern
     = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const patternPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/
 
+//todo: haslo zmienic na 12 liter i koniec
+
 export function requiredRule() {
     return (value: string | number | null, textError = "Pole jest wymagane") => {
         return Boolean(value) || textError
