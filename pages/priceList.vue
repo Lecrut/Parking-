@@ -165,6 +165,8 @@ import NavBar from '~/components/navBars/navBar.vue'
       </v-row>
     </v-sheet>
   </v-container>
+
+  <my-footer />
 </template>
 
 <style scoped>
