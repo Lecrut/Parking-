@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+import MyFooter from "~/components/myFooter.vue";
 </script>
 
 <template>
@@ -107,4 +108,6 @@ import NavBar from '~/components/navBars/navBar.vue'
       </v-col>
     </v-row>
   </v-sheet>
+
+  <my-footer />
 </template>
