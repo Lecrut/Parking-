@@ -36,7 +36,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
         </v-btn>
 
         <v-btn>
-          Dodaj
+          Przejdź do płatności
         </v-btn>
       </v-card-actions>
     </v-card>
