@@ -20,14 +20,25 @@ watch(isShow, () => isShowRef.value = isShow.value)
 </script>
 
 <template>
-  <v-dialog max-width="1000px" :model-value="isShowRef" scrollable @update:model-value="close">
+  <v-dialog max-width="800px" :model-value="isShowRef" scrollable @update:model-value="close">
     <v-card>
       <v-card-title>
         Kup bilet okresowy
       </v-card-title>
+      <v-card-text>
+        <v-combobox label="Okres" :items="ticketTypes" />
+        <v-combobox label="Miejsce" :items="['1', '2', '3']" />
+      </v-card-text>
 
-      <v-combobox label="Okres" :items="ticketTypes" variant="underlined" />
-      <v-combobox label="Miejsce" :items="['1', '2', '3']" variant="underlined" />
+      <v-card-actions class="justify-end">
+        <v-btn color="error" @click="close">
+          Zamknij
+        </v-btn>
+
+        <v-btn>
+          Dodaj
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
