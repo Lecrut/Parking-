@@ -16,22 +16,18 @@ function logOut() {
 
 <template>
   <v-app-bar
-    prominent
-    class="px-2"
+      prominent
+      class="px-2"
   >
-    <v-btn variant="text" color="default" to="/client">
+    <v-btn variant="text" color="default" to="/administration">
       Parking+
     </v-btn>
 
     <v-spacer />
 
     <div class="hidden-sm-and-down">
-      <v-btn variant="text" color="default" to="/client/profile">
+      <v-btn variant="text" color="default" to="/administration/profile">
         Profil
-      </v-btn>
-
-      <v-btn variant="text" color="default" to="/client/parkingHistory">
-        Historia
       </v-btn>
 
       <v-btn variant="text" color="default" @click="logOut">
@@ -46,14 +42,9 @@ function logOut() {
         <v-icon icon="mdi-menu" />
         <v-menu activator="parent">
           <v-list class="justify-center">
-            <v-list-item to="/client/profile">
+            <v-list-item to="/administration/profile">
               <v-list-item-title>
                 Profil
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item to="/client/parkingHistory">
-              <v-list-item-title>
-                Historia
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="logOut">
