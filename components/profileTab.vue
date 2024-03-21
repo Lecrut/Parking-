@@ -6,7 +6,7 @@ const { user } = storeToRefs(auth)
 
 <template>
   <div class="text-h5 my-2">
-    Twoje konto
+    {{ user?.role === 'admin' ? 'Konto administracji' : 'Twoje konto' }}
   </div>
 
   <form class="w-75 my-2">
