@@ -10,4 +10,4 @@ export interface IEvent {
   _id?: string
 }
 
-export type TicketType = 'standard' | 'daily' | 'weekly' | 'monthly'
+export type TicketType = 'Jednorazowy' | 'Dzienny' | 'Tygodniowy' | 'Miesięczny'
