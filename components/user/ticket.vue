@@ -21,7 +21,7 @@ const { ticket } = toRefs(props)
 </script>
 
 <template>
-  <v-card>
+  <v-card :elevation="24">
     <v-div>
       Bilet {{ ticket.type }}
     </v-div>

@@ -14,7 +14,7 @@ const tickets = [
   {
     registrationNum: 'EZG 12345',
     car: 'Honda Civic',
-    type: 'Jednorazowy',
+    type: 'Miesięczny',
     fieldNo: 10,
     enterHour: '22-03-2024 10:00:00',
     exitHour: '22-04-2024 10:00:00',
@@ -52,17 +52,23 @@ const auth = useAuthStore()
           </v-div>
 
           <v-div v-else>
-            <p class="text-h5">
+            <v-div class="text-h5">
               Twoje aktualne bilety:
-            </p>
+            </v-div>
             <!-- zrobic to w v-forze -->
-            <v-col>
-              <ticket :ticket="tickets[1]" />
-            </v-col>
+            <v-row>
+              <v-col>
+                <ticket :ticket="tickets[1]" />
+              </v-col>
 
-            <v-col>
-              <ticket :ticket="tickets[0]" />
-            </v-col>
+              <v-col>
+                <ticket :ticket="tickets[0]" />
+              </v-col>
+
+              <v-col>
+                <ticket :ticket="tickets[0]" />
+              </v-col>
+            </v-row>
           </v-div>
         </v-row>
       </v-col>
