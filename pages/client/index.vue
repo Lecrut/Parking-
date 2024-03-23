@@ -14,7 +14,7 @@ const tickets = [
   {
     registrationNum: 'EZG 12345',
     car: 'Honda Civic',
-    type: 'Miesięczny',
+    type: 'Jednorazowy',
     fieldNo: 10,
     enterHour: '22-03-2024 10:00:00',
     exitHour: '22-04-2024 10:00:00',
