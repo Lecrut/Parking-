@@ -41,35 +41,35 @@ const auth = useAuthStore()
     max-width="1400" rounded
   >
     <v-row justify="center" class="text-h6 mt-5 mb-5">
-      <v-col>
-        <div class="text-h2 mt-5 mb-5">
+      <v-col cols="12" md="8" sm="12">
+
+        <div class="text-h5 mt-5 mb-5">
           Witaj, {{ auth.user?.name }}!
         </div>
 
         <v-row justify="center">
-          <v-div v-if="!ticketsToShow" class="text-h6 mt-5 mb-5">
+          <div v-if="!ticketsToShow" class="text-h6 my-5">
             Aktualnie nie posiadasz żadnych biletów.
-          </v-div>
+          </div>
 
-          <v-div v-else>
-            <v-div class="text-h5">
+          <div v-else>
+            <div class="text-h6 my-5">
               Twoje aktualne bilety:
-            </v-div>
-            <!-- zrobic to w v-forze -->
-            <v-row>
-              <v-col>
-                <ticket :ticket="tickets[1]" />
-              </v-col>
+            </div>
 
-              <v-col>
-                <ticket :ticket="tickets[0]" />
-              </v-col>
 
-              <v-col>
-                <ticket :ticket="tickets[0]" />
-              </v-col>
+            <v-row justify="center">
+              <div
+                  v-for="(ticket, index) in tickets"
+                  :item="ticket"
+                  :key="index"
+              >
+                  <v-col md="12" sm="12">
+                    <ticket :ticket="ticket" />
+                  </v-col>
+              </div>
             </v-row>
-          </v-div>
+          </div>
         </v-row>
       </v-col>
     </v-row>
@@ -80,19 +80,20 @@ const auth = useAuthStore()
     max-width="1400" rounded
   >
     <v-row class="mt-8">
-      <v-col>
-        <p class="text-h5">
+      <v-col cols="12" md="6" sm="12">
+        <div class="text-h5">
           Zakup bilet jednorazowy
-        </p>
+        </div>
+
         <v-btn class="my-4">
           Kup bilet
         </v-btn>
       </v-col>
 
-      <v-col>
-        <p class="text-h5">
+      <v-col cols="12" md="6" sm="12">
+        <div class="text-h5">
           Zakup bilet okresowy
-        </p>
+        </div>
 
         <v-btn class="my-4" @click="periodicTicketFlag = true">
           Kup bilet

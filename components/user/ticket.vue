@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TicketForm from "~/components/user/ticketForm.vue";
+
 const props = defineProps<{
   ticket: {
     registrationNum: string
@@ -21,10 +23,10 @@ const { ticket } = toRefs(props)
 </script>
 
 <template>
-  <v-card :elevation="24">
-    <v-div>
+  <v-card :elevation="24" class="pa-3" @click="fullTicketShow = true">
+    <div class="text-h5 my-2">
       Bilet {{ ticket.type }}
-    </v-div>
+    </div>
     <p>
       Pojazd: {{ ticket.car }}
     </p>
@@ -37,43 +39,11 @@ const { ticket } = toRefs(props)
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
     </v-btn>
-
-    <v-dialog v-model="fullTicketShow" max-width="500px" @update:model-value="hideFullTicket">
-      <v-card>
-        <v-card-title class="headline text-center">
-          Bilet {{ ticket.type }}
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Pojazd: {{ ticket.car }}
-          </p>
-          <p>
-            Rejestracja: {{ ticket.registrationNum }}
-          </p>
-          <p>
-            Miejsce: {{ ticket.fieldNo }}
-          </p>
-          <p v-if="ticket.type !== 'Jednorazowy'">
-            Data ważności: {{ ticket.exitHour }}
-          </p>
-          <p v-else>
-            Bilet ważny od: {{ ticket.enterHour }}
-          </p>
-          <p>
-            Koszt biletu: {{ ticket.price }} PLN
-          </p>
-        </v-card-text>
-
-        <v-card-actions class="justify-end">
-          <v-btn>
-            Kod QR
-          </v-btn>
-
-          <v-btn @click="hideFullTicket">
-            Zamknij
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
+
+  <ticket-form
+      :is-show="fullTicketShow"
+      :ticket="ticket"
+      @on-close="hideFullTicket"
+  />
 </template>
