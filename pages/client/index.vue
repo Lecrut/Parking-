@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import NavBarUser from '~/components/navBars/navBarUser.vue'
 
+definePageMeta({
+  middleware: ['user-page-guard'],
+})
+
 const auth = useAuthStore()
 </script>
 

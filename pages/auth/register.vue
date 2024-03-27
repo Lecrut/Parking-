@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
 
+definePageMeta({
+  middleware: ['guest-page-guard'],
+})
+
 const auth = useAuthStore()
 
 const email = ref('')

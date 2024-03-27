@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+
+definePageMeta({
+  middleware: ['guest-page-guard'],
+})
 </script>
 
 <template>
