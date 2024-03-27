@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import QRCodeVue3 from "qrcode-vue3";
+
   const props = defineProps < {
     isShow: boolean
     ticket: {
@@ -19,6 +21,13 @@
   const { isShow, ticket } = toRefs(props)
   const isShowRef = ref<boolean>()
 
+  //TODO: potem zmienić to co wyświetlamy w kodzie po dodaniu poprawnego typu ticket
+  function generateQrCodeText() {
+    return "register: " + ticket.value.registrationNum
+        + ", enter hour: " + ticket.value.enterHour
+        + ", field no.: " + ticket.value.fieldNo
+        + ", exit hour: " + ticket.value.exitHour
+  }
   function close() {
     emit('onClose')
   }
@@ -56,13 +65,21 @@
         <p>
           Koszt biletu: {{ ticket.price }} PLN
         </p>
+
+        <v-row justify="center" class="ma-4">
+          <QRCodeVue3
+              :value="generateQrCodeText()"
+              :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+              :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
+              :dotsOptions="{
+                type: 'dots',
+                color: '#26249a',
+              }"
+          />
+        </v-row>
       </v-card-text>
 
       <v-card-actions class="justify-end">
-        <v-btn>
-          Kod QR
-        </v-btn>
-
         <v-btn @click="close" color="error">
           Zamknij
         </v-btn>
