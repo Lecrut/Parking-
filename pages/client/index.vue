@@ -31,6 +31,10 @@ const tickets = [
   },
 ]
 
+definePageMeta({
+  middleware: ['user-page-guard'],
+})
+
 const auth = useAuthStore()
 </script>
 

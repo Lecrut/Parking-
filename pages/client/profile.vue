@@ -2,6 +2,10 @@
 import NavBarUser from '~/components/navBars/navBarUser.vue'
 import CarForm from '~/components/user/carForm.vue'
 
+definePageMeta({
+  middleware: ['user-page-guard'],
+})
+
 const isShowCarForm = ref(false)
 
 function handleEditCarForm() {

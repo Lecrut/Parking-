@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
-import MyFooter from "~/components/myFooter.vue";
+import MyFooter from '~/components/myFooter.vue'
+
+definePageMeta({
+  middleware: ['guest-page-guard'],
+})
 </script>
 
 <template>
@@ -109,5 +113,5 @@ import MyFooter from "~/components/myFooter.vue";
     </v-row>
   </v-sheet>
 
-  <my-footer />
+  <MyFooter />
 </template>

@@ -3,6 +3,10 @@ import NavBar from '~/components/navBars/navBar.vue'
 import formValidation from "~/composable/formValidation";
 import {emailRule, passwordRule, requiredRule} from "~/composable/rules";
 
+definePageMeta({
+  middleware: ['guest-page-guard'],
+})
+
 const auth = useAuthStore()
 const {user, loginError} = storeToRefs(auth)
 
