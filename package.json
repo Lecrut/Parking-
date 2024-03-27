@@ -24,6 +24,8 @@
     "mongoose": "^8.2.1",
     "nitropack": "^2.9.3",
     "nuxt": "^3.10.3",
+    "qrcode": "^1.5.3",
+    "qrcode-vue3": "^1.6.8",
     "typescript": "^5.4.2",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0",
