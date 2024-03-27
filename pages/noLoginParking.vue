@@ -61,8 +61,7 @@ definePageMeta({
       </v-col>
     </v-row>
   </v-sheet>
+
+  <my-footer />
+
 </template>
-
-<style scoped>
-
-</style>

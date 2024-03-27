@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
+import formValidation from "~/composable/formValidation";
+import {emailRule, lengthRule, lengthRuleShort, passwordRule, requiredRule} from "~/composable/rules";
 
 definePageMeta({
   middleware: ['guest-page-guard'],
@@ -7,46 +9,43 @@ definePageMeta({
 
 const auth = useAuthStore()
 
+const { form, valid, isValid } = formValidation()
+
+const {registerError} = storeToRefs(auth)
+
 const email = ref('')
 const name = ref('')
 const password1 = ref('')
 const password2 = ref('')
 const rules = ref(false)
 
-function verifyEmail() {
-  return email.value.includes('@')
-}
+const showPasswordOne = ref(false)
+const showPasswordTwo = ref(false)
 
 function verifyPassword() {
-  if (password1.value !== password2.value)
-    return false
-
-  return password1.value.length > 5
+  return password1.value === password2.value
 }
 
 async function registerUser() {
-  if (email.value.length < 5 || name.value.length < 3 || password1.value.length < 6)
-    return alert('Wszystkie pola muszą być wypełnione')
-
-  if (!verifyEmail())
-    return alert('Niepoprawny email')
-
-  if (!verifyPassword())
-    return alert('Hasło musi mieć minimum 6 znaków i być takie same')
-
-  if (!rules.value)
-    return alert('Musisz zaakceptować regulamin')
-
-  await auth.registerUser({
-    email: email.value,
-    name: name.value,
-    password: password1.value,
-    role: 'user',
-  })
-
-  navigateTo('/auth/login')
-  alert('Zarejestrowano pomyślnie')
+  if (await isValid() && verifyPassword()) {
+    await auth.registerUser({
+      email: email.value,
+      name: name.value,
+      password: password1.value,
+      role: 'user',
+    })
+    if (!registerError.value) {
+      await auth.loginUser(email.value, password1.value)
+      navigateTo('/client/profile')
+    }
+  }
+  else {
+    registerError.value = true
+  }
 }
+
+onMounted(() => registerError.value = false)
+
 </script>
 
 <template>
@@ -77,41 +76,68 @@ async function registerUser() {
             Rejestracja
           </div>
 
-          <form class="w-75 my-2">
+          <v-form
+              class="w-75 my-2"
+              v-model="valid"
+              ref="form"
+              @submit.prevent="registerUser"
+          >
             <v-text-field
               v-model="email"
               label="Adres Email"
               placeholder="example@mail.com"
               type="email"
+              @keyup.enter="registerUser"
+              :rules="[requiredRule(), emailRule()]"
             />
 
             <v-text-field
               v-model="name"
               label="Nazwa użytkownika"
               type="text"
+              @keyup.enter="registerUser"
+              :rules="[requiredRule(), lengthRuleShort(), lengthRule()]"
             />
 
             <v-text-field
               v-model="password1"
               label="Hasło"
-              type="password"
+              @keyup.enter="registerUser"
+              :append-inner-icon="showPasswordOne ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPasswordOne ? 'text' : 'password'"
+              @click:append-inner="showPasswordOne = !showPasswordOne"
+              :rules="[requiredRule(), passwordRule()]"
             />
 
             <v-text-field
               v-model="password2"
               label="Powtórz hasło"
-              type="password"
+              @keyup.enter="registerUser"
+              :append-inner-icon="showPasswordTwo ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPasswordTwo ? 'text' : 'password'"
+              @click:append-inner="showPasswordTwo = !showPasswordTwo"
+              :rules="[requiredRule(), passwordRule()]"
             />
 
             <v-checkbox
               v-model="rules"
               label="Akceptuję regulamin"
+              :rules="[requiredRule()]"
             />
 
             <v-btn @click="registerUser">
               Zarejestruj się
             </v-btn>
-          </form>
+          </v-form>
+
+          <v-alert
+              v-if="registerError"
+              color="error"
+              variant="tonal"
+              class="my-4"
+          >
+            Niepoprawne dane rejestracji
+          </v-alert>
         </div>
       </v-col>
     </v-row>
