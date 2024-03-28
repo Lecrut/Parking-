@@ -1,8 +1,11 @@
+import type { Ref } from '@typegoose/typegoose'
+import type { CarClass } from '~/server/dbModels/CarModel'
+
 export interface IEvent {
   registrationNum: string
-  car: string
+  car: Ref<CarClass>
   type: TicketType
-  fieldNo: number
+  fieldNum: number
   enterHour: Date
   exitHour: Date | null
   price: number
@@ -10,4 +13,4 @@ export interface IEvent {
   _id?: string
 }
 
-export type TicketType = 'Jednorazowy' | 'Dzienny' | 'Tygodniowy' | 'Miesięczny'
+export type TicketType = 'standard' | 'daily' | 'weekly' | 'monthly'

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import UserModel from '~/server/dbModels/User'
+import UserModel from '~/server/dbModels/UserModel'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
