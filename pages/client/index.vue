@@ -2,12 +2,18 @@
 import NavBarUser from '~/components/navBars/navBarUser.vue'
 import periodicTicketForm from '~/components/user/periodicTicketForm.vue'
 import ticket from '~/components/user/ticket.vue'
+import singleTicketForm from "~/components/user/singleTicketForm.vue";
 
 const periodicTicketFlag = ref(false)
+const singleTicketFlag = ref(false)
 const ticketsToShow = ref(true)
 
-function changeTicketFlag() {
+function changePeriodicTicketFlag() {
   periodicTicketFlag.value = !periodicTicketFlag.value
+}
+
+function changeSingleTicketFlag() {
+  singleTicketFlag.value = !singleTicketFlag.value
 }
 
 const tickets = [
@@ -99,7 +105,7 @@ const auth = useAuthStore()
           Zakup bilet jednorazowy
         </div>
 
-        <v-btn class="my-4">
+        <v-btn class="my-4" @click="changeSingleTicketFlag">
           Kup bilet
         </v-btn>
       </v-col>
@@ -119,13 +125,15 @@ const auth = useAuthStore()
           Zakup bilet okresowy
         </div>
 
-        <v-btn class="my-4" @click="periodicTicketFlag = true">
+        <v-btn class="my-4" @click="changePeriodicTicketFlag">
           Kup bilet
         </v-btn>
       </v-col>
     </v-row>
   </v-sheet>
-  <periodicTicketForm :is-show="periodicTicketFlag" @on-close="changeTicketFlag" />
+
+  <periodicTicketForm :is-show="periodicTicketFlag" @on-close="changePeriodicTicketFlag" />
+  <singleTicketForm :is-show="singleTicketFlag" @on-close="changeSingleTicketFlag" />
 </template>
 
 <style scoped>
