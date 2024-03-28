@@ -83,8 +83,18 @@ const auth = useAuthStore()
     class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
     max-width="1400" rounded
   >
-    <v-row class="mt-8">
+    <v-row class="my-3">
       <v-col cols="12" md="6" sm="12">
+
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="266"
+            aspect-ratio="4/3"
+            cover
+            src="/buySingleTicket.jpeg"
+        />
+
         <div class="text-h5">
           Zakup bilet jednorazowy
         </div>
@@ -95,6 +105,16 @@ const auth = useAuthStore()
       </v-col>
 
       <v-col cols="12" md="6" sm="12">
+
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="266"
+            aspect-ratio="4/3"
+            cover
+            src="/buyPeriodicTicket.jpeg"
+        />
+
         <div class="text-h5">
           Zakup bilet okresowy
         </div>
