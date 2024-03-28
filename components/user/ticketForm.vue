@@ -47,24 +47,71 @@ import QRCodeVue3 from "qrcode-vue3";
         Bilet {{ ticket.type }}
       </v-card-title>
       <v-card-text>
-        <p>
-          Pojazd: {{ ticket.car }}
-        </p>
-        <p>
-          Rejestracja: {{ ticket.registrationNum }}
-        </p>
-        <p>
-          Miejsce: {{ ticket.fieldNo }}
-        </p>
-        <p v-if="ticket.type !== 'Jednorazowy'">
-          Data ważności: {{ ticket.exitHour }}
-        </p>
-        <p v-else>
-          Bilet ważny od: {{ ticket.enterHour }}
-        </p>
-        <p>
-          Koszt biletu: {{ ticket.price }} PLN
-        </p>
+        <v-row>
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+              v-model="ticket.car"
+              label="Pojazd"
+              readonly
+            />
+          </v-col>
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+                v-model="ticket.registrationNum"
+                label="Rejestracja"
+                readonly
+            />
+          </v-col>
+
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+                v-model="ticket.fieldNo"
+                label="Miejsce"
+                readonly
+            />
+          </v-col>
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+                v-model="ticket.price"
+                label="Cena"
+                readonly
+                suffix="zł"
+            />
+          </v-col>
+
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+                v-model="ticket.enterHour"
+                label="Czas wjazdu"
+                readonly
+            />
+          </v-col>
+          <v-col cols="12" md="6" sm="12">
+            <v-text-field
+                v-model="ticket.exitHour"
+                label="Czas wyjazdu"
+                readonly
+            />
+          </v-col>
+        </v-row>
+<!--        <p>-->
+<!--          Pojazd: {{ ticket.car }}-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          Rejestracja: {{ ticket.registrationNum }}-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          Miejsce: {{ ticket.fieldNo }}-->
+<!--        </p>-->
+<!--        <p v-if="ticket.type !== 'Jednorazowy'">-->
+<!--          Data ważności: {{ ticket.exitHour }}-->
+<!--        </p>-->
+<!--        <p v-else>-->
+<!--          Bilet ważny od: {{ ticket.enterHour }}-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          Koszt biletu: {{ ticket.price }} PLN-->
+<!--        </p>-->
 
         <v-row justify="center" class="ma-4">
           <QRCodeVue3

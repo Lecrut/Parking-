@@ -5,7 +5,7 @@ const props = defineProps<{
   ticket: {
     registrationNum: string
     car: string
-    type: string // do zmiany na TicketType
+    type: string //todo: do zmiany na TicketType
     fieldNo: number
     enterHour: string
     exitHour: string | null
@@ -28,13 +28,13 @@ const { ticket } = toRefs(props)
       Bilet {{ ticket.type }}
     </div>
     <p>
-      Pojazd: {{ ticket.car }}
+      Samochód: {{ ticket.car }}
     </p>
     <p v-if="ticket.type !== 'Jednorazowy'">
-      Data ważności: {{ ticket.exitHour }}
+      Ważny do: {{ ticket.exitHour }}
     </p>
     <p v-else>
-      Bilet ważny od: {{ ticket.enterHour }}
+      Ważny od: {{ ticket.enterHour }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
