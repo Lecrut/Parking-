@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useCarStore } from '~/stores/carStore'
+
 const props = defineProps < {
   isShow: boolean
 }>()
@@ -7,11 +9,33 @@ const emit = defineEmits<{
   (e: 'onClose'): void
 }>()
 
+const carStore = useCarStore()
+const authStore = useAuthStore()
+
+const { user } = storeToRefs(authStore)
+
+const carBrand = ref('')
+const carModel = ref('')
+const carRegistrationNumber = ref('')
+
 const { isShow } = toRefs(props)
 const isShowRef = ref<boolean>()
 
 function close() {
   emit('onClose')
+}
+
+async function addCar() {
+  if (!carBrand.value || !carModel.value
+    || !carRegistrationNumber.value || !user.value?._id)
+    return
+
+  await carStore.addCar({
+    brand: carBrand.value,
+    model: carModel.value,
+    registrationNum: carRegistrationNumber.value,
+    owner: user?.value._id,
+  })
 }
 
 watch(isShow, () => isShowRef.value = isShow.value)
@@ -32,11 +56,19 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-text>
         <v-form>
           <v-text-field
-            label="Nazwa samochodu"
+            v-model="carBrand"
+            label="Marka samochodu"
             type="text"
           />
 
           <v-text-field
+            v-model="carModel"
+            label="Model samochodu"
+            type="text"
+          />
+
+          <v-text-field
+            v-model="carRegistrationNumber"
             label="Numer rejestracyjny"
             type="text"
           />
@@ -48,7 +80,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
           Zamknij
         </v-btn>
 
-        <v-btn>
+        <v-btn @click="addCar">
           Dodaj
         </v-btn>
       </v-card-actions>

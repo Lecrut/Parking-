@@ -1,9 +1,6 @@
-import type { Ref } from '@typegoose/typegoose'
-import type { CarClass } from '~/server/dbModels/CarModel'
-
 export interface IEvent {
   registrationNum: string
-  car: Ref<CarClass>
+  car: string
   type: TicketType
   fieldNum: number
   enterHour: Date

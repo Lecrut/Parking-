@@ -1,5 +1,5 @@
 import type { Ref } from '@typegoose/typegoose'
-import { modelOptions, prop } from '@typegoose/typegoose'
+import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose'
 import { UserClass } from './UserModel'
 import type { ICar } from '~/models/Car'
 
@@ -11,9 +11,13 @@ export class CarClass implements ICar {
   @prop({ type: () => String, required: true, trim: true })
   model: string
 
-  @prop({ type: () => UserClass, required: true, trim: true })
-  owner: Ref<UserClass>
+  @prop({ ref: () => UserClass, required: true })
+  owner: string
 
-  @prop({ type: () => Number, required: true, trim: true })
-  registrationNum: number
+  @prop({ type: () => String, required: true, trim: true, unique: true })
+  registrationNum: string
 }
+
+const CarModel = getModelForClass(CarClass)
+
+export default CarModel

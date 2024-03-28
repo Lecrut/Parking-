@@ -1,5 +1,5 @@
 import type { Ref } from '@typegoose/typegoose'
-import { modelOptions, prop } from '@typegoose/typegoose'
+import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose'
 import { CarClass } from './CarModel'
 import type { IEvent, TicketType } from '~/models/Event'
 
@@ -8,8 +8,8 @@ export class EventClass implements IEvent {
   @prop({ type: () => String, required: true, trim: true })
   registrationNum: string
 
-  @prop({ ref: () => CarClass, required: true, trim: true })
-  car: Ref<CarClass>
+  @prop({ ref: () => CarClass, required: true })
+  car: string
 
   @prop({ type: () => String, required: true, trim: true })
   type: TicketType
@@ -26,3 +26,7 @@ export class EventClass implements IEvent {
   @prop({ type: () => Number, trim: true })
   price: number
 }
+
+const EventModel = getModelForClass(EventClass)
+
+export default EventModel
