@@ -62,6 +62,7 @@ definePageMeta({
     </v-row>
   </v-sheet>
 
-  <my-footer />
+  <!--  todo: naprawic stopke-->
+  <!--  <MyFooter />-->
 
 </template>
