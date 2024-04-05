@@ -170,8 +170,8 @@ definePageMeta({
     </v-sheet>
   </v-container>
 
-  <!--  todo: naprawic stopke-->
-  <!--  <MyFooter />-->
+  <!--  todo: naprawic stopke -->
+  <!--  <MyFooter /> -->
 </template>
 
 <style scoped>

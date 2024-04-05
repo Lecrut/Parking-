@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import NavBarUser from "~/components/navBars/navBarUser.vue";
+import NavBarUser from '~/components/navBars/navBarUser.vue'
 </script>
 
 <template>
-  <nav-bar-user />
+  <NavBarUser />
+  <v-sheet
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
+    max-width="1400" rounded
+  >
+    <div class="text-h5">
+      Twoje aktualne bilety:
+    </div>
+  </v-sheet>
 
-  Historia parkowania
+  <v-sheet
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
+    max-width="1400" rounded
+  >
+    <div class="text-h5">
+      Historia:
+    </div>
+  </v-sheet>
 </template>
 
 <style scoped>
