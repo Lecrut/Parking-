@@ -47,8 +47,10 @@ const auth = useAuthStore()
 <template>
   <NavBarUser />
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
     <v-row justify="center" class="text-h6 mt-5 mb-5">
       <v-col cols="12" md="8" sm="12">
@@ -86,8 +88,10 @@ const auth = useAuthStore()
   </v-sheet>
 
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
     <v-row class="my-3">
       <v-col cols="12" md="6" sm="12">

@@ -23,7 +23,7 @@ const { ticket } = toRefs(props)
 </script>
 
 <template>
-  <v-card :elevation="24" class="pa-3" @click="fullTicketShow = true">
+  <v-card :elevation="10" class="pa-3" @click="fullTicketShow = true">
     <div class="text-h5 my-2">
       Bilet {{ ticket.type }}
     </div>

@@ -3,6 +3,7 @@ import NavBarUser from '~/components/navBars/navBarUser.vue'
 import ticket from '~/components/user/ticket.vue'
 import expiredTicket from '~/components/user/expiredTicket.vue'
 
+//todo: do wywalenia
 const activeTickets = [
   {
     registrationNum: 'EZG 12345',
@@ -60,10 +61,12 @@ const ticketsToShow = ref(true)
 <template>
   <NavBarUser />
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
-    <v-row justify="center" class="text-h6 mt-5 mb-5">
+    <v-row justify="center">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
           <div v-if="!ticketsToShow" class="text-h6 my-5">
@@ -89,13 +92,15 @@ const ticketsToShow = ref(true)
   </v-sheet>
 
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
     <v-row justify="center" class="text-h6 mt-5 mb-5">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
-          <div class="text-h6 my-5">
+          <div class="text-h5 my-5">
             Historia:
           </div>
 
