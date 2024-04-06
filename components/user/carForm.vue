@@ -54,25 +54,45 @@ watch(isShow, () => isShowRef.value = isShow.value)
       </v-card-title>
 
       <v-card-text>
-        <v-form>
-          <v-text-field
-            v-model="carBrand"
-            label="Marka samochodu"
-            type="text"
-          />
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="12" sm="12" md="6">
+              <div class="d-flex flex-column align-center justify-center h-100">
+                <v-img
+                    class="mx-auto elevation-5"
+                    rounded="xl"
+                    :width="300"
+                    aspect-ratio="4/3"
+                    cover
+                    src="/carForm.jpeg"
+                />
+              </div>
+            </v-col>
+            <v-col cols="12" sm="12" md="6">
+              <div class="text-center grey d-flex flex-column align-center justify-center h-100 w-100">
+                <v-form class="w-100">
+                  <v-text-field
+                      v-model="carBrand"
+                      label="Marka samochodu"
+                      type="text"
+                  />
 
-          <v-text-field
-            v-model="carModel"
-            label="Model samochodu"
-            type="text"
-          />
+                  <v-text-field
+                      v-model="carModel"
+                      label="Model samochodu"
+                      type="text"
+                  />
 
-          <v-text-field
-            v-model="carRegistrationNumber"
-            label="Numer rejestracyjny"
-            type="text"
-          />
-        </v-form>
+                  <v-text-field
+                      v-model="carRegistrationNumber"
+                      label="Numer rejestracyjny"
+                      type="text"
+                  />
+                </v-form>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card-text>
 
       <v-card-actions class="justify-end">

@@ -62,9 +62,18 @@ onMounted(() => {
   >
     <v-row justify="center">
       <v-col cols="12" sm="12" md="6" class="pa-3">
-        <div class="text-h5 ma-3">
+        <div class="text-h5 ma-3 mt-6">
           Lista samochodów
         </div>
+
+        <v-img
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="300"
+            aspect-ratio="4/3"
+            cover
+            src="/addCar.jpeg"
+        />
 
         <v-btn class="my-4" @click="isShowCarForm = true">
           Dodaj samochód
@@ -96,7 +105,3 @@ onMounted(() => {
     @on-close="handleEditCarForm"
   />
 </template>
-
-<style scoped>
-
-</style>
