@@ -11,16 +11,16 @@ export class EventClass implements IEvent {
   @prop({ type: () => String, required: true, trim: true })
   type: TicketType
 
-  @prop({ type: () => Number, required: true, trim: true })
+  @prop({ type: () => Number, required: true })
   fieldNum: number
 
-  @prop({ type: () => Date, required: true, trim: true })
+  @prop({ type: () => Date, required: true })
   enterHour: Date
 
-  @prop({ type: () => Date, trim: true })
+  @prop({ type: () => Date })
   exitHour: Date | null
 
-  @prop({ type: () => Number, trim: true })
+  @prop({ type: () => Number })
   price: number
 }
 
