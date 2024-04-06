@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBarAdmin from '~/components/navBars/navBarAdmin.vue'
+import parkingPlace from '~/components/administration/parkingPlace.vue'
 
 definePageMeta({
   middleware: ['admin-page-guard'],
@@ -19,12 +20,10 @@ definePageMeta({
       </v-row>
 
       <v-row>
-        <v-col v-for="parkingSpot in 60" :key="parkingSpot" cols="3">
-          <v-card>
-            <v-card-title class="text-center">
-              Miejsce {{ parkingSpot }}
-            </v-card-title>
-          </v-card>
+        <v-col v-for="parkingSpot in 60" :key="parkingSpot" cols="4">
+          <parkingPlace
+            :numb="parkingSpot"
+          />
         </v-col>
       </v-row>
     </v-container>
