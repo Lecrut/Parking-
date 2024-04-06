@@ -54,8 +54,6 @@ const allTickets = [
     price: 200,
   },
 ]
-
-const ticketsToShow = ref(true)
 </script>
 
 <template>
@@ -66,20 +64,24 @@ const ticketsToShow = ref(true)
     max-width="1100"
     rounded
   >
-    <v-row justify="center">
+    <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
-          <div v-if="!ticketsToShow" class="text-h6 my-5">
+          <div v-if="!activeTickets.length" class="text-h5 my-5">
             Aktualnie nie posiadasz żadnych biletów.
           </div>
 
           <div v-else>
-            <div class="text-h6 my-5">
+            <div class="text-h5 my-5">
               Twoje aktualne bilety:
             </div>
 
             <v-row justify="center">
-              <div v-for="(ticket, index) in activeTickets" :key="index" :item="ticket">
+              <div
+                  v-for="(ticket, index) in activeTickets"
+                  :item="ticket"
+                  :key="index"
+              >
                 <v-col md="12" sm="12">
                   <ticket :ticket="ticket" />
                 </v-col>
@@ -116,7 +118,3 @@ const ticketsToShow = ref(true)
     </v-row>
   </v-sheet>
 </template>
-
-<style scoped>
-
-</style>
