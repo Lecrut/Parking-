@@ -1,6 +1,7 @@
 import type { Ref } from '@typegoose/typegoose'
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose'
 import { CarClass } from './CarModel'
+import { UserClass } from './UserModel'
 import type { IEvent, TicketType } from '~/models/Event'
 
 @modelOptions({ schemaOptions: { collection: 'events' } })
@@ -22,6 +23,9 @@ export class EventClass implements IEvent {
 
   @prop({ type: () => Number })
   price: number
+
+  @prop({ ref: () => UserClass, required: true })
+  user: string
 }
 
 const EventModel = getModelForClass(EventClass)

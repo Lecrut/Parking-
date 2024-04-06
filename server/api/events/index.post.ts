@@ -3,7 +3,7 @@ import EventModel from '~/server/dbModels/EventModel'
 
 function isEventClass(object: any): object is EventClass {
   return 'car' in object && 'type' in object && 'fieldNum' in object && 'enterHour' in object
-    && 'exitHour' in object && 'price' in object
+    && 'exitHour' in object && 'price' in object && 'user' in object
 }
 
 export default defineEventHandler(async (event) => {

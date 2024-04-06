@@ -5,9 +5,9 @@ import type { IEvent } from '~/models/Event'
 export const useTicketStore = defineStore('tickets', () => {
   const currentTickets: Ref<IEvent[]> = ref([])
 
-  async function addTicket(ticket: IEvent, userId: string) {
+  async function addTicket(ticket: IEvent) {
     try {
-      await $fetch(`/api/tickets?userId=${userId}`, {
+      await $fetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(ticket),
       })

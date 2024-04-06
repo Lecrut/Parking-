@@ -140,7 +140,7 @@ onMounted(() => {
     </v-row>
   </v-sheet>
 
-  <periodicTicketForm :is-show="periodicTicketFlag" :cars="cars" @on-close="changePeriodicTicketFlag" />
+  <periodicTicketForm :is-show="periodicTicketFlag" :cars="cars" :user-id="user?._id || ''" @on-close="changePeriodicTicketFlag" />
   <singleTicketForm :is-show="singleTicketFlag" :cars="cars" @on-close="changeSingleTicketFlag" />
 </template>
 

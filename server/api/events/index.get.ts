@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
   const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
 
-  const userTickets = await EventModel.find({ owner: userObjectId }).exec()
+  const userTickets = await EventModel.find({ user: userObjectId }).exec()
 
   return userTickets
 })
