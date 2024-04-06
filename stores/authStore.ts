@@ -22,6 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await $fetch('/api/register', {
         method: 'POST',
+        body: JSON.stringify(user),
       })
     }
     catch (e) {
@@ -32,10 +33,10 @@ export const useAuthStore = defineStore('auth', () => {
   async function loginUser(email: string, password: string) {
     loginError.value = false
     try {
-      const res: IUser = await $fetch('/api/login', {
+      const res = await $fetch('/api/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
-      })
+      }) as IUser
 
       res ? setUser(res) : loginError.value = true
     }
