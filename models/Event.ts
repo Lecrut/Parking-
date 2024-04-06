@@ -1,5 +1,4 @@
 export interface IEvent {
-  registrationNum: string
   car: string
   type: TicketType
   fieldNum: number

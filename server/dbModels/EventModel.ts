@@ -5,9 +5,6 @@ import type { IEvent, TicketType } from '~/models/Event'
 
 @modelOptions({ schemaOptions: { collection: 'events' } })
 export class EventClass implements IEvent {
-  @prop({ type: () => String, required: true, trim: true })
-  registrationNum: string
-
   @prop({ ref: () => CarClass, required: true })
   car: string
 
