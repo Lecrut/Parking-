@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+import { defineStore } from 'pinia'
 import type { ICar } from '~/models/Car'
-import {defineStore} from "pinia";
 
 export const useCarStore = defineStore('car', () => {
   const cars: Ref<ICar[]> = ref([])

@@ -1,18 +1,30 @@
 <script setup lang="ts">
+import type { ICar } from '~/models/Car'
+
 const props = defineProps < {
   isShow: boolean
+  cars: ICar[]
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow } = toRefs(props)
+const { isShow, cars } = toRefs(props)
 const isShowRef = ref < boolean > ()
+const selectedCar = ref < ICar | null > (null)
 
 function close() {
+  selectedCar.value = null
   emit('onClose')
 }
+
+const formattedCars = computed(() => {
+  return cars.value.map(car => ({
+    title: `${car.brand} ${car.model} ${car.registrationNum}`,
+    value: car,
+  }))
+})
 
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
@@ -24,7 +36,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
         Kup bilet jednorazowy
       </v-card-title>
       <v-card-text>
-        <v-combobox label="Samochód" />
+        <v-select v-model="selectedCar" label="Samochód" :items="formattedCars" />
       </v-card-text>
 
       <v-card-actions class="justify-end">
