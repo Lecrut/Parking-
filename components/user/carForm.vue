@@ -7,6 +7,7 @@ const props = defineProps < {
 
 const emit = defineEmits<{
   (e: 'onClose'): void
+  (e: 'showSnackbar'): void
 }>()
 
 const carStore = useCarStore()
@@ -21,7 +22,14 @@ const carRegistrationNumber = ref('')
 const { isShow } = toRefs(props)
 const isShowRef = ref<boolean>()
 
+function resetState() {
+  carModel.value = ''
+  carBrand.value = ''
+  carRegistrationNumber.value = ''
+}
+
 function close() {
+  resetState()
   emit('onClose')
 }
 
@@ -31,11 +39,14 @@ async function addCar() {
     return
 
   await carStore.addCar({
-    brand: carBrand.value,
-    model: carModel.value,
-    registrationNum: carRegistrationNumber.value,
+    brand: carBrand.value.trim(),
+    model: carModel.value.trim(),
+    registrationNum: carRegistrationNumber.value.toUpperCase().split(' ').join(''),
     owner: user?.value._id,
   })
+  resetState()
+  emit('showSnackbar')
+  emit('onClose')
 }
 
 watch(isShow, () => isShowRef.value = isShow.value)
@@ -107,7 +118,3 @@ watch(isShow, () => isShowRef.value = isShow.value)
     </v-card>
   </v-dialog>
 </template>
-
-<style scoped>
-
-</style>
