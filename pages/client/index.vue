@@ -6,7 +6,6 @@ import singleTicketForm from "~/components/user/singleTicketForm.vue";
 
 const periodicTicketFlag = ref(false)
 const singleTicketFlag = ref(false)
-const ticketsToShow = ref(true)
 
 function changePeriodicTicketFlag() {
   periodicTicketFlag.value = !periodicTicketFlag.value
@@ -47,10 +46,12 @@ const auth = useAuthStore()
 <template>
   <NavBarUser />
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
-    <v-row justify="center" class="text-h6 mt-5 mb-5">
+    <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
 
         <div class="text-h5 mt-5 mb-5">
@@ -58,7 +59,7 @@ const auth = useAuthStore()
         </div>
 
         <v-row justify="center">
-          <div v-if="!ticketsToShow" class="text-h6 my-5">
+          <div v-if="!tickets.length" class="text-h6 my-5">
             Aktualnie nie posiadasz żadnych biletów.
           </div>
 
@@ -86,8 +87,10 @@ const auth = useAuthStore()
   </v-sheet>
 
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
-    max-width="1400" rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+    elevation="4"
+    max-width="1100"
+    rounded
   >
     <v-row class="my-3">
       <v-col cols="12" md="6" sm="12">

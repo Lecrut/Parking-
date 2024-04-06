@@ -11,8 +11,8 @@ definePageMeta({
   <NavBar />
   <PriceContent />
 
-  <!--  todo: naprawic stopke-->
-  <!--  <MyFooter />-->
+  <!--  todo: naprawic stopke -->
+  <!--  <MyFooter /> -->
 </template>
 
 <style scoped>
