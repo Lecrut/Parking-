@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import type { ICar } from '~/models/Car'
+import {defineStore} from "pinia";
 
 export const useCarStore = defineStore('car', () => {
   const cars: Ref<ICar[]> = ref([])
@@ -12,8 +13,14 @@ export const useCarStore = defineStore('car', () => {
     })
   }
 
+  async function fetchCarsForUser(userId: string) {
+    const userCars = await $fetch(`/api/cars?userId=${userId}`)
+    cars.value = userCars as ICar[]
+  }
+
   return {
     cars,
     addCar,
+    fetchCarsForUser,
   }
 })

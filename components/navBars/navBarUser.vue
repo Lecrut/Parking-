@@ -34,6 +34,10 @@ function logOut() {
         Historia
       </v-btn>
 
+      <v-btn variant="text" color="default" to="/client/priceList">
+        Cennik
+      </v-btn>
+
       <v-btn variant="text" color="default" @click="logOut">
         Wyloguj
       </v-btn>
@@ -54,6 +58,11 @@ function logOut() {
             <v-list-item to="/client/parkingHistory">
               <v-list-item-title>
                 Historia
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/client/priceList">
+              <v-list-item-title>
+                Cennik
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="logOut">
