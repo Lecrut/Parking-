@@ -10,6 +10,7 @@ const authStore = useAuthStore()
 const carStore = useCarStore()
 
 const { user } = storeToRefs(authStore)
+const { cars } = storeToRefs(carStore)
 
 const isShowCarForm = ref(false)
 
@@ -69,8 +70,22 @@ onMounted(() => {
           Dodaj samochód
         </v-btn>
 
-        <div>
-          Miejsce na wyswietlenie samochodów
+        <div v-if="!cars.length" class="text-h5 my-5">
+          Brak samochodów do wyświetlenia.
+        </div>
+
+        <div v-else v-for="(car, index) in cars" :item="car" :key="index">
+          <v-card
+            class="my-5"
+            elevation="10"
+          >
+            <v-card-title>
+              {{car.brand}} {{car.model}}
+            </v-card-title>
+            <v-card-text>
+              {{car.registrationNum}}
+            </v-card-text>
+          </v-card>
         </div>
       </v-col>
     </v-row>
