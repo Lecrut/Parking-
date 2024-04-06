@@ -6,11 +6,21 @@ definePageMeta({
   middleware: ['user-page-guard'],
 })
 
+const authStore = useAuthStore()
+const carStore = useCarStore()
+
+const { user } = storeToRefs(authStore)
+
 const isShowCarForm = ref(false)
 
 function handleEditCarForm() {
   isShowCarForm.value = !isShowCarForm.value
 }
+
+onMounted(() => {
+  if (user.value?._id)
+    carStore.fetchCarsForUser(user.value._id)
+})
 </script>
 
 <template>

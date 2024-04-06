@@ -12,8 +12,14 @@ export const useCarStore = defineStore('car', () => {
     })
   }
 
+  async function fetchCarsForUser(userId: string) {
+    const userCars = await $fetch(`/api/cars?userId=${userId}`)
+    cars.value = userCars as ICar[]
+  }
+
   return {
     cars,
     addCar,
+    fetchCarsForUser,
   }
 })
