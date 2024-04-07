@@ -1,22 +1,56 @@
 <script setup lang="ts">
+import formValidation from '~/composable/formValidation'
+import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { ICar } from '~/models/Car'
+import { requiredRule } from '~/composable/rules'
+import type { TicketType } from '~/models/Event'
 
 const props = defineProps < {
   isShow: boolean
   cars: ICar[]
+  userId: string
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow, cars } = toRefs(props)
+const { isShow, cars, userId } = toRefs(props)
+
 const isShowRef = ref < boolean > ()
-const selectedCar = ref < ICar | null > (null)
+const selectedCar = ref < string > ('')
+const selectedTicketType = ref < string > ('')
+const isSnackbarVisible = ref < boolean > (false)
+
+const ticketStore = useTicketStore()
+
+const { form, valid, isValid } = formValidation()
 
 function close() {
-  selectedCar.value = null
+  selectedCar.value = ''
+  selectedTicketType.value = ''
   emit('onClose')
+}
+
+function prepareEventModel() {
+  return {
+    car: selectedCar.value || '',
+    type: 'Standard' as TicketType,
+    fieldNum: 0, // TODO do zmiany
+    enterHour: new Date(),
+    exitHour: null,
+    price: mapTicketTypeToPrice(selectedTicketType.value),
+    user: userId.value,
+  }
+}
+
+async function finalize() {
+  if (await isValid()) {
+    ticketStore.addTicket(prepareEventModel())
+
+    isSnackbarVisible.value = true
+    close()
+  }
 }
 
 const formattedCars = computed(() => {
@@ -36,7 +70,18 @@ watch(isShow, () => isShowRef.value = isShow.value)
         Kup bilet jednorazowy
       </v-card-title>
       <v-card-text>
-        <v-select v-model="selectedCar" label="Samochód" :items="formattedCars" />
+        <v-form
+          ref="form"
+          v-model="valid"
+          @submit.prevent="finalize"
+        >
+          <v-select
+            v-model="selectedCar"
+            label="Samochód"
+            :items="formattedCars"
+            :rules="[requiredRule()]"
+          />
+        </v-form>
       </v-card-text>
 
       <v-card-actions class="justify-end">
@@ -44,10 +89,12 @@ watch(isShow, () => isShowRef.value = isShow.value)
           Zamknij
         </v-btn>
 
-        <v-btn>
+        <v-btn @click="finalize">
           Przejdź do płatności
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" text="Zakupiono bilet" />
 </template>

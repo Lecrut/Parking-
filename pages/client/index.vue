@@ -143,8 +143,18 @@ onMounted(async () => {
     </v-row>
   </v-sheet>
 
-  <periodicTicketForm :is-show="periodicTicketFlag" :cars="cars" :user-id="user?._id || ''" @on-close="changePeriodicTicketFlag" />
-  <singleTicketForm :is-show="singleTicketFlag" :cars="cars" @on-close="changeSingleTicketFlag" />
+  <periodicTicketForm
+    :is-show="periodicTicketFlag"
+    :cars="cars"
+    :user-id="user?._id || ''"
+    @on-close="changePeriodicTicketFlag"
+  />
+
+  <singleTicketForm
+    :is-show="singleTicketFlag"
+    :cars="cars" :user-id="user?._id || ''"
+    @on-close="changeSingleTicketFlag"
+  />
 </template>
 
 <style scoped>
