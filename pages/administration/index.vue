@@ -5,6 +5,12 @@ import parkingPlace from '~/components/administration/parkingPlace.vue'
 definePageMeta({
   middleware: ['admin-page-guard'],
 })
+
+const ticketStore = useTicketStore()
+
+onMounted(() => {
+  ticketStore.fetchAllValidTickets()
+})
 </script>
 
 <template>

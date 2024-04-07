@@ -2,7 +2,7 @@
 import NavBarUser from '~/components/navBars/navBarUser.vue'
 import periodicTicketForm from '~/components/user/periodicTicketForm.vue'
 import ticket from '~/components/user/ticket.vue'
-import singleTicketForm from "~/components/user/singleTicketForm.vue";
+import singleTicketForm from '~/components/user/singleTicketForm.vue'
 
 const periodicTicketFlag = ref(false)
 const singleTicketFlag = ref(false)
@@ -40,7 +40,19 @@ definePageMeta({
   middleware: ['user-page-guard'],
 })
 
-const auth = useAuthStore()
+const authStore = useAuthStore()
+const carStore = useCarStore()
+const ticketStore = useTicketStore()
+
+const { user } = storeToRefs(authStore)
+const { cars } = storeToRefs(carStore)
+
+onMounted(async () => {
+  if (user.value?._id) {
+    await carStore.fetchCarsForUser(user.value._id)
+    await ticketStore.fetchValidTicketsForUser(user.value._id)
+  }
+})
 </script>
 
 <template>
@@ -53,9 +65,8 @@ const auth = useAuthStore()
   >
     <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
-
         <div class="text-h5 mt-5 mb-5">
-          Witaj, {{ auth.user?.name }}!
+          Witaj, {{ authStore.user?.name }}!
         </div>
 
         <v-row justify="center">
@@ -68,16 +79,15 @@ const auth = useAuthStore()
               Twoje aktualne bilety:
             </div>
 
-
             <v-row justify="center">
               <div
-                  v-for="(ticket, index) in tickets"
-                  :item="ticket"
-                  :key="index"
+                v-for="(ticket, index) in tickets"
+                :key="index"
+                :item="ticket"
               >
-                  <v-col md="12" sm="12">
-                    <ticket :ticket="ticket" />
-                  </v-col>
+                <v-col md="12" sm="12">
+                  <ticket :ticket="ticket" />
+                </v-col>
               </div>
             </v-row>
           </div>
@@ -94,14 +104,13 @@ const auth = useAuthStore()
   >
     <v-row class="my-3">
       <v-col cols="12" md="6" sm="12">
-
         <v-img
-            class="mx-auto my-5 elevation-5"
-            rounded="xl"
-            :width="266"
-            aspect-ratio="4/3"
-            cover
-            src="/buySingleTicket.jpeg"
+          class="mx-auto my-5 elevation-5"
+          rounded="xl"
+          :width="266"
+          aspect-ratio="4/3"
+          cover
+          src="/buySingleTicket.jpeg"
         />
 
         <div class="text-h5">
@@ -114,14 +123,13 @@ const auth = useAuthStore()
       </v-col>
 
       <v-col cols="12" md="6" sm="12">
-
         <v-img
-            class="mx-auto my-5 elevation-5"
-            rounded="xl"
-            :width="266"
-            aspect-ratio="4/3"
-            cover
-            src="/buyPeriodicTicket.jpeg"
+          class="mx-auto my-5 elevation-5"
+          rounded="xl"
+          :width="266"
+          aspect-ratio="4/3"
+          cover
+          src="/buyPeriodicTicket.jpeg"
         />
 
         <div class="text-h5">
@@ -135,8 +143,18 @@ const auth = useAuthStore()
     </v-row>
   </v-sheet>
 
-  <periodicTicketForm :is-show="periodicTicketFlag" @on-close="changePeriodicTicketFlag" />
-  <singleTicketForm :is-show="singleTicketFlag" @on-close="changeSingleTicketFlag" />
+  <periodicTicketForm
+    :is-show="periodicTicketFlag"
+    :cars="cars"
+    :user-id="user?._id || ''"
+    @on-close="changePeriodicTicketFlag"
+  />
+
+  <singleTicketForm
+    :is-show="singleTicketFlag"
+    :cars="cars" :user-id="user?._id || ''"
+    @on-close="changeSingleTicketFlag"
+  />
 </template>
 
 <style scoped>
