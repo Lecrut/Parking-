@@ -6,6 +6,7 @@ import type { ICar } from '~/models/Car'
 import { requiredRule } from '~/composable/rules'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
+import type { TicketType } from '~/models/Event'
 
 const props = defineProps < {
   isShow: boolean
@@ -29,6 +30,7 @@ const isShowRef = ref < boolean > ()
 const selectedCar = ref < string > ('')
 const selectedTicketType = ref < string > ('')
 const selectedDate = ref< Date > (new Date())
+const isSnackbarVisible = ref < boolean > (false)
 
 function close() {
   selectedCar.value = ''
@@ -40,7 +42,7 @@ function close() {
 function prepareEventModel() {
   return {
     car: selectedCar.value || '',
-    type: selectedTicketType.value || 'Dzienny',
+    type: (selectedTicketType.value || 'Dzienny') as TicketType,
     fieldNum: 0, // TODO do zmiany
     enterHour: selectedDate.value,
     exitHour: null,
@@ -53,8 +55,7 @@ async function finalize() {
   if (await isValid()) {
     ticketStore.addTicket(prepareEventModel())
 
-    // TODO snackbar
-    alert('Bilet zakupiony!')
+    isSnackbarVisible.value = true
     close()
   }
 }
@@ -92,7 +93,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
             v-model="selectedDate"
             class="mt-2"
             :dark="isDark"
-            clearable
             auto-apply
             :enable-time-picker="true"
             label="Wybierz datę i godzinę"
@@ -121,7 +121,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
           <div v-if="selectedTicketType" class="ml-1 mt-2">
             Cena: {{ mapTicketTypeToPrice(selectedTicketType) }} zł
           </div>
-          <!-- TODO poprawic cene -->
         </v-form>
       </v-card-text>
 
@@ -136,4 +135,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" text="Zakupiono bilet" />
 </template>
