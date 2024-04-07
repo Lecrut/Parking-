@@ -8,11 +8,11 @@ definePageMeta({
 })
 
 const ticketStore = useTicketStore()
+const { validTickets } = storeToRefs(ticketStore)
 
-onMounted(() => {
-  ticketStore.fetchAllValidTickets()
+onMounted(async () => {
+  await ticketStore.fetchAllValidTickets()
 })
-const validTickets = ticketStore.validTickets
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const validTickets = ticketStore.validTickets
       </v-row>
 
       <v-row>
-        <v-col v-for="ticket in validTickets" :key="index" :item="ticket" cols="4">
+        <v-col v-for="(ticket, index) in validTickets" :key="index" :item="ticket" cols="4">
           <ticket :ticket />
         </v-col>
       </v-row>
