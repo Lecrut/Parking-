@@ -1,38 +1,51 @@
-import mongoose from 'mongoose'
+import mongoose, { set } from 'mongoose'
+import jwt from 'jsonwebtoken'
 import EventModel from '~/server/dbModels/EventModel'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
-  if (!query.userId) {
-    return {
-      statusCode: 400,
-      body: 'Missing userId',
-    }
-  }
-  else if (!query.status) {
-    return {
-      statusCode: 400,
-      body: 'Missing status',
-    }
+  if (!query.status)
+    return setUpError(400, 'Missing status', event)
+
+  if (query.userId) {
+    const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
+
+    if (query.status === 'valid')
+      return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+
+    else if (query.status === 'past')
+      return await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
+
+    return setUpError(400, 'Invalid status', event)
   }
 
-  const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
+  const config = useRuntimeConfig()
+  const token = event.node.req.headers.cookie?.split('=')[1]
 
-  let userTickets
+  if (!token)
+    return setUpError(401, 'Authorization required', event)
 
-  if (query.status === 'valid') {
-    userTickets = await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+  try {
+    const jwtUser = jwt.verify(token, config.secretKey) as any
+
+    if (jwtUser.role !== 'admin')
+      return setUpError(401, 'Unauthorized', event)
   }
-  else if (query.status === 'past') {
-    userTickets = await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
-  }
-  else {
-    return {
-      statusCode: 400,
-      body: 'Invalid status',
-    }
+  catch (error) {
+    return setUpError(401, 'Invalid token', event)
   }
 
-  return userTickets
+  if (query.status === 'valid')
+    return await EventModel.find({ exitHour: null }).exec()
+
+  else if (query.status === 'past')
+    return await EventModel.find({ exitHour: { $ne: null } }).exec()
+
+  return setUpError(400, 'Invalid status', event)
 })
+
+function setUpError(statusCode: number, message: string, event: any) {
+  event.node.res.statusCode = statusCode
+  event.node.res.end(message)
+}

@@ -51,11 +51,25 @@ export const useTicketStore = defineStore('tickets', () => {
     }
   }
 
+  async function fetchAllValidTickets() {
+    try {
+      const tickets = await $fetch('/api/events?status=valid') as IEvent[]
+
+      tickets.map(mapStringToDateFields)
+
+      validTickets.value = tickets
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     validTickets,
     historyTickets,
     addTicket,
     fetchValidTicketsForUser,
     fetchHistoryTicketsForUser,
+    fetchAllValidTickets,
   }
 })

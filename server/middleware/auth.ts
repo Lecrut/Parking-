@@ -21,7 +21,7 @@ export default defineEventHandler((event) => {
   }
 
   try {
-    const _jwtUser = jwt.verify(token, config.secretKey)
+    jwt.verify(token, config.secretKey)
   }
   catch (error) {
     event.node.res.statusCode = 401
@@ -30,5 +30,5 @@ export default defineEventHandler((event) => {
 })
 
 function getGuestRoutes() {
-  return ['/api/login', '/api/login']
+  return ['/api/login', '/api/register']
 }
