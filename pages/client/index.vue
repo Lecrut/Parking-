@@ -46,6 +46,7 @@ const ticketStore = useTicketStore()
 
 const { user } = storeToRefs(authStore)
 const { cars } = storeToRefs(carStore)
+const { validTickets } = storeToRefs(ticketStore)
 
 onMounted(async () => {
   if (user.value?._id) {
@@ -70,7 +71,7 @@ onMounted(async () => {
         </div>
 
         <v-row justify="center">
-          <div v-if="!tickets.length" class="text-h6 my-5">
+          <div v-if="!validTickets.length" class="text-h6 my-5">
             Aktualnie nie posiadasz żadnych biletów.
           </div>
 
