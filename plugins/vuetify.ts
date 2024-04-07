@@ -37,6 +37,9 @@ export default defineNuxtPlugin((app) => {
       VCombobox: {
         variant: 'underlined',
       },
+      VSelect: {
+        variant: 'underlined',
+      }
     },
   })
   app.vueApp.use(vuetify)
