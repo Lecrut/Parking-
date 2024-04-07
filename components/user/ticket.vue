@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import TicketForm from '~/components/user/ticketForm.vue'
+import type { IEvent } from '~/models/Event'
 
 const props = defineProps<{
-  ticket: {
-    registrationNum: string
-    car: string
-    type: string // todo: do zmiany na TicketType
-    fieldNo: number
-    enterHour: string
-    exitHour: string | null
-    price: number
-  }
+  ticket: IEvent
 }>()
 
 const fullTicketShow = ref(false)

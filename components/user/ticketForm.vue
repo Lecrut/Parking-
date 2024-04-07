@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import QRCodeVue3 from 'qrcode-vue3'
+import type { IEvent } from '~/models/Event'
 
 const props = defineProps < {
   isShow: boolean
-  ticket: {
-    registrationNum: string
-    car: string
-    type: string // do zmiany na TicketType
-    fieldNo: number
-    enterHour: string
-    exitHour: string | null
-    price: number
-  }
+  ticket: IEvent
 }>()
 
 const emit = defineEmits<{
@@ -23,9 +16,9 @@ const isShowRef = ref<boolean>()
 
 // TODO: potem zmienić to co wyświetlamy w kodzie po dodaniu poprawnego typu ticket
 function generateQrCodeText() {
-  return `register: ${ticket.value.registrationNum
+  return `register: ${ticket.value.car // zmienić na rejestracje
        }, enter hour: ${ticket.value.enterHour
-         }, field no.: ${ticket.value.fieldNo
+         }, field no.: ${ticket.value.fieldNum
          }, exit hour: ${ticket.value.exitHour}`
 }
 function close() {
@@ -57,7 +50,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
           </v-col>
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.registrationNum"
+              v-model="ticket.car"
               label="Rejestracja"
               readonly
             />
@@ -65,7 +58,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.fieldNo"
+              v-model="ticket.fieldNum"
               label="Miejsce"
               readonly
             />
