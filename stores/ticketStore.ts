@@ -3,7 +3,8 @@ import { ref } from 'vue'
 import type { IEvent } from '~/models/Event'
 
 export const useTicketStore = defineStore('tickets', () => {
-  const currentTickets: Ref<IEvent[]> = ref([])
+  const validTickets: Ref<IEvent[]> = ref([])
+  const historyTickets: Ref<IEvent[]> = ref([])
 
   async function addTicket(ticket: IEvent) {
     try {
@@ -15,11 +16,46 @@ export const useTicketStore = defineStore('tickets', () => {
     catch (error) {
       console.error(error)
     }
-    currentTickets.value.push(ticket)
+    validTickets.value.push(ticket)
+  }
+
+  function mapStringToDateFields(ticket: IEvent) {
+    ticket.enterHour = new Date(ticket.enterHour)
+    ticket.exitHour = ticket.exitHour ? new Date(ticket.exitHour) : null
+    return ticket
+  }
+
+  async function fetchValidTicketsForUser(userId: string) {
+    try {
+      const tickets = await $fetch(`/api/events?userId=${userId}&status=valid`) as IEvent[]
+
+      tickets.map(mapStringToDateFields)
+
+      validTickets.value = tickets
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function fetchHistoryTicketsForUser(userId: string) {
+    try {
+      const tickets = await $fetch(`/api/events?userId=${userId}&status=past`) as IEvent[]
+
+      tickets.map(mapStringToDateFields)
+
+      historyTickets.value = tickets
+    }
+    catch (error) {
+      console.error(error)
+    }
   }
 
   return {
-    currentTickets,
+    validTickets,
+    historyTickets,
     addTicket,
+    fetchValidTicketsForUser,
+    fetchHistoryTicketsForUser,
   }
 })

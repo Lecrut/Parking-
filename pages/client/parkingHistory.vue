@@ -3,7 +3,7 @@ import NavBarUser from '~/components/navBars/navBarUser.vue'
 import ticket from '~/components/user/ticket.vue'
 import expiredTicket from '~/components/user/expiredTicket.vue'
 
-//todo: do wywalenia
+// todo: do wywalenia
 const activeTickets = [
   {
     registrationNum: 'EZG 12345',
@@ -54,6 +54,16 @@ const allTickets = [
     price: 200,
   },
 ]
+
+const authStore = useAuthStore()
+const ticketStore = useTicketStore()
+
+const { user } = storeToRefs(authStore)
+
+onMounted(async () => {
+  if (user.value?._id)
+    await ticketStore.fetchHistoryTicketsForUser(user.value._id)
+})
 </script>
 
 <template>
@@ -78,9 +88,9 @@ const allTickets = [
 
             <v-row justify="center">
               <div
-                  v-for="(ticket, index) in activeTickets"
-                  :item="ticket"
-                  :key="index"
+                v-for="(ticket, index) in activeTickets"
+                :key="index"
+                :item="ticket"
               >
                 <v-col md="12" sm="12">
                   <ticket :ticket="ticket" />

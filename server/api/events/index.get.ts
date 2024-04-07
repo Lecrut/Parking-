@@ -10,10 +10,29 @@ export default defineEventHandler(async (event) => {
       body: 'Missing userId',
     }
   }
+  else if (!query.status) {
+    return {
+      statusCode: 400,
+      body: 'Missing status',
+    }
+  }
 
   const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
 
-  const userTickets = await EventModel.find({ user: userObjectId }).exec()
+  let userTickets
+
+  if (query.status === 'valid') {
+    userTickets = await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+  }
+  else if (query.status === 'past') {
+    userTickets = await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
+  }
+  else {
+    return {
+      statusCode: 400,
+      body: 'Invalid status',
+    }
+  }
 
   return userTickets
 })

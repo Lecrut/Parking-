@@ -30,11 +30,11 @@ const { ticket } = toRefs(props)
     <p>
       Samochód: {{ ticket.car }}
     </p>
-    <p v-if="ticket.type !== 'Jednorazowy'">
-      Ważny do: {{ ticket.exitHour }}
-    </p>
-    <p v-else>
+    <p>
       Ważny od: {{ ticket.enterHour }}
+    </p>
+    <p>
+      Ważny do: {{ ticket.exitHour }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły

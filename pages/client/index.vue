@@ -42,13 +42,16 @@ definePageMeta({
 
 const authStore = useAuthStore()
 const carStore = useCarStore()
+const ticketStore = useTicketStore()
 
 const { user } = storeToRefs(authStore)
 const { cars } = storeToRefs(carStore)
 
-onMounted(() => {
-  if (user.value?._id)
-    carStore.fetchCarsForUser(user.value._id)
+onMounted(async () => {
+  if (user.value?._id) {
+    await carStore.fetchCarsForUser(user.value._id)
+    await ticketStore.fetchValidTicketsForUser(user.value._id)
+  }
 })
 </script>
 
