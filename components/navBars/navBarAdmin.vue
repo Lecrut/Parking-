@@ -30,6 +30,10 @@ function logOut() {
         Profil
       </v-btn>
 
+      <v-btn variant="text" color="default" to="/administration/statistics">
+        Statystyki
+      </v-btn>
+
       <v-btn variant="text" color="default" @click="logOut">
         Wyloguj
       </v-btn>
@@ -45,6 +49,11 @@ function logOut() {
             <v-list-item to="/administration/profile">
               <v-list-item-title>
                 Profil
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/administration/statistics">
+              <v-list-item-title>
+                Statystyki
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="logOut">
