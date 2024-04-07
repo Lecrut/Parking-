@@ -109,13 +109,7 @@ watch(isShowCarForm, () => {
     </v-row>
   </v-sheet>
 
-  <v-snackbar
-      v-model="successSnackbar"
-      color="success"
-      timeout="4000"
-  >
-    Dodano nowy samochód
-  </v-snackbar>
+  <SnackbarSuccessSnackbar v-model="successSnackbar" text="Dodano nowy samochód" />
 
   <CarForm
     :is-show="isShowCarForm"
