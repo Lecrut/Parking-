@@ -14,7 +14,6 @@ const emit = defineEmits<{
 const { isShow, ticket } = toRefs(props)
 const isShowRef = ref<boolean>()
 
-// TODO: potem zmienić to co wyświetlamy w kodzie po dodaniu poprawnego typu ticket
 function generateQrCodeText() {
   return `register: ${ticket.value.car // zmienić na rejestracje
        }, enter hour: ${ticket.value.enterHour

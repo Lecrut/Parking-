@@ -1,11 +1,16 @@
 // import this after install `@mdi/font` package
 import '@mdi/font/css/materialdesignicons.css'
+import { VSparkline } from 'vuetify/labs/VSparkline'
+
 
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
+    components: {
+      VSparkline,
+    },
     theme: {
       defaultTheme: 'dark',
       themes: {
@@ -37,6 +42,9 @@ export default defineNuxtPlugin((app) => {
       VCombobox: {
         variant: 'underlined',
       },
+      VSelect: {
+        variant: 'underlined',
+      }
     },
   })
   app.vueApp.use(vuetify)
