@@ -1,3 +1,8 @@
+<script setup lang="ts">
+  const authStore = useAuthStore()
+
+  const { user } = storeToRefs(authStore)
+</script>
 <template>
   <v-container fluid>
     <v-sheet
@@ -60,7 +65,7 @@
               20 zł
             </p>
 
-            <v-btn class="my-4">
+            <v-btn class="my-4" :to=" user ? '/client/' : '/auth/login'">
               Zakup bilet
             </v-btn>
           </div>
@@ -111,7 +116,7 @@
               100 zł
             </p>
 
-            <v-btn class="my-4">
+            <v-btn class="my-4" :to=" user ? '/client/' : '/auth/login'">
               Zakup bilet
             </v-btn>
           </div>
@@ -140,7 +145,7 @@
               250 zł
             </p>
 
-            <v-btn class="my-4">
+            <v-btn class="my-4" :to=" user ? '/client/' : '/auth/login'">
               Zakup bilet
             </v-btn>
           </div>
