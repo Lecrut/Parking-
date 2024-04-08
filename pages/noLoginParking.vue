@@ -4,6 +4,10 @@ import NavBar from '~/components/navBars/navBar.vue'
 definePageMeta({
   middleware: ['guest-page-guard'],
 })
+
+useHead({
+  title: "Szybki parkings - Parking+"
+})
 </script>
 
 <template>

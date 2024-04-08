@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import NavBarAdmin from "~/components/navBars/navBarAdmin.vue";
 
+definePageMeta({
+  middleware: ['admin-page-guard'],
+})
+
+useHead({
+  title: "Statystyki - Parking+"
+})
+
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 

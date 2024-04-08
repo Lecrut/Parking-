@@ -19,6 +19,10 @@ definePageMeta({
   middleware: ['user-page-guard'],
 })
 
+useHead({
+  title: "Użytkownik - Parking+"
+})
+
 const authStore = useAuthStore()
 const carStore = useCarStore()
 const ticketStore = useTicketStore()

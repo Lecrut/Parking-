@@ -5,6 +5,10 @@ import PriceContent from "~/components/priceContent.vue";
 definePageMeta({
   middleware: ['guest-page-guard'],
 })
+
+useHead({
+  title: "Cennik - Parking+"
+})
 </script>
 
 <template>

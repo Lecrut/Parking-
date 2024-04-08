@@ -8,6 +8,10 @@ definePageMeta({
   middleware: ['admin-page-guard'],
 })
 
+useHead({
+  title: "Administracja - Parking+"
+})
+
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 

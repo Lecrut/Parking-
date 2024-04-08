@@ -7,6 +7,10 @@ definePageMeta({
   middleware: ['guest-page-guard'],
 })
 
+useHead({
+  title: "Logowanie - Parking+"
+})
+
 const auth = useAuthStore()
 const {user, loginError} = storeToRefs(auth)
 

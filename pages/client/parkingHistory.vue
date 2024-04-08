@@ -3,6 +3,14 @@ import NavBarUser from '~/components/navBars/navBarUser.vue'
 import ticket from '~/components/user/ticket.vue'
 import expiredTicket from '~/components/user/expiredTicket.vue'
 
+definePageMeta({
+  middleware: ['user-page-guard'],
+})
+
+useHead({
+  title: "Historia - Parking+"
+})
+
 // todo: do wywalenia
 const activeTickets = [
   {
