@@ -3,6 +3,7 @@ import NavBarUser from '~/components/navBars/navBarUser.vue'
 import periodicTicketForm from '~/components/user/periodicTicketForm.vue'
 import ticket from '~/components/user/ticket.vue'
 import singleTicketForm from '~/components/user/singleTicketForm.vue'
+import type {ICar} from "~/models/Car";
 
 const periodicTicketFlag = ref(false)
 const singleTicketFlag = ref(false)
@@ -27,10 +28,37 @@ const { user } = storeToRefs(authStore)
 const { cars } = storeToRefs(carStore)
 const { validTickets } = storeToRefs(ticketStore)
 
+const notParkedCars: Ref<ICar[]> = ref([])
+
+function getParkedCars() {
+  const parkedCars: ICar[] = []
+  validTickets.value.forEach(ticket =>{
+    const car = cars.value.find(item => item._id === ticket.car)
+    if (car)
+      parkedCars.push(car)
+  })
+
+  const resultCars: ICar[] = []
+  cars.value.forEach(item => {
+    const car = parkedCars.find(element => element === item)
+    if (!car)
+      resultCars.push(item)
+  })
+
+  notParkedCars.value = [...resultCars]
+}
+
 onMounted(async () => {
   if (user.value?._id) {
     await carStore.fetchCarsForUser(user.value._id)
-    await ticketStore.fetchValidTicketsForUser(user.value._id)
+    await ticketStore.fetchValidTicketsForUser(user.value._id).then(getParkedCars)
+  }
+})
+
+watch(validTickets, async () =>{
+  if (user.value?._id) {
+    await carStore.fetchCarsForUser(user.value._id)
+    await ticketStore.fetchValidTicketsForUser(user.value._id).then(getParkedCars)
   }
 })
 </script>
@@ -108,12 +136,12 @@ onMounted(async () => {
   </v-sheet>
 
   <periodicTicketForm
-    :is-show="periodicTicketFlag" :cars="cars" :user-id="user?._id || ''"
+    :is-show="periodicTicketFlag" :cars="notParkedCars" :user-id="user?._id || ''"
     @on-close="changePeriodicTicketFlag"
   />
 
   <singleTicketForm
-    :is-show="singleTicketFlag" :cars="cars" :user-id="user?._id || ''"
+    :is-show="singleTicketFlag" :cars="notParkedCars" :user-id="user?._id || ''"
     @on-close="changeSingleTicketFlag"
   />
 </template>
