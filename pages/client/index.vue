@@ -15,27 +15,6 @@ function changeSingleTicketFlag() {
   singleTicketFlag.value = !singleTicketFlag.value
 }
 
-// const tickets = [
-//   {
-//     registrationNum: 'EZG 12345',
-//     car: 'Honda Civic',
-//     type: 'Miesięczny',
-//     fieldNo: 10,
-//     enterHour: '22-03-2024 10:00:00',
-//     exitHour: '22-04-2024 10:00:00',
-//     price: 200,
-//   },
-//   {
-//     registrationNum: 'EBR 23123',
-//     car: 'Fiat Seicento',
-//     type: 'Tygodniowy',
-//     fieldNo: 12,
-//     enterHour: '22-03-2024 12:00:00',
-//     exitHour: '29-03-2024 12:00:00',
-//     price: 100,
-//   },
-// ]
-
 definePageMeta({
   middleware: ['user-page-guard'],
 })
@@ -81,7 +60,7 @@ onMounted(async () => {
             <v-row justify="center">
               <div v-for="(ticket, index) in validTickets" :key="index" :item="ticket">
                 <v-col md="12" sm="12">
-                  <ticket :ticket="ticket" />
+                  <ticket :ticket="ticket" :car="cars.find(item => item._id === ticket.car) || null" />
                 </v-col>
               </div>
             </v-row>
@@ -139,6 +118,3 @@ onMounted(async () => {
   />
 </template>
 
-<style scoped>
-
-</style>

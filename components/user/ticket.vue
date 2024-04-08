@@ -5,6 +5,7 @@ import type { ICar } from '~/models/Car'
 
 const props = defineProps<{
   ticket: IEvent
+  car: ICar | null
 }>()
 
 const fullTicketShow = ref(false)
@@ -13,7 +14,7 @@ function hideFullTicket() {
   fullTicketShow.value = !fullTicketShow.value
 }
 
-const { ticket } = toRefs(props)
+const { ticket, car } = toRefs(props)
 </script>
 
 <template>
@@ -22,12 +23,12 @@ const { ticket } = toRefs(props)
       Bilet {{ ticket.type }}
     </div>
     <p>
-      Samochód: {{ ticket.car }}
+      Samochód: {{ car?.brand }} {{ car?.model }}
     </p>
     <p>
       Ważny od: {{ ticket.enterHour }}
     </p>
-    <p>
+    <p v-if="ticket.type !=='Standard'">
       Ważny do: {{ ticket.exitHour }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
@@ -38,6 +39,7 @@ const { ticket } = toRefs(props)
   <TicketForm
     :is-show="fullTicketShow"
     :ticket="ticket"
+    :car="car"
     @on-close="hideFullTicket"
   />
 </template>

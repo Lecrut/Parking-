@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import QRCodeVue3 from 'qrcode-vue3'
 import type { IEvent } from '~/models/Event'
+import type {ICar} from "~/models/Car";
 
 const props = defineProps < {
   isShow: boolean
   ticket: IEvent
+  car: ICar | null
 }>()
 
 const emit = defineEmits<{
   (e: 'onClose'): void
 }>()
 
-const { isShow, ticket } = toRefs(props)
+const { isShow, ticket, car } = toRefs(props)
 const isShowRef = ref<boolean>()
 
+const getCar = computed(() => car.value ? car.value.brand + ' ' + car.value.model : ' ' )
+const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' ' )
 function generateQrCodeText() {
-  return `register: ${ticket.value.car // zmienić na rejestracje
-       }, enter hour: ${ticket.value.enterHour
-         }, field no.: ${ticket.value.fieldNum
-         }, exit hour: ${ticket.value.exitHour}`
+  return `register: ${car.value?.registrationNum
+  }, enter hour: ${ticket.value.enterHour
+  }, field no.: ${ticket.value.fieldNum
+  }, exit hour: ${ticket.value.exitHour}`
 }
 function close() {
   emit('onClose')
@@ -42,14 +46,14 @@ watch(isShow, () => isShowRef.value = isShow.value)
         <v-row>
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.car"
+              v-model="getCar"
               label="Pojazd"
               readonly
             />
           </v-col>
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.car"
+              v-model="getCarRegister"
               label="Rejestracja"
               readonly
             />
@@ -86,24 +90,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
             />
           </v-col>
         </v-row>
-        <!--        <p> -->
-        <!--          Pojazd: {{ ticket.car }} -->
-        <!--        </p> -->
-        <!--        <p> -->
-        <!--          Rejestracja: {{ ticket.registrationNum }} -->
-        <!--        </p> -->
-        <!--        <p> -->
-        <!--          Miejsce: {{ ticket.fieldNo }} -->
-        <!--        </p> -->
-        <!--        <p v-if="ticket.type !== 'Jednorazowy'"> -->
-        <!--          Data ważności: {{ ticket.exitHour }} -->
-        <!--        </p> -->
-        <!--        <p v-else> -->
-        <!--          Bilet ważny od: {{ ticket.enterHour }} -->
-        <!--        </p> -->
-        <!--        <p> -->
-        <!--          Koszt biletu: {{ ticket.price }} PLN -->
-        <!--        </p> -->
 
         <v-row justify="center" class="ma-4">
           <QRCodeVue3

@@ -11,21 +11,14 @@ definePageMeta({
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 
-const placeTable = Array.from({ length: 50 }, (_, i) => ({
-  placeNum: i,
+const placeTable = ref(Array.from({ length: 50 }, (_, i) => ({
   placeTicket: null as IEvent | null,
-  isFree: true,
-}))
+})))
 
 function createPlaceTable() {
-  for (let i = 0; i < placeTable.length; i++) {
-    validTickets.value.forEach((bilet: IEvent) => {
-      if (bilet.fieldNum === i) {
-        placeTable[i].placeTicket = bilet
-        placeTable[i].isFree = false
-      }
-    })
-  }
+  placeTable.value.forEach((element, index) => {
+    element.placeTicket = validTickets.value.find(item => item.fieldNum === index) || null
+  })
 }
 
 onMounted(async () => {
@@ -37,7 +30,13 @@ onMounted(async () => {
   <NavBarAdmin />
   <v-app>
     <v-container>
-      <v-row>
+      <v-sheet
+          class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+          elevation="4"
+          max-width="1100"
+          rounded
+      >
+      <v-row class="my-4">
         <v-col cols="12">
           <h1 class="text-center">
             PARKING ŁÓDŹ, UL. WÓLCZAŃSKA 223
@@ -45,12 +44,13 @@ onMounted(async () => {
         </v-col>
       </v-row>
 
-      <v-row justify="center">
-        <v-col v-for="parkingSpot in 50" :key="parkingSpot" cols="2">
-          <v-card>
+      <v-row justify="center" class="mb-4">
+        <v-col v-for="(parkingSpot, index) in placeTable" :key="index" :item="parkingSpot" cols="12" md="4" sm="6" xs="12" lg="2">
+          <v-card :color="parkingSpot.placeTicket ? 'error' : 'success' ">
             <v-card-title class="text-center">
-              Miejsce {{ parkingSpot }}
+              Miejsce {{ index }}
             </v-card-title>
+
           </v-card>
         </v-col>
       </v-row>
@@ -81,6 +81,7 @@ onMounted(async () => {
           </div>
         </v-slide-group-item>
       </v-slide-group> -->
+      </v-sheet>
     </v-container>
   </v-app>
 </template>
