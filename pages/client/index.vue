@@ -15,26 +15,26 @@ function changeSingleTicketFlag() {
   singleTicketFlag.value = !singleTicketFlag.value
 }
 
-const tickets = [
-  {
-    registrationNum: 'EZG 12345',
-    car: 'Honda Civic',
-    type: 'Miesięczny',
-    fieldNo: 10,
-    enterHour: '22-03-2024 10:00:00',
-    exitHour: '22-04-2024 10:00:00',
-    price: 200,
-  },
-  {
-    registrationNum: 'EBR 23123',
-    car: 'Fiat Seicento',
-    type: 'Tygodniowy',
-    fieldNo: 12,
-    enterHour: '22-03-2024 12:00:00',
-    exitHour: '29-03-2024 12:00:00',
-    price: 100,
-  },
-]
+// const tickets = [
+//   {
+//     registrationNum: 'EZG 12345',
+//     car: 'Honda Civic',
+//     type: 'Miesięczny',
+//     fieldNo: 10,
+//     enterHour: '22-03-2024 10:00:00',
+//     exitHour: '22-04-2024 10:00:00',
+//     price: 200,
+//   },
+//   {
+//     registrationNum: 'EBR 23123',
+//     car: 'Fiat Seicento',
+//     type: 'Tygodniowy',
+//     fieldNo: 12,
+//     enterHour: '22-03-2024 12:00:00',
+//     exitHour: '29-03-2024 12:00:00',
+//     price: 100,
+//   },
+// ]
 
 definePageMeta({
   middleware: ['user-page-guard'],
@@ -46,6 +46,7 @@ const ticketStore = useTicketStore()
 
 const { user } = storeToRefs(authStore)
 const { cars } = storeToRefs(carStore)
+const { validTickets } = storeToRefs(ticketStore)
 
 onMounted(async () => {
   if (user.value?._id) {
@@ -58,10 +59,8 @@ onMounted(async () => {
 <template>
   <NavBarUser />
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-    elevation="4"
-    max-width="1100"
-    rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
+    max-width="1100" rounded
   >
     <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
@@ -70,7 +69,7 @@ onMounted(async () => {
         </div>
 
         <v-row justify="center">
-          <div v-if="!tickets.length" class="text-h6 my-5">
+          <div v-if="!validTickets.length" class="text-h6 my-5">
             Aktualnie nie posiadasz żadnych biletów.
           </div>
 
@@ -80,11 +79,7 @@ onMounted(async () => {
             </div>
 
             <v-row justify="center">
-              <div
-                v-for="(ticket, index) in tickets"
-                :key="index"
-                :item="ticket"
-              >
+              <div v-for="(ticket, index) in validTickets" :key="index" :item="ticket">
                 <v-col md="12" sm="12">
                   <ticket :ticket="ticket" />
                 </v-col>
@@ -97,19 +92,13 @@ onMounted(async () => {
   </v-sheet>
 
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-    elevation="4"
-    max-width="1100"
-    rounded
+    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4" elevation="4"
+    max-width="1100" rounded
   >
     <v-row class="my-3">
       <v-col cols="12" md="6" sm="12">
         <v-img
-          class="mx-auto my-5 elevation-5"
-          rounded="xl"
-          :width="266"
-          aspect-ratio="4/3"
-          cover
+          class="mx-auto my-5 elevation-5" rounded="xl" :width="266" aspect-ratio="4/3" cover
           src="/buySingleTicket.jpeg"
         />
 
@@ -124,11 +113,7 @@ onMounted(async () => {
 
       <v-col cols="12" md="6" sm="12">
         <v-img
-          class="mx-auto my-5 elevation-5"
-          rounded="xl"
-          :width="266"
-          aspect-ratio="4/3"
-          cover
+          class="mx-auto my-5 elevation-5" rounded="xl" :width="266" aspect-ratio="4/3" cover
           src="/buyPeriodicTicket.jpeg"
         />
 
@@ -144,15 +129,12 @@ onMounted(async () => {
   </v-sheet>
 
   <periodicTicketForm
-    :is-show="periodicTicketFlag"
-    :cars="cars"
-    :user-id="user?._id || ''"
+    :is-show="periodicTicketFlag" :cars="cars" :user-id="user?._id || ''"
     @on-close="changePeriodicTicketFlag"
   />
 
   <singleTicketForm
-    :is-show="singleTicketFlag"
-    :cars="cars" :user-id="user?._id || ''"
+    :is-show="singleTicketFlag" :cars="cars" :user-id="user?._id || ''"
     @on-close="changeSingleTicketFlag"
   />
 </template>

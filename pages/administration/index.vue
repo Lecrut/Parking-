@@ -10,8 +10,8 @@ definePageMeta({
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 
-onMounted(async () => {
-  await ticketStore.fetchAllValidTickets()
+onMounted(() => {
+  ticketStore.fetchAllValidTickets()
 })
 </script>
 
@@ -32,6 +32,18 @@ onMounted(async () => {
           <ticket :ticket />
         </v-col>
       </v-row>
+
+      <v-slide-group class="pa-4" selected-class="bg-primary" show-arrows>
+        <v-slide-group-item v-for="n in 60" :key="n" v-slot="{ isSelected, toggle, selectedClass }">
+          <v-card class="ma-4" :class="[selectedClass]" color="grey-lighten-1" height="200" width="100" @click="toggle">
+            <div class="d-flex fill-height align-center justify-center">
+              <v-scale-transition>
+                <v-icon v-if="isSelected" color="white" icon="mdi-close-circle-outline" size="48" />
+              </v-scale-transition>
+            </div>
+          </v-card>
+        </v-slide-group-item>
+      </v-slide-group>
     </v-container>
   </v-app>
 </template>

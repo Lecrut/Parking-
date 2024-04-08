@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TicketForm from '~/components/user/ticketForm.vue'
 import type { IEvent } from '~/models/Event'
+import type { ICar } from '~/models/Car'
 
 const props = defineProps<{
   ticket: IEvent
