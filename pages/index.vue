@@ -5,6 +5,10 @@ import MyFooter from '~/components/myFooter.vue'
 definePageMeta({
   middleware: ['guest-page-guard'],
 })
+
+useHead({
+  title: "Parking+"
+})
 </script>
 
 <template>

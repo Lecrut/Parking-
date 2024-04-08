@@ -7,6 +7,10 @@ definePageMeta({
   middleware: ['guest-page-guard'],
 })
 
+useHead({
+  title: "Rejestracja - Parking+"
+})
+
 const auth = useAuthStore()
 
 const { form, valid, isValid } = formValidation()

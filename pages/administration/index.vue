@@ -7,9 +7,14 @@ definePageMeta({
   middleware: ['admin-page-guard'],
 })
 
+
 const fullTicketShow = ref(false)
 const actualTicket = ref<IEvent>()
 const actualIndex = ref<number>()
+
+useHead({
+  title: "Administracja - Parking+"
+})
 
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)

@@ -6,6 +6,10 @@ definePageMeta({
   middleware: ['user-page-guard'],
 })
 
+useHead({
+  title: "Profil - Parking+"
+})
+
 const authStore = useAuthStore()
 const carStore = useCarStore()
 
