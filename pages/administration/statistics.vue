@@ -26,6 +26,19 @@ const monthTicketsValue = computed(() => (
         : validTickets.value.filter(item => item.type === 'Miesięczny')?.length*2)*100 / usageValue.value
 )
 
+const labels = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
+
+const buyTicketHours = computed(() => {
+  const counts = new Array(24).fill(0);
+
+  validTickets.value.forEach((ticket) => {
+    const hour = ticket.enterHour.getHours()
+    counts[hour]++
+  })
+
+  return counts
+})
+
 onMounted(async () => {
   if (!validTickets.value.length)
     await ticketStore.fetchAllValidTickets()
@@ -128,6 +141,27 @@ onMounted(async () => {
         <div class="text-h6 my-2">
           Aktywne bilety miesięczne
         </div>
+      </v-col>
+    </v-row>
+
+    <v-row justify="center" class="w-100">
+      <v-col cols="12" md="8" sm="12">
+        <div class="text-h5 mb-2">
+          Godziny kupowania biletów
+        </div>
+      </v-col>
+    </v-row>
+    <v-row justify="center" class="w-100 mb-5">
+      <v-col cols="12" md="8" sm="12">
+        <v-sparkline
+            :labels="labels"
+            :model-value="buyTicketHours"
+            :color="$vuetify.theme.current.colors['on-background']"
+            line-width="2"
+            padding="16"
+            :smooth="true"
+            :fill="true"
+        ></v-sparkline>
       </v-col>
     </v-row>
   </v-sheet>
