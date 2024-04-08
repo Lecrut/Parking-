@@ -54,9 +54,9 @@ onMounted(async () => {
       >
         <v-row class="my-4">
           <v-col cols="12">
-            <h1 class="text-center">
+            <div class="text-h5 text-center">
               PARKING ŁÓDŹ, UL. WÓLCZAŃSKA 223
-            </h1>
+            </div>
           </v-col>
         </v-row>
 
@@ -75,5 +75,5 @@ onMounted(async () => {
       </v-sheet>
     </v-container>
   </v-app>
-  <ticketView :is-show="fullTicketShow" :ticket="actualTicket" @on-close="hideTicketPlace" />
+  <ticketView :is-show="fullTicketShow" :ticket="actualTicket" :place-number="actualIndex || -1" @on-close="hideTicketPlace" />
 </template>
