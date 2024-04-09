@@ -19,7 +19,7 @@ useHead({
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 
-const placeTable = ref(Array.from({ length: 50 }, (_, i) => ({
+const placeTable = ref(Array.from({ length: 50 }, (_) => ({
   placeTicket: null as IEvent | null,
 })))
 
@@ -31,7 +31,7 @@ function createPlaceTable() {
 
 function showTicketPlace(index: number) {
   fullTicketShow.value = true
-  actualIndex.value = index
+  actualIndex.value = index + 1
   actualTicket.value = validTickets.value.find(item => item.fieldNum === index)
 }
 
@@ -67,7 +67,7 @@ onMounted(async () => {
           >
             <v-card :color="parkingSpot.placeTicket ? 'error' : 'success' " @click="showTicketPlace(index)">
               <v-card-title class="text-center">
-                Miejsce {{ index }}
+                Miejsce {{ index + 1 }}
               </v-card-title>
             </v-card>
           </v-col>
