@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import NavBarUser from '~/components/navBars/navBarUser.vue'
 import ticket from '~/components/user/ticket.vue'
-import expiredTicket from '~/components/user/expiredTicket.vue'
 
 definePageMeta({
   middleware: ['user-page-guard'],
@@ -11,66 +10,21 @@ useHead({
   title: "Historia - Parking+"
 })
 
-// todo: do wywalenia
-const activeTickets = [
-  {
-    registrationNum: 'EZG 12345',
-    car: 'Honda Civic',
-    type: 'Miesięczny',
-    fieldNo: 10,
-    enterHour: '22-03-2024 10:00:00',
-    exitHour: '22-04-2024 10:00:00',
-    price: 200,
-  },
-  {
-    registrationNum: 'EBR 23123',
-    car: 'Fiat Seicento',
-    type: 'Tygodniowy',
-    fieldNo: 12,
-    enterHour: '05-04-2024 12:00:00',
-    exitHour: '12-04-2024 12:00:00',
-    price: 100,
-  },
-]
-
-const allTickets = [
-  {
-    registrationNum: 'EZG 12345',
-    car: 'Honda Civic',
-    type: 'Miesięczny',
-    fieldNo: 10,
-    enterHour: '22-03-2024 10:00:00',
-    exitHour: '22-04-2024 10:00:00',
-    price: 200,
-  },
-  {
-    registrationNum: 'EBR 23123',
-    car: 'Fiat Seicento',
-    type: 'Tygodniowy',
-    fieldNo: 12,
-    enterHour: '05-04-2024 12:00:00',
-    exitHour: '12-04-2024 12:00:00',
-    price: 100,
-  },
-  {
-    registrationNum: 'EZG 12345',
-    car: 'Honda Civic',
-    type: 'Miesięczny',
-    fieldNo: 10,
-    enterHour: '22-02-2024 10:00:00',
-    exitHour: '22-03-2024 10:00:00',
-    price: 200,
-  },
-]
-
 const authStore = useAuthStore()
-const ticketStore = useTicketStore()
-
 const { user } = storeToRefs(authStore)
 
+const ticketStore = useTicketStore()
+const { validTickets, historyTickets } = storeToRefs(ticketStore)
+
+const carStore = useCarStore()
+const { cars } = storeToRefs(carStore)
+
 onMounted(async () => {
-  if (user.value?._id)
+  if (user.value?._id) {
     await ticketStore.fetchHistoryTicketsForUser(user.value._id)
+    await ticketStore.fetchValidTicketsForUser(user.value._id)
+    await carStore.fetchCarsForUser(user.value._id)
+  }
 })
 </script>
 
@@ -85,7 +39,7 @@ onMounted(async () => {
     <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
-          <div v-if="!activeTickets.length" class="text-h5 my-5">
+          <div v-if="!validTickets.length" class="text-h5 my-5">
             Aktualnie nie posiadasz żadnych biletów.
           </div>
 
@@ -96,12 +50,15 @@ onMounted(async () => {
 
             <v-row justify="center">
               <div
-                v-for="(ticket, index) in activeTickets"
+                v-for="(ticket, index) in validTickets"
                 :key="index"
                 :item="ticket"
               >
                 <v-col md="12" sm="12">
-                  <ticket :ticket="ticket" />
+                  <ticket
+                      :ticket="ticket"
+                      :car="cars.find(item => item._id === ticket.car) || null"
+                  />
                 </v-col>
               </div>
             </v-row>
@@ -117,17 +74,31 @@ onMounted(async () => {
     max-width="1100"
     rounded
   >
-    <v-row justify="center" class="text-h6 mt-5 mb-5">
+    <v-row justify="center" class="text-h6 my-">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
-          <div class="text-h5 my-5">
-            Historia:
-          </div>
+          <v-col cols="12">
+            <div class="text-h5 my-5">
+              Historia
+            </div>
+          </v-col>
 
-          <v-row justify="center">
-            <div v-for="(ticket, index) in allTickets" :key="index" :item="ticket">
+          <v-row v-if="historyTickets.length === 0" justify="center">
+            <v-col cols="12">
+              <div class="text-h6 mb-5">
+                Brak biletów do wyświetlenia
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-row v-else justify="center">
+            <div v-for="(ticket, index) in historyTickets" :key="index" :item="ticket" >
               <v-col md="12" sm="12">
-                <expiredTicket :ticket="ticket" />
+                <ticket
+                    :ticket="ticket"
+                    :is-expired="true"
+                    :car="cars.find(item => item._id === ticket.car) || null"
+                />
               </v-col>
             </div>
           </v-row>
