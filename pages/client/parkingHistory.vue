@@ -69,41 +69,42 @@ onMounted(async () => {
   </v-sheet>
 
   <v-sheet
-    class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-    elevation="4"
-    max-width="1100"
-    rounded
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
   >
-    <v-row justify="center" class="text-h6 my-">
+    <v-row justify="center" class="text-h6 my-5">
       <v-col cols="12" md="8" sm="12">
         <v-row justify="center">
-          <v-col cols="12">
+          <div v-if="!historyTickets.length" class="text-h5 my-5">
+            Aktualnie nie posiadasz żadnej historii biletowej.
+          </div>
+
+          <div v-else>
             <div class="text-h5 my-5">
-              Historia
+              Twoja historia
             </div>
-          </v-col>
 
-          <v-row v-if="historyTickets.length === 0" justify="center">
-            <v-col cols="12">
-              <div class="text-h6 mb-5">
-                Brak biletów do wyświetlenia
+            <v-row justify="center">
+              <div
+                  v-for="(ticket, index) in historyTickets"
+                  :key="index"
+                  :item="ticket"
+              >
+                <v-col md="12" sm="12">
+                  <ticket
+                      :ticket="ticket"
+                      :car="cars.find(item => item._id === ticket.car) || null"
+                      :is-expired="true"
+                  />
+                </v-col>
               </div>
-            </v-col>
-          </v-row>
-
-          <v-row v-else justify="center">
-            <div v-for="(ticket, index) in historyTickets" :key="index" :item="ticket" >
-              <v-col md="12" sm="12">
-                <ticket
-                    :ticket="ticket"
-                    :is-expired="true"
-                    :car="cars.find(item => item._id === ticket.car) || null"
-                />
-              </v-col>
-            </div>
-          </v-row>
+            </v-row>
+          </div>
         </v-row>
       </v-col>
     </v-row>
   </v-sheet>
+
 </template>
