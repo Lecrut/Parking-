@@ -2,6 +2,7 @@
 import TicketForm from '~/components/user/ticketForm.vue'
 import type { IEvent } from '~/models/Event'
 import type { ICar } from '~/models/Car'
+import {mapDate} from "~/composable/time";
 
 const props = defineProps<{
   ticket: IEvent
@@ -26,7 +27,7 @@ const { ticket, car } = toRefs(props)
       Samochód: {{ car?.brand }} {{ car?.model }}
     </p>
     <p>
-      Ważny od: {{ ticket.enterHour }}
+      Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
     <p v-if="ticket.type !=='Standard'">
       Ważny do: {{ ticket.exitHour }}
