@@ -2,6 +2,7 @@
 import QRCodeVue3 from 'qrcode-vue3'
 import type { IEvent } from '~/models/Event'
 import type {ICar} from "~/models/Car";
+import {mapDate} from "~/composable/time";
 
 const props = defineProps < {
   isShow: boolean
@@ -18,6 +19,8 @@ const isShowRef = ref<boolean>()
 
 const getCar = computed(() => car.value ? car.value.brand + ' ' + car.value.model : ' ' )
 const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' ' )
+const exitHour = computed(() => ticket.value.exitHour ? mapDate(ticket.value.exitHour) : 'Samochód dalej stoi')
+const enterHour = computed(() => mapDate(ticket.value.enterHour))
 function generateQrCodeText() {
   return `register: ${car.value?.registrationNum
   }, enter hour: ${ticket.value.enterHour
@@ -77,14 +80,14 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.enterHour"
+              v-model="enterHour"
               label="Czas wjazdu"
               readonly
             />
           </v-col>
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.exitHour"
+              v-model="exitHour"
               label="Czas wyjazdu"
               readonly
             />

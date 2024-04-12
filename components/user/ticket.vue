@@ -2,10 +2,12 @@
 import TicketForm from '~/components/user/ticketForm.vue'
 import type { IEvent } from '~/models/Event'
 import type { ICar } from '~/models/Car'
+import {mapDate} from "~/composable/time";
 
 const props = defineProps<{
   ticket: IEvent
   car: ICar | null
+  isExpired?: Boolean
 }>()
 
 const fullTicketShow = ref(false)
@@ -18,7 +20,7 @@ const { ticket, car } = toRefs(props)
 </script>
 
 <template>
-  <v-card :elevation="10" class="pa-3" @click="fullTicketShow = true">
+  <v-card v-if="!isExpired" :elevation="10" class="pa-3" @click="fullTicketShow = true">
     <div class="text-h5 my-2">
       Bilet {{ ticket.type }}
     </div>
@@ -26,10 +28,22 @@ const { ticket, car } = toRefs(props)
       Samochód: {{ car?.brand }} {{ car?.model }}
     </p>
     <p>
-      Ważny od: {{ ticket.enterHour }}
+      Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
     <p v-if="ticket.type !=='Standard'">
       Ważny do: {{ ticket.exitHour }}
+    </p>
+    <v-btn class="my-4" @click="fullTicketShow = true">
+      Szczegóły
+    </v-btn>
+  </v-card>
+
+  <v-card v-else :elevation="10" class="pa-3" @click="fullTicketShow = true">
+    <div class="text-h5 my-2">
+      Bilet {{ ticket.type }}
+    </div>
+    <p>
+      Wygasły: {{ ticket.exitHour ? mapDate(ticket.exitHour) : '' }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
