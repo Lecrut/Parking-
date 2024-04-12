@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { IEvent } from '~/models/Event'
-import type { ICar } from '~/models/Car'
-import {lengthRuleShort, requiredRule} from "~/composable/rules";
+import {mapDate} from "~/composable/time";
 
 const props = defineProps<{
   isShow: boolean
   placeNumber: number
   ticket: IEvent | undefined
 }>()
+
+const { isShow, ticket } = toRefs(props)
 
 const emit = defineEmits<{
   (e: 'onClose'): void
@@ -19,7 +20,13 @@ function close() {
 
 const isShowRef = ref<boolean>()
 
-const { isShow, ticket } = toRefs(props)
+const enterHour = computed(() => ticket.value ? mapDate(ticket.value.enterHour) : '')
+const exitHour = computed(() => ticket.value
+    ? ticket.value.exitHour
+        ? mapDate(ticket.value.exitHour)
+        : 'Samochód jeszcze stoi'
+    : ''
+)
 
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
@@ -49,8 +56,8 @@ watch(isShow, () => isShowRef.value = isShow.value)
               <div class="text-center grey d-flex flex-column align-center justify-center h-100 w-100">
                 <v-form class="w-100">
                   <v-text-field v-model="ticket.type" label="Typ biletu" readonly />
-                  <v-text-field v-model="ticket.enterHour" label="Ważny od" readonly />
-                  <v-text-field v-model="ticket.exitHour" label="Ważny do" readonly />
+                  <v-text-field v-model="enterHour" label="Ważny od" readonly />
+                  <v-text-field v-model="exitHour" label="Ważny do" readonly />
                   <!-- TODO: tu bedzie jeszcze obrazek auta -->
                 </v-form>
               </div>
