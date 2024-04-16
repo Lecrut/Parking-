@@ -23,6 +23,7 @@ const selectedTicketType = ref < string > ('')
 const isSnackbarVisible = ref < boolean > (false)
 
 const ticketStore = useTicketStore()
+const { freePlace } = storeToRefs(ticketStore)
 
 const { form, valid, isValid } = formValidation()
 
@@ -36,7 +37,7 @@ function prepareEventModel() {
   return {
     car: selectedCar.value || '',
     type: 'Standard' as TicketType,
-    fieldNum: 0, // TODO do zmiany
+    fieldNum: freePlace.value as number,
     enterHour: new Date(),
     exitHour: null,
     price: mapTicketTypeToPrice(selectedTicketType.value),
@@ -45,9 +46,9 @@ function prepareEventModel() {
 }
 
 async function finalize() {
-  if (await isValid()) {
-    ticketStore.addTicket(prepareEventModel())
-
+  await ticketStore.fetchFreeSpace()
+  if (freePlace.value.valueOf() !== -1 && await isValid()) {
+    await ticketStore.addTicket(prepareEventModel())
     isSnackbarVisible.value = true
     close()
   }

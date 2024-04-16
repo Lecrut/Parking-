@@ -23,6 +23,7 @@ const { isShow, cars, userId } = toRefs(props)
 const { form, valid, isValid } = formValidation()
 
 const ticketStore = useTicketStore()
+const { freePlace } = storeToRefs(ticketStore)
 
 const { current } = useTheme()
 
@@ -43,7 +44,7 @@ function prepareEventModel() {
   return {
     car: selectedCar.value || '',
     type: (selectedTicketType.value || 'Dzienny') as TicketType,
-    fieldNum: 0, // TODO do zmiany
+    fieldNum: freePlace.value as number,
     enterHour: selectedDate.value,
     exitHour: null,
     price: mapTicketTypeToPrice(selectedTicketType.value),
@@ -52,9 +53,9 @@ function prepareEventModel() {
 }
 
 async function finalize() {
-  if (await isValid()) {
-    ticketStore.addTicket(prepareEventModel())
-
+  await ticketStore.fetchFreeSpace()
+  if (freePlace.value !== -1 && await isValid()) {
+    await ticketStore.addTicket(prepareEventModel())
     isSnackbarVisible.value = true
     close()
   }

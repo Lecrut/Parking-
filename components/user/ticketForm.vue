@@ -21,6 +21,8 @@ const getCar = computed(() => car.value ? car.value.brand + ' ' + car.value.mode
 const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' ' )
 const exitHour = computed(() => ticket.value.exitHour ? mapDate(ticket.value.exitHour) : 'Samochód dalej stoi')
 const enterHour = computed(() => mapDate(ticket.value.enterHour))
+const placeNumber = computed(() => ticket.value.fieldNum + 1)
+
 function generateQrCodeText() {
   return `register: ${car.value?.registrationNum
   }, enter hour: ${ticket.value.enterHour
@@ -64,7 +66,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
           <v-col cols="12" md="6" sm="12">
             <v-text-field
-              v-model="ticket.fieldNum"
+              v-model="placeNumber"
               label="Miejsce"
               readonly
             />
