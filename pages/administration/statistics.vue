@@ -72,7 +72,7 @@ watch(page, async () => {
     <v-row justify="center" class="w-100">
       <v-col cols="12" md="8" sm="12">
         <div class="text-h5 my-5">
-          Statystyki biletów
+          Statystyki aktywnych biletów
         </div>
       </v-col>
     </v-row>
@@ -198,9 +198,10 @@ watch(page, async () => {
           Miejsce numer {{page}}
         </div>
       </v-col>
+    </v-row>
 
-      {{allTickets}}
-
+    {{allTickets}}
+    <v-row justify="center" class="w-100">
       <v-col cols="12" md="8" sm="12">
         <v-pagination
             v-model="page"
@@ -208,8 +209,6 @@ watch(page, async () => {
             class="my-3"
         ></v-pagination>
       </v-col>
-
-
     </v-row>
   </v-sheet>
 </template>
