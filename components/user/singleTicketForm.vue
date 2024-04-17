@@ -45,13 +45,19 @@ function prepareEventModel() {
   }
 }
 
+const snackBarText = ref<string>()
+
 async function finalize() {
   await ticketStore.fetchFreeSpace()
   if (freePlace.value.valueOf() !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
-    isSnackbarVisible.value = true
-    close()
+    snackBarText.value = 'Pomyślnie zakupiono bilet.'
   }
+  else if (freePlace.value.valueOf() === -1) {
+    snackBarText.value = 'Brak wolnych miejsc.'
+  }
+  isSnackbarVisible.value = true
+  close()
 }
 
 const formattedCars = computed(() => {
@@ -71,17 +77,8 @@ watch(isShow, () => isShowRef.value = isShow.value)
         Kup bilet jednorazowy
       </v-card-title>
       <v-card-text>
-        <v-form
-          ref="form"
-          v-model="valid"
-          @submit.prevent="finalize"
-        >
-          <v-select
-            v-model="selectedCar"
-            label="Samochód"
-            :items="formattedCars"
-            :rules="[requiredRule()]"
-          />
+        <v-form ref="form" v-model="valid" @submit.prevent="finalize">
+          <v-select v-model="selectedCar" label="Samochód" :items="formattedCars" :rules="[requiredRule()]" />
         </v-form>
       </v-card-text>
 
@@ -97,5 +94,5 @@ watch(isShow, () => isShowRef.value = isShow.value)
     </v-card>
   </v-dialog>
 
-  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" text="Zakupiono bilet" />
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" />
 </template>

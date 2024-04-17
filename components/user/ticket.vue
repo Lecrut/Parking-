@@ -2,12 +2,12 @@
 import TicketForm from '~/components/user/ticketForm.vue'
 import type { IEvent } from '~/models/Event'
 import type { ICar } from '~/models/Car'
-import {mapDate} from "~/composable/time";
+import { mapDate } from '~/composable/time'
 
 const props = defineProps<{
   ticket: IEvent
   car: ICar | null
-  isExpired?: Boolean
+  isExpired?: boolean
 }>()
 
 const fullTicketShow = ref(false)
@@ -30,7 +30,7 @@ const { ticket, car } = toRefs(props)
     <p>
       Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
-    <p v-if="ticket.type !=='Standard'">
+    <p v-if="ticket.type !== 'Standard'">
       Ważny do: {{ ticket.exitHour }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">

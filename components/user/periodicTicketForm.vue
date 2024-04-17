@@ -52,13 +52,19 @@ function prepareEventModel() {
   }
 }
 
+const snackBarText = ref<string>()
+
 async function finalize() {
-  await ticketStore.fetchFreeSpace()
-  if (freePlace.value !== -1 && await isValid()) {
+  // await ticketStore.fetchFreeSpace()
+  if (freePlace.value.valueOf() !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
-    isSnackbarVisible.value = true
-    close()
+    snackBarText.value = 'Pomyślnie zakupiono bilet.'
   }
+  else if (freePlace.value.valueOf() === -1) {
+    snackBarText.value = 'Brak wolnych miejsc.'
+  }
+  isSnackbarVisible.value = true
+  close()
 }
 
 const formattedCars = computed(() => {
@@ -84,38 +90,21 @@ watch(isShow, () => isShowRef.value = isShow.value)
         Kup bilet okresowy
       </v-card-title>
       <v-card-text class="mt-6">
-        <v-form
-          ref="form"
-          v-model="valid"
-          @submit.prevent="finalize"
-        >
+        <v-form ref="form" v-model="valid" @submit.prevent="finalize">
           <span>Wybierz datę początkową</span>
           <VueDatePicker
-            v-model="selectedDate"
-            class="mt-2"
-            :dark="isDark"
-            auto-apply
-            :enable-time-picker="true"
-            label="Wybierz datę i godzinę"
-            :min-date="new Date()"
-            position="left"
+            v-model="selectedDate" class="mt-2" :dark="isDark" auto-apply :enable-time-picker="true"
+            label="Wybierz datę i godzinę" :min-date="new Date()" position="left"
           />
 
           <v-divider class="my-8" />
 
           <v-select
-            v-model="selectedTicketType"
-            class="mb-4"
-            label="Okres"
-            density="comfortable"
-            :items="ticketTypes"
+            v-model="selectedTicketType" class="mb-4" label="Okres" density="comfortable" :items="ticketTypes"
             :rules="[requiredRule()]"
           />
           <v-select
-            v-model="selectedCar"
-            label="Samochód"
-            density="comfortable"
-            :items="formattedCars"
+            v-model="selectedCar" label="Samochód" density="comfortable" :items="formattedCars"
             :rules="[requiredRule()]"
           />
 
@@ -137,5 +126,5 @@ watch(isShow, () => isShowRef.value = isShow.value)
     </v-card>
   </v-dialog>
 
-  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" text="Zakupiono bilet" />
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" />
 </template>
