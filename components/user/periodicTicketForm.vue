@@ -55,7 +55,7 @@ function prepareEventModel() {
 const snackBarText = ref<string>()
 
 async function finalize() {
-  // await ticketStore.fetchFreeSpace()
+  await ticketStore.fetchFreeSpace()
   if (freePlace.value.valueOf() !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
