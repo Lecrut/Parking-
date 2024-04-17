@@ -37,13 +37,13 @@ export function lengthRule() {
 }
 
 export function firstSignRule() {
-  return (value: string, textError = 'Rejestracja nie poprawna') => {
+  return (value: string, textError = 'Rejestracja niepoprawna') => {
     return Boolean(registerPattern.test(value?.charAt(0))) || textError
   }
 }
 
 export function registerLengthRule() {
-  return (value: string, textError = 'Rejestracja za długa') => {
+  return (value: string, textError = 'Niepoprawna długość rejestracji') => {
     return Boolean(value?.length <= 9) || textError
   }
 }
