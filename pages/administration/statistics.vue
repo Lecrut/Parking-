@@ -12,6 +12,8 @@ useHead({
 const ticketStore = useTicketStore()
 const { validTickets } = storeToRefs(ticketStore)
 
+const page = ref(1)
+
 const usageValue = computed(() => validTickets.value.length*2)
 const standardTicketsValue = computed(() => (
     validTickets.value.length === 0
@@ -62,7 +64,6 @@ onMounted(async () => {
       max-width="1100"
       rounded
   >
-<!--    {{validTickets}}-->
     <v-row justify="center" class="w-100">
       <v-col cols="12" md="8" sm="12">
         <div class="text-h5 my-5">
@@ -171,6 +172,37 @@ onMounted(async () => {
             :fill="true"
         ></v-sparkline>
       </v-col>
+    </v-row>
+  </v-sheet>
+
+  <v-sheet
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
+  >
+    <v-row justify="center" class="w-100">
+      <v-col cols="12" md="8" sm="12">
+        <div class="text-h5 my-5">
+          Stastyki indywidualne
+        </div>
+      </v-col>
+
+      <v-col cols="12" md="8" sm="12">
+        <div class="text-h6 my-5">
+          Miejsce numer {{page}}
+        </div>
+      </v-col>
+
+      <v-col cols="12" md="8" sm="12">
+        <v-pagination
+            v-model="page"
+            :length="50"
+            class="my-4"
+        ></v-pagination>
+      </v-col>
+
+
     </v-row>
   </v-sheet>
 </template>
