@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  text: string
+  text: string | undefined
 }>()
 
 const isShow = defineModel<boolean>('isShow', { default: false })
