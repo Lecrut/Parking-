@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   try {
     const jwtUser = jwt.verify(token, config.secretKey) as any
 
-    if (jwtUser.role !== 'admin')
+    if (!jwtUser)
       return setUpError(401, 'Unauthorized', event)
   }
   catch (error) {
