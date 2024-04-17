@@ -10,6 +10,7 @@ useHead({
 })
 
 const page = ref(1)
+// todo: pobierz bilety dla danego miejsca
 </script>
 
 <template>
@@ -45,6 +46,7 @@ const page = ref(1)
                 v-for="n in 25"
                 :key="n"
             >
+<!--              todo: wywal przycisk i wrzuc ticket-->
               <v-btn
                   color="primary"
                   class="ma-2"
