@@ -6,11 +6,22 @@ definePageMeta({
 })
 
 useHead({
-  title: "Statystyki - Parking+"
+  title: "Historia - Parking+"
 })
 
+const ticketStore = useTicketStore()
+const { allTickets } = storeToRefs(ticketStore)
+
 const page = ref(1)
-// todo: pobierz bilety dla danego miejsca
+
+onMounted(async () => {
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
+})
+
+watch(page, async () => {
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
+})
+
 </script>
 
 <template>
@@ -40,11 +51,13 @@ const page = ref(1)
       <v-row justify="center" class="w-100">
         <v-col cols="12" md="8" sm="12">
           <v-slide-group
+              v-if="allTickets.length"
               show-arrows
           >
             <v-slide-group-item
-                v-for="n in 25"
-                :key="n"
+                v-for="(ticket, index) in allTickets"
+                :key="index"
+                :item="ticket"
             >
 <!--              todo: wywal przycisk i wrzuc ticket-->
               <v-btn
@@ -52,10 +65,13 @@ const page = ref(1)
                   class="ma-2"
                   rounded
               >
-                Options {{ n }}
+                Options {{ ticket.type }}
               </v-btn>
             </v-slide-group-item>
           </v-slide-group>
+          <div v-else class="text-h6 my-2">
+            Brak historycznych biletów
+          </div>
         </v-col>
       </v-row>
 
