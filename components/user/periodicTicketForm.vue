@@ -30,7 +30,8 @@ const { current } = useTheme()
 const isShowRef = ref < boolean > ()
 const selectedCar = ref < string > ('')
 const selectedTicketType = ref < string > ('')
-const selectedDate = ref< Date > (new Date())
+const selectedDate = ref<Date>(new Date())
+const exitDate = ref<Date>(new Date())
 const isSnackbarVisible = ref < boolean > (false)
 
 function close() {
@@ -40,13 +41,28 @@ function close() {
   emit('onClose')
 }
 
+function countExitHour(type: string) {
+  switch (type) {
+    case 'Tygodniowy':
+      exitDate.value.setDate(exitDate.value.getDate() + 7)
+      break
+    case 'Dzienny':
+      exitDate.value.setDate(exitDate.value.getDate() + 1)
+      break
+    case 'Miesięczny':
+      exitDate.value.setDate(exitDate.value.getDate() + 30)
+      break
+  }
+  return exitDate.value
+}
+
 function prepareEventModel() {
   return {
     car: selectedCar.value || '',
     type: (selectedTicketType.value || 'Dzienny') as TicketType,
     fieldNum: freePlace.value as number,
     enterHour: selectedDate.value,
-    exitHour: null,
+    exitHour: countExitHour(selectedTicketType.value),
     price: mapTicketTypeToPrice(selectedTicketType.value),
     user: userId.value,
   }
