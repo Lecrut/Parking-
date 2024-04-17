@@ -20,6 +20,16 @@ export default defineEventHandler(async (event) => {
     return setUpError(400, 'Invalid status', event)
   }
 
+  if (query.fieldNum) {
+    const parkingObjectNo = Number(query.fieldNum)
+    try {
+      return await EventModel.find({fieldNum: parkingObjectNo}).exec()
+    }
+    catch (e) {
+      return setUpError(401, 'Invalid token', event)
+    }
+  }
+
   const config = useRuntimeConfig()
   const token = event.node.req.headers.cookie?.split('=')[1]
 

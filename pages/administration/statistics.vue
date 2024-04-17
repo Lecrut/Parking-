@@ -10,7 +10,7 @@ useHead({
 })
 
 const ticketStore = useTicketStore()
-const { validTickets } = storeToRefs(ticketStore)
+const { validTickets, allTickets } = storeToRefs(ticketStore)
 
 const page = ref(1)
 
@@ -52,6 +52,11 @@ const buyTicketHours = computed(() => {
 onMounted(async () => {
   if (!validTickets.value.length)
     await ticketStore.fetchAllValidTickets()
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
+})
+
+watch(page, async () => {
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
 })
 </script>
 
@@ -189,16 +194,18 @@ onMounted(async () => {
       </v-col>
 
       <v-col cols="12" md="8" sm="12">
-        <div class="text-h6 my-5">
+        <div class="text-h6 my-2">
           Miejsce numer {{page}}
         </div>
       </v-col>
+
+      {{allTickets}}
 
       <v-col cols="12" md="8" sm="12">
         <v-pagination
             v-model="page"
             :length="50"
-            class="my-4"
+            class="my-3"
         ></v-pagination>
       </v-col>
 
