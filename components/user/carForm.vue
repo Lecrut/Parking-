@@ -88,7 +88,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
                   <v-text-field
                     v-model="carRegistrationNumber" label="Numer rejestracyjny" type="text"
-                    :rules="[requiredRule(), lengthRuleShort(), firstSignRule(), registerLengthRule()]"
+                    :rules="[requiredRule(), firstSignRule(), registerLengthRule()]"
                   />
                 </v-form>
 

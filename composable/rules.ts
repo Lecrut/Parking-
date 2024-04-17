@@ -44,6 +44,6 @@ export function firstSignRule() {
 
 export function registerLengthRule() {
   return (value: string, textError = 'Niepoprawna długość rejestracji') => {
-    return Boolean(value?.length <= 9) || textError
+    return Boolean(value?.length <= 9 && value?.length > 3) || textError
   }
 }

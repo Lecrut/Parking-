@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
-import { firstSignRule, registerLengthRule, requiredRule } from '~/composable/rules'
+import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/composable/rules'
 
 definePageMeta({
   middleware: ['guest-page-guard'],
@@ -38,9 +38,12 @@ useHead({
           </p>
 
           <form class="w-75 my-2">
-            <v-text-field label="Numer rejestracyjny" :rules="[firstSignRule(), requiredRule(), registerLengthRule()]" />
+            <v-text-field
+              label="Numer rejestracyjny"
+              :rules="[firstSignRule(), requiredRule(), registerLengthRule()]"
+            />
 
-            <v-text-field label="Adres Email" placeholder="example@mail.com" type="email" />
+            <v-text-field label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
 
             <v-checkbox label="Akceptuję regulamin" />
 
