@@ -30,8 +30,8 @@ const { ticket, car } = toRefs(props)
     <p>
       Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
-    <p v-if="ticket.type !== 'Standard'">
-      Ważny do: {{ mapDate(ticket.enterHour) }}
+    <p v-if="ticket.exitHour !== null">
+      Ważny do: {{ mapDate(ticket.exitHour) }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
