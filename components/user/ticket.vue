@@ -17,6 +17,13 @@ function hideFullTicket() {
 }
 
 const { ticket, car } = toRefs(props)
+
+function countTimeAtParking() {
+  const currentDate = new Date()
+  const diffInMilliseconds = currentDate.getTime() - ticket.value.enterHour.getTime()
+  const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+  return Math.ceil(diffInHours)
+}
 </script>
 
 <template>
@@ -30,8 +37,11 @@ const { ticket, car } = toRefs(props)
     <p>
       Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
-    <p v-if="ticket.exitHour !== null">
-      Ważny do: {{ mapDate(ticket.exitHour) }}
+    <p v-if="ticket.exitHour !== null || ticket.type !== 'Standard'">
+      Ważny do: {{ ticket.exitHour ? mapDate(ticket.exitHour) : '' }}
+    </p>
+    <p v-else>
+      Czas: {{ countTimeAtParking() }}h
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
