@@ -3,6 +3,7 @@ import QRCodeVue3 from 'qrcode-vue3'
 import type { IEvent } from '~/models/Event'
 import type { ICar } from '~/models/Car'
 import { mapDate } from '~/composable/time'
+import { mapTicketTypeToPrice } from '~/composable/prices'
 
 const props = defineProps < {
   isShow: boolean
@@ -22,6 +23,7 @@ const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' 
 const exitHour = computed(() => ticket.value.exitHour ? mapDate(ticket.value.exitHour) : 'Samochód dalej stoi')
 const enterHour = computed(() => mapDate(ticket.value.enterHour))
 const placeNumber = computed(() => ticket.value.fieldNum + 1)
+const ticketPrice = computed(() => countStandardTicketPrice())
 
 function generateQrCodeText() {
   return `register: ${car.value?.registrationNum
@@ -32,17 +34,18 @@ function generateQrCodeText() {
 function close() {
   emit('onClose')
 }
+function countStandardTicketPrice() {
+  const currentDate = new Date()
+  const diffInMilliseconds = currentDate.getTime() - ticket.value.enterHour.getTime()
+  const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+  return (mapTicketTypeToPrice('Standard') * Math.ceil(diffInHours)).toString()
+}
 
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
 
 <template>
-  <v-dialog
-    max-width="800px"
-    :model-value="isShowRef"
-    scrollable
-    @update:model-value="close"
-  >
+  <v-dialog max-width="800px" :model-value="isShowRef" scrollable @update:model-value="close">
     <v-card>
       <v-card-title>
         Bilet {{ ticket.type }}
@@ -50,49 +53,26 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-text>
         <v-row>
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="getCar"
-              label="Pojazd"
-              readonly
-            />
+            <v-text-field v-model="getCar" label="Pojazd" readonly />
           </v-col>
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="getCarRegister"
-              label="Rejestracja"
-              readonly
-            />
+            <v-text-field v-model="getCarRegister" label="Rejestracja" readonly />
           </v-col>
 
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="placeNumber"
-              label="Miejsce"
-              readonly
-            />
+            <v-text-field v-model="placeNumber" label="Miejsce" readonly />
           </v-col>
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="ticket.price"
-              label="Cena"
-              readonly
-              suffix="zł"
-            />
+            <v-text-field v-if="ticket.type !== 'Standard'" v-model="ticket.price" label="Cena" readonly suffix="zł" />
+
+            <v-text-field v-else v-model="ticketPrice" label="Cena" readonly suffix="zł" />
           </v-col>
 
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="enterHour"
-              label="Czas wjazdu"
-              readonly
-            />
+            <v-text-field v-model="enterHour" label="Czas wjazdu" readonly />
           </v-col>
           <v-col cols="12" md="6" sm="12">
-            <v-text-field
-              v-model="exitHour"
-              label="Czas wyjazdu"
-              readonly
-            />
+            <v-text-field v-model="exitHour" label="Czas wyjazdu" readonly />
           </v-col>
         </v-row>
 
@@ -100,8 +80,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
           <QRCodeVue3
             :value="generateQrCodeText()"
             :qr-options="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
-            :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
-            :dots-options="{
+            :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }" :dots-options="{
               type: 'dots',
               color: '#26249a',
             }"
