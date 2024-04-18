@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBarAdmin from "~/components/navBars/navBarAdmin.vue";
+import PlaceStats from "~/components/administration/placeStats.vue";
 
 definePageMeta({
   middleware: ['admin-page-guard'],
@@ -199,8 +200,9 @@ watch(page, async () => {
         </div>
       </v-col>
     </v-row>
-<!--todo: dodaj komponent z udziałem typów biletów w tym miejscu -->
-    {{allTickets}}
+
+    <PlaceStats :tickets="allTickets" />
+
     <v-row justify="center" class="w-100">
       <v-col cols="12" md="8" sm="12">
         <v-pagination
