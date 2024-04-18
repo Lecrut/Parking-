@@ -33,7 +33,7 @@ function variant() {
     const diffInMilliseconds = ticket.value.exitHour.getTime() - currentDate.getTime()
     const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
     if (Math.ceil(diffInHours) <= 6) {
-      cardColor.value = 'red'
+      cardColor.value = '#FF8F00'
       cardVariant.value = 'outlined'
     }
     else {
