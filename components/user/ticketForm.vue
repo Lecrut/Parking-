@@ -65,7 +65,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
           <v-col cols="12" md="6" sm="12">
             <v-text-field v-if="ticket.type !== 'Standard'" v-model="ticket.price" label="Cena" readonly suffix="zł" />
 
-            <v-text-field v-else v-model="ticketPrice" label="Cena" readonly suffix="zł" />
+            <v-text-field v-else v-model="ticketPrice" label="Aktualny koszt" readonly suffix="zł" />
           </v-col>
 
           <v-col cols="12" md="6" sm="12">

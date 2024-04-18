@@ -11,6 +11,8 @@ const props = defineProps<{
 }>()
 
 const fullTicketShow = ref(false)
+const cardColor = ref<string>('')
+const cardVariant = ref<string>('')
 
 function hideFullTicket() {
   fullTicketShow.value = !fullTicketShow.value
@@ -24,10 +26,28 @@ function countTimeAtParking() {
   const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
   return Math.ceil(diffInHours)
 }
+
+function variant() {
+  const currentDate = new Date()
+  if (ticket.value.exitHour !== null) {
+    const diffInMilliseconds = ticket.value.exitHour.getTime() - currentDate.getTime()
+    const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+    if (Math.ceil(diffInHours) <= 6) {
+      cardColor.value = 'red'
+      cardVariant.value = 'outlined'
+    }
+    else {
+      cardColor.value = 'primary'
+      cardVariant.value = 'tonal'
+    }
+  }
+}
+
+onMounted(() => variant())
 </script>
 
 <template>
-  <v-card v-if="!isExpired" :elevation="10" class="pa-3" @click="fullTicketShow = true">
+  <v-card v-if="!isExpired" :elevation="10" class="pa-3" :variant="cardVariant" :color="cardColor" @click="fullTicketShow = true">
     <div class="text-h5 my-2">
       Bilet {{ ticket.type }}
     </div>
@@ -41,7 +61,7 @@ function countTimeAtParking() {
       Ważny do: {{ ticket.exitHour ? mapDate(ticket.exitHour) : '' }}
     </p>
     <p v-else>
-      Czas: {{ countTimeAtParking() }}h
+      Czas postoju: {{ countTimeAtParking() }}h
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
