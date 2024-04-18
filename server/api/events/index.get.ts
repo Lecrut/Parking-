@@ -4,6 +4,7 @@ import EventModel from '~/server/dbModels/EventModel'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
+  const current_date = new Date()
 
   if (!query.status)
     return setUpError(400, 'Missing status', event)
@@ -12,10 +13,10 @@ export default defineEventHandler(async (event) => {
     const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
 
     if (query.status === 'valid')
-      return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+      return await EventModel.find({ user: userObjectId, exitHour: { $gt: current_date } }).exec()
 
     else if (query.status === 'past')
-      return await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
+      return await EventModel.find({ user: userObjectId, exitHour: { $lt: current_date } }).exec()
 
     return setUpError(400, 'Invalid status', event)
   }
@@ -37,10 +38,10 @@ export default defineEventHandler(async (event) => {
   }
 
   if (query.status === 'valid')
-    return await EventModel.find({ exitHour: null }).exec()
+    return await EventModel.find({ exitHour: { $gt: current_date } }).exec()
 
   else if (query.status === 'past')
-    return await EventModel.find({ exitHour: { $ne: null } }).exec()
+    return await EventModel.find({ exitHour: { $lt: current_date } }).exec()
 
   return setUpError(400, 'Invalid status', event)
 })

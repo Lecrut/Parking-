@@ -31,7 +31,7 @@ const { ticket, car } = toRefs(props)
       Ważny od: {{ mapDate(ticket.enterHour) }}
     </p>
     <p v-if="ticket.type !== 'Standard'">
-      Ważny do: {{ ticket.exitHour }}
+      Ważny do: {{ mapDate(ticket.enterHour) }}
     </p>
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
@@ -42,6 +42,10 @@ const { ticket, car } = toRefs(props)
     <div class="text-h5 my-2">
       Bilet {{ ticket.type }}
     </div>
+
+    <p>
+      Samochód: {{ car?.brand }} {{ car?.model }}
+    </p>
     <p>
       Wygasły: {{ ticket.exitHour ? mapDate(ticket.exitHour) : '' }}
     </p>
@@ -50,10 +54,5 @@ const { ticket, car } = toRefs(props)
     </v-btn>
   </v-card>
 
-  <TicketForm
-    :is-show="fullTicketShow"
-    :ticket="ticket"
-    :car="car"
-    @on-close="hideFullTicket"
-  />
+  <TicketForm :is-show="fullTicketShow" :ticket="ticket" :car="car" @on-close="hideFullTicket" />
 </template>

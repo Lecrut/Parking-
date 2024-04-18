@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import QRCodeVue3 from 'qrcode-vue3'
 import type { IEvent } from '~/models/Event'
-import type {ICar} from "~/models/Car";
-import {mapDate} from "~/composable/time";
+import type { ICar } from '~/models/Car'
+import { mapDate } from '~/composable/time'
 
 const props = defineProps < {
   isShow: boolean
@@ -17,8 +17,8 @@ const emit = defineEmits<{
 const { isShow, ticket, car } = toRefs(props)
 const isShowRef = ref<boolean>()
 
-const getCar = computed(() => car.value ? car.value.brand + ' ' + car.value.model : ' ' )
-const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' ' )
+const getCar = computed(() => car.value ? `${car.value.brand} ${car.value.model}` : ' ')
+const getCarRegister = computed(() => car.value ? car.value.registrationNum : ' ')
 const exitHour = computed(() => ticket.value.exitHour ? mapDate(ticket.value.exitHour) : 'Samochód dalej stoi')
 const enterHour = computed(() => mapDate(ticket.value.enterHour))
 const placeNumber = computed(() => ticket.value.fieldNum + 1)
