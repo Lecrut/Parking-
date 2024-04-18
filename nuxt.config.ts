@@ -58,5 +58,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mongoUri: process.env.MONGO_URI,
     secretKey: process.env.SECRET_KEY,
+    sasToken: process.env.SAS_TOKEN,
+    containerName: process.env.CONTAINER_NAME,
+    accountName: process.env.ACCOUNT_NAME,
   },
 })

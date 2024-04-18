@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
-import type { Nitro } from 'nitroPack'
 
-export default async (_nitroApp: Nitro) => {
+export default async () => {
   const config = useRuntimeConfig()
 
   mongoose

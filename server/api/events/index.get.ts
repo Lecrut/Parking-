@@ -1,4 +1,4 @@
-import mongoose, { set } from 'mongoose'
+import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import EventModel from '~/server/dbModels/EventModel'
 
@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
     const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
 
     if (query.status === 'valid')
+
       return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
 
     else if (query.status === 'past')

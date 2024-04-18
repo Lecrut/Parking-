@@ -36,6 +36,8 @@ const { ticket, car } = toRefs(props)
     <v-btn class="my-4" @click="fullTicketShow = true">
       Szczegóły
     </v-btn>
+
+    <v-img :src="ticket.photoUrl" />
   </v-card>
 
   <v-card v-else :elevation="10" class="pa-3" @click="fullTicketShow = true">

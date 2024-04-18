@@ -5,7 +5,7 @@ import type { IEvent } from '~/models/Event'
 export const useTicketStore = defineStore('tickets', () => {
   const validTickets: Ref<IEvent[]> = ref([])
   const historyTickets: Ref<IEvent[]> = ref([])
-  const freePlace: Ref<Number> = ref(-1)
+  const freePlace: Ref<number> = ref(-1)
 
   async function addTicket(ticket: IEvent) {
     try {
@@ -13,11 +13,11 @@ export const useTicketStore = defineStore('tickets', () => {
         method: 'POST',
         body: JSON.stringify(ticket),
       })
+      validTickets.value.push(ticket)
     }
     catch (error) {
       console.error(error)
     }
-    validTickets.value.push(ticket)
   }
 
   function mapStringToDateFields(ticket: IEvent) {
@@ -71,15 +71,13 @@ export const useTicketStore = defineStore('tickets', () => {
 
       tickets.map(mapStringToDateFields)
 
-      const placeTable = ref(Array.from({ length: 50 }, (_) => ({
+      const placeTable = ref(Array.from({ length: 50 }, _ => ({
         placeTicket: null as IEvent | null,
       })))
 
       placeTable.value.forEach((element, index) => {
-        if (tickets.find(item => item.fieldNum === index) === undefined) {
+        if (tickets.find(item => item.fieldNum === index) === undefined)
           freePlace.value = index
-          return
-        }
       })
     }
     catch (error) {
