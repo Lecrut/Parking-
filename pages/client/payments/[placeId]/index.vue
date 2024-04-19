@@ -9,8 +9,17 @@ useHead({
 })
 
 const route = useRoute()
+const placeId = ref(Number(route.params.placeId) + 1 || '')
 
-const placeId = ref(route.params.placeId || '')
+const successSnackbar = ref(false)
+function payForPlace() {
+  successSnackbar.value = true
+}
+
+watch(successSnackbar, (newValue, oldValue) =>{
+  if (newValue === false && oldValue === true)
+    navigateTo("/client")
+})
 </script>
 
 <template>
@@ -20,6 +29,23 @@ const placeId = ref(route.params.placeId || '')
       max-width="1100"
       rounded
   >
-    Płatność {{placeId}}
+    <v-row justify="center" class="my-3">
+      <v-col cols="12">
+        <div class="text-h5 my-2 mb-5">
+          Płatność
+        </div>
+
+        <p>
+          Miejsce nr. {{placeId}}
+        </p>
+      </v-col>
+      <v-col cols="12">
+        <v-btn class="my-2" @click="payForPlace">
+          Zapłać
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-sheet>
+
+  <SnackbarSuccessSnackbar v-model="successSnackbar" text="Pomyślnie opłacono bilet" />
 </template>

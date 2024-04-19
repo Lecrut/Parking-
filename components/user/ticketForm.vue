@@ -41,6 +41,13 @@ function countStandardTicketPrice() {
   return (mapTicketTypeToPrice('Standard') * Math.ceil(diffInHours)).toString()
 }
 
+const address = computed(() => "/client/payments/" + ticket.value.fieldNum)
+
+function toPayment() {
+  console.log(address.value)
+  navigateTo(address.value)
+}
+
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
 
@@ -91,6 +98,10 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-actions class="justify-end">
         <v-btn color="error" @click="close">
           Zamknij
+        </v-btn>
+
+        <v-btn color="primary" @click="toPayment">
+          Płatność
         </v-btn>
       </v-card-actions>
     </v-card>
