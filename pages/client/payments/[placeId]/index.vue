@@ -9,7 +9,7 @@ useHead({
 })
 
 const route = useRoute()
-const placeId = ref(Number(route.params.placeId) || 0)
+const placeId = ref(Number(route.params.placeId) || -1)
 
 const successSnackbar = ref(false)
 function payForPlace() {
