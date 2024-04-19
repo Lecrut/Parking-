@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBarAdmin from "~/components/navBars/navBarAdmin.vue";
+import PlaceStats from "~/components/administration/placeStats.vue";
 
 definePageMeta({
   middleware: ['admin-page-guard'],
@@ -10,7 +11,9 @@ useHead({
 })
 
 const ticketStore = useTicketStore()
-const { validTickets } = storeToRefs(ticketStore)
+const { validTickets, allTickets } = storeToRefs(ticketStore)
+
+const page = ref(1)
 
 const usageValue = computed(() => validTickets.value.length*2)
 const standardTicketsValue = computed(() => (
@@ -50,6 +53,11 @@ const buyTicketHours = computed(() => {
 onMounted(async () => {
   if (!validTickets.value.length)
     await ticketStore.fetchAllValidTickets()
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
+})
+
+watch(page, async () => {
+  await ticketStore.fetchTicketsForPlace(page.value -1 )
 })
 </script>
 
@@ -62,11 +70,10 @@ onMounted(async () => {
       max-width="1100"
       rounded
   >
-<!--    {{validTickets}}-->
     <v-row justify="center" class="w-100">
       <v-col cols="12" md="8" sm="12">
         <div class="text-h5 my-5">
-          Statystyki biletów
+          Statystyki aktywnych biletów
         </div>
       </v-col>
     </v-row>
@@ -170,6 +177,39 @@ onMounted(async () => {
             :smooth="true"
             :fill="true"
         ></v-sparkline>
+      </v-col>
+    </v-row>
+  </v-sheet>
+
+  <v-sheet
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
+  >
+    <v-row justify="center" class="w-100">
+      <v-col cols="12" md="8" sm="12">
+        <div class="text-h5 my-5">
+          Stastyki indywidualne
+        </div>
+      </v-col>
+
+      <v-col cols="12" md="8" sm="12">
+        <div class="text-h6 my-2">
+          Miejsce numer {{page}}
+        </div>
+      </v-col>
+    </v-row>
+
+    <PlaceStats :tickets="allTickets" />
+
+    <v-row justify="center" class="w-100">
+      <v-col cols="12" md="8" sm="12">
+        <v-pagination
+            v-model="page"
+            :length="50"
+            class="my-3"
+        ></v-pagination>
       </v-col>
     </v-row>
   </v-sheet>

@@ -5,12 +5,23 @@ import EventModel from '~/server/dbModels/EventModel'
 
 export default defineEventHandler<{ query: { status: string, userId: string } }>(async (event) => {
   const query = getQuery(event)
+  const current_date = new Date()
 
   if (!query.status)
     return setUpError(400, 'Missing status', event)
 
   if (query.userId)
     return await findEventsForUser(query) || setUpError(400, 'Invalid status', event)
+
+  if (query.fieldNum) {
+    const parkingObjectNo = Number(query.fieldNum)
+    try {
+      return await EventModel.find({fieldNum: parkingObjectNo}).exec()
+    }
+    catch (e) {
+      return setUpError(401, 'Invalid token', event)
+    }
+  }
 
   const config = useRuntimeConfig()
   const token = event.node.req.headers.cookie?.split('=')[1]
@@ -25,11 +36,16 @@ export default defineEventHandler<{ query: { status: string, userId: string } }>
     return setUpError(401, 'Invalid token', event)
   }
 
-  if (query.status === 'valid')
-    return await EventModel.find({ exitHour: null }).exec()
+  if (query.status === 'valid') {
+    return await EventModel.find({
+      $or: [
+        { exitHour: { $gt: current_date } },
+        { exitHour: null },
+      ],
+    }).exec()
+  }
 
-  else if (query.status === 'past')
-    return await EventModel.find({ exitHour: { $ne: null } }).exec()
+  else if (query.status === 'past') { return await EventModel.find({ exitHour: { $lt: current_date } }).exec() }
 
   return setUpError(400, 'Invalid status', event)
 })
