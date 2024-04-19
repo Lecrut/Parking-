@@ -9,7 +9,7 @@ useHead({
 })
 
 const route = useRoute()
-const placeId = ref(Number(route.params.placeId) + 1 || '')
+const placeId = ref(Number(route.params.placeId) || 0)
 
 const successSnackbar = ref(false)
 function payForPlace() {
@@ -36,7 +36,7 @@ watch(successSnackbar, (newValue, oldValue) =>{
         </div>
 
         <p>
-          Miejsce nr. {{placeId}}
+          Miejsce nr. {{placeId + 1}}
         </p>
       </v-col>
       <v-col cols="12">
