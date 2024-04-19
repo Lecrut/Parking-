@@ -4,6 +4,7 @@ import EventModel from '~/server/dbModels/EventModel'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
+  const current_date = new Date()
 
   if (!query.status)
     return setUpError(400, 'Missing status', event)
@@ -11,11 +12,17 @@ export default defineEventHandler(async (event) => {
   if (query.userId) {
     const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
 
-    if (query.status === 'valid')
-      return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+    if (query.status === 'valid') {
+      return await EventModel.find({
+        user: userObjectId,
+        $or: [
+          { exitHour: { $gt: current_date } },
+          { exitHour: null },
+        ],
+      }).exec()
+    }
 
-    else if (query.status === 'past')
-      return await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
+    else if (query.status === 'past') { return await EventModel.find({ user: userObjectId, exitHour: { $lt: current_date } }).exec() }
 
     return setUpError(400, 'Invalid status', event)
   }
@@ -36,11 +43,16 @@ export default defineEventHandler(async (event) => {
     return setUpError(401, 'Invalid token', event)
   }
 
-  if (query.status === 'valid')
-    return await EventModel.find({ exitHour: null }).exec()
+  if (query.status === 'valid') {
+    return await EventModel.find({
+      $or: [
+        { exitHour: { $gt: current_date } },
+        { exitHour: null },
+      ],
+    }).exec()
+  }
 
-  else if (query.status === 'past')
-    return await EventModel.find({ exitHour: { $ne: null } }).exec()
+  else if (query.status === 'past') { return await EventModel.find({ exitHour: { $lt: current_date } }).exec() }
 
   return setUpError(400, 'Invalid status', event)
 })
