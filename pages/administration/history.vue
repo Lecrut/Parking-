@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBarAdmin from "~/components/navBars/navBarAdmin.vue";
+import {mapDate} from "~/composable/time";
 
 definePageMeta({
   middleware: ['admin-page-guard'],
@@ -59,14 +60,23 @@ watch(page, async () => {
                 :key="index"
                 :item="ticket"
             >
-<!--              todo: wywal przycisk i wrzuc ticket-->
-              <v-btn
-                  color="primary"
-                  class="ma-2"
-                  rounded
-              >
-                Options {{ ticket.type }}
-              </v-btn>
+              <v-card color="primary" class="mx-2">
+                <v-card-title>
+                  {{ticket.type}}
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-text>
+                  <p>
+                    Aktywny od {{mapDate(ticket.enterHour)}}
+                  </p>
+                  <p>
+                    {{ticket.exitHour ? "Aktywny do" + mapDate(ticket.exitHour) : "Samochód stoi"}}
+                  </p>
+                  <p>
+                    Cena {{ticket.price}}zł
+                  </p>
+                </v-card-text>
+              </v-card>
             </v-slide-group-item>
           </v-slide-group>
           <div v-else class="text-h6 my-2">
