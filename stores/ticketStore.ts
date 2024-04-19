@@ -7,18 +7,18 @@ export const useTicketStore = defineStore('tickets', () => {
   const historyTickets: Ref<IEvent[]> = ref([])
   const allTickets: Ref<IEvent[]> = ref([])
   const freePlace: Ref<Number> = ref(-1)
-
+  
   async function addTicket(ticket: IEvent) {
     try {
       await $fetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(ticket),
       })
+      validTickets.value.push(ticket)
     }
     catch (error) {
       console.error(error)
     }
-    validTickets.value.push(ticket)
   }
 
   function mapStringToDateFields(ticket: IEvent) {
@@ -85,15 +85,13 @@ export const useTicketStore = defineStore('tickets', () => {
 
       tickets.map(mapStringToDateFields)
 
-      const placeTable = ref(Array.from({ length: 50 }, (_) => ({
+      const placeTable = ref(Array.from({ length: 50 }, _ => ({
         placeTicket: null as IEvent | null,
       })))
 
       placeTable.value.forEach((element, index) => {
-        if (tickets.find(item => item.fieldNum === index) === undefined) {
+        if (tickets.find(item => item.fieldNum === index) === undefined)
           freePlace.value = index
-          return
-        }
       })
     }
     catch (error) {

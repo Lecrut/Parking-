@@ -3,7 +3,7 @@ import NavBarUser from '~/components/navBars/navBarUser.vue'
 import periodicTicketForm from '~/components/user/periodicTicketForm.vue'
 import ticket from '~/components/user/ticket.vue'
 import singleTicketForm from '~/components/user/singleTicketForm.vue'
-import type {ICar} from "~/models/Car";
+import type { ICar } from '~/models/Car'
 
 const periodicTicketFlag = ref(false)
 const singleTicketFlag = ref(false)
@@ -21,7 +21,7 @@ definePageMeta({
 })
 
 useHead({
-  title: "Użytkownik - Parking+"
+  title: 'Użytkownik - Parking+',
 })
 
 const authStore = useAuthStore()
@@ -36,14 +36,14 @@ const notParkedCars: Ref<ICar[]> = ref([])
 
 function getParkedCars() {
   const parkedCars: ICar[] = []
-  validTickets.value.forEach(ticket =>{
+  validTickets.value.forEach((ticket) => {
     const car = cars.value.find(item => item._id === ticket.car)
     if (car)
       parkedCars.push(car)
   })
 
   const resultCars: ICar[] = []
-  cars.value.forEach(item => {
+  cars.value.forEach((item) => {
     const car = parkedCars.find(element => element === item)
     if (!car)
       resultCars.push(item)
@@ -59,7 +59,10 @@ onMounted(async () => {
   }
 })
 
-watch(validTickets, async () =>{
+watch(validTickets, async (newTickets, oldTickets) => {
+  if (JSON.stringify(newTickets) === JSON.stringify(oldTickets))
+    return
+
   if (user.value?._id) {
     await carStore.fetchCarsForUser(user.value._id)
     await ticketStore.fetchValidTicketsForUser(user.value._id).then(getParkedCars)
@@ -149,4 +152,3 @@ watch(validTickets, async () =>{
     @on-close="changeSingleTicketFlag"
   />
 </template>
-

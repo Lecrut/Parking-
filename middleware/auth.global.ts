@@ -30,6 +30,8 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
       auth.setUser(user)
     }
     catch (err) {
+      const sessionCookie = useCookie('session')
+      sessionCookie.value = null
       await auth.logout()
 
       if (to.path !== '/')

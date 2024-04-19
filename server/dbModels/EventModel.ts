@@ -26,6 +26,9 @@ export class EventClass implements IEvent {
 
   @prop({ ref: () => UserClass, required: true })
   user: string
+
+  @prop({ type: () => String })
+  photoUrl: string
 }
 
 const EventModel = getModelForClass(EventClass)
