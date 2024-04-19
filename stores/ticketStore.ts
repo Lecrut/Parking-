@@ -5,6 +5,7 @@ import type { IEvent } from '~/models/Event'
 export const useTicketStore = defineStore('tickets', () => {
   const validTickets: Ref<IEvent[]> = ref([])
   const historyTickets: Ref<IEvent[]> = ref([])
+  const allTickets: Ref<IEvent[]> = ref([])
   const freePlace: Ref<Number> = ref(-1)
 
   async function addTicket(ticket: IEvent) {
@@ -52,6 +53,19 @@ export const useTicketStore = defineStore('tickets', () => {
     }
   }
 
+  async function fetchTicketsForPlace(parkingPlace: number) {
+    try {
+      const tickets = await $fetch(`/api/events?fieldNum=${parkingPlace}&status=valid`) as IEvent[]
+
+      tickets.map(mapStringToDateFields)
+
+      allTickets.value = tickets
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
   async function fetchAllValidTickets() {
     try {
       const tickets = await $fetch('/api/events?status=valid') as IEvent[]
@@ -91,10 +105,12 @@ export const useTicketStore = defineStore('tickets', () => {
     validTickets,
     historyTickets,
     freePlace,
+    allTickets,
     fetchFreeSpace,
     addTicket,
     fetchValidTicketsForUser,
     fetchHistoryTicketsForUser,
     fetchAllValidTickets,
+    fetchTicketsForPlace,
   }
 })
