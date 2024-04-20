@@ -93,10 +93,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
         <v-btn color="error" @click="close">
           Zamknij
         </v-btn>
-
-        <v-btn color="primary" @click="toPayment">
-          Płatność
-        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
