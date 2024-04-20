@@ -39,7 +39,6 @@ const url = useRequestURL()
 const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
 
 function toPayment() {
-  console.log(address.value)
   navigateTo(address.value)
 }
 
