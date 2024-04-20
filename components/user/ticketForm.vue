@@ -25,12 +25,6 @@ const enterHour = computed(() => mapDate(ticket.value.enterHour))
 const placeNumber = computed(() => ticket.value.fieldNum + 1)
 const ticketPrice = computed(() => countStandardTicketPrice())
 
-function generateQrCodeText() {
-  return `register: ${car.value?.registrationNum
-  }, enter hour: ${ticket.value.enterHour
-  }, field no.: ${ticket.value.fieldNum
-  }, exit hour: ${ticket.value.exitHour}`
-}
 function close() {
   emit('onClose')
 }
@@ -39,6 +33,13 @@ function countStandardTicketPrice() {
   const diffInMilliseconds = currentDate.getTime() - ticket.value.enterHour.getTime()
   const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
   return (mapTicketTypeToPrice('Standard') * Math.ceil(diffInHours)).toString()
+}
+
+const url = useRequestURL()
+const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
+
+function toPayment() {
+  navigateTo(address.value)
 }
 
 watch(isShow, () => isShowRef.value = isShow.value)
@@ -78,7 +79,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
         <v-row justify="center" class="ma-4">
           <QRCodeVue3
-            :value="generateQrCodeText()"
+            :value="address"
             :qr-options="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
             :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }" :dots-options="{
               type: 'dots',
@@ -91,6 +92,10 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-actions class="justify-end">
         <v-btn color="error" @click="close">
           Zamknij
+        </v-btn>
+
+        <v-btn color="primary" @click="toPayment">
+          Płatność
         </v-btn>
       </v-card-actions>
     </v-card>
