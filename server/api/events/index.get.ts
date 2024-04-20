@@ -60,12 +60,24 @@ function setUpError(statusCode: number, message: string, event: any) {
 
 async function findEventsForUser(query: { status: string, userId: string }) {
   const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
+  const current_date = new Date()
 
-  if (query.status === 'valid')
-    return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+  if (query.status === 'valid') {
+    return await EventModel.find({
+      user: userObjectId,
+      $or: [
+        { exitHour: { $gt: current_date } },
+        { exitHour: null },
+      ],
+    }).exec()
+  }
 
-  else if (query.status === 'past')
-    return await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
+  else if (query.status === 'past') { return await EventModel.find({ user: userObjectId, exitHour: { $lt: current_date } }).exec() }
+  // if (query.status === 'valid')
+  //   return await EventModel.find({ user: userObjectId, exitHour: null }).exec()
+
+  // else if (query.status === 'past')
+  //   return await EventModel.find({ user: userObjectId, exitHour: { $ne: null } }).exec()
 }
 
 function verifyJwt(token: string, config: NitroRuntimeConfig, event: any) {
