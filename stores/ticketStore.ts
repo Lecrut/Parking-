@@ -81,18 +81,7 @@ export const useTicketStore = defineStore('tickets', () => {
 
   async function fetchFreeSpace() {
     try {
-      const tickets = await $fetch('/api/events?status=valid') as IEvent[]
-
-      tickets.map(mapStringToDateFields)
-
-      const placeTable = ref(Array.from({ length: 50 }, _ => ({
-        placeTicket: null as IEvent | null,
-      })))
-
-      placeTable.value.forEach((element, index) => {
-        if (tickets.find(item => item.fieldNum === index) === undefined)
-          freePlace.value = index
-      })
+      freePlace.value = await $fetch('/api/free-space')
     }
     catch (error) {
       console.error(error)

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import type { NitroRuntimeConfig } from 'nitropack'
 import EventModel from '~/server/dbModels/EventModel'
 
-export default defineEventHandler<{ query: { status: string, userId: string } }>(async (event) => {
+export default defineEventHandler<{ query: { status: string, userId: string, fieldNum: string } }>(async (event) => {
   const query = getQuery(event)
   const current_date = new Date()
 
@@ -16,7 +16,7 @@ export default defineEventHandler<{ query: { status: string, userId: string } }>
   if (query.fieldNum) {
     const parkingObjectNo = Number(query.fieldNum)
     try {
-      return await EventModel.find({fieldNum: parkingObjectNo}).exec()
+      return await EventModel.find({ fieldNum: parkingObjectNo }).exec()
     }
     catch (e) {
       return setUpError(401, 'Invalid token', event)
@@ -30,7 +30,10 @@ export default defineEventHandler<{ query: { status: string, userId: string } }>
     return setUpError(401, 'Authorization required', event)
 
   try {
-    verifyJwt(token, config, event)
+    const result = verifyJwt(token, config, event)
+
+    if (result.code !== 200)
+      return setUpError(result.code, result.description, event)
   }
   catch (error) {
     return setUpError(401, 'Invalid token', event)
@@ -69,8 +72,10 @@ function verifyJwt(token: string, config: NitroRuntimeConfig, event: any) {
   const jwtUser = jwt.verify(token, config.secretKey) as any
 
   if (!jwtUser)
-    return setUpError(401, 'Unauthorized', event)
+    return { code: 401, description: 'Invalid token', event }
 
   if (jwtUser.role !== 'admin')
-    return setUpError(403, 'Forbidden', event)
+    return { code: 403, description: 'Forbidden', event }
+
+  return { code: 200, description: 'Success', event }
 }

@@ -49,11 +49,11 @@ const snackBarText = ref<string>()
 
 async function finalize() {
   await ticketStore.fetchFreeSpace()
-  if (freePlace.value.valueOf() !== -1 && await isValid()) {
+  if (freePlace.value !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
   }
-  else if (freePlace.value.valueOf() === -1) {
+  else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
   }
   isSnackbarVisible.value = true
