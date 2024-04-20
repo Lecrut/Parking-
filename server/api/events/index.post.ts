@@ -7,16 +7,25 @@ function isEventClass(object: any): object is EventClass {
     && 'exitHour' in object && 'price' in object && 'user' in object
 }
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<{ query: {update: string} }>(async (event) => {
   const body = await readBody(event)
+  const query = getQuery(event)
 
   if (!isEventClass(body))
     throw new Error('Invalid body')
 
-  const newEvent = new EventModel(body)
-  const url = await uploadImageStreamed(newEvent.id, '../../public/carPhoto.jpg')
+  if (query.update) {
+    const oldEvent = new EventModel(body)
+    await EventModel.findByIdAndUpdate(
+        {_id: oldEvent._id},{ exitHour: oldEvent.exitHour }
+    ).exec()
+  }
+  else {
+    const newEvent = new EventModel(body)
+    const url = await uploadImageStreamed(newEvent.id, '../../public/carPhoto.jpg')
 
-  newEvent.photoUrl = url
+    newEvent.photoUrl = url
 
-  await newEvent.save()
+    await newEvent.save()
+  }
 })

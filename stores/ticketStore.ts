@@ -22,6 +22,19 @@ export const useTicketStore = defineStore('tickets', () => {
     }
   }
 
+  async function endTicket(ticket: IEvent) {
+    ticket.exitHour = new Date()
+    try {
+      await $fetch('/api/events?update=true', {
+        method: 'POST',
+        body: JSON.stringify(ticket),
+      })
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
   function mapStringToDateFields(ticket: IEvent) {
     ticket.enterHour = new Date(ticket.enterHour)
     ticket.exitHour = ticket.exitHour ? new Date(ticket.exitHour) : null
@@ -109,6 +122,7 @@ export const useTicketStore = defineStore('tickets', () => {
     fetchTicketByID,
     fetchFreeSpace,
     addTicket,
+    endTicket,
     fetchValidTicketsForUser,
     fetchHistoryTicketsForUser,
     fetchAllValidTickets,

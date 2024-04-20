@@ -18,8 +18,9 @@ const ticketStore = useTicketStore()
 const { ticketToPay } = storeToRefs(ticketStore)
 
 const successSnackbar = ref(false)
-function payForPlace() {
-  //todo: napisac platnosc
+async function payForPlace() {
+  if (ticketToPay.value)
+    await ticketStore.endTicket(ticketToPay.value)
   successSnackbar.value = true
 }
 
