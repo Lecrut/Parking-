@@ -39,7 +39,7 @@ const url = useRequestURL()
 const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
 
 function toPayment() {
-  navigateTo(address.value)
+  navigateTo(address.value, {external: true})
 }
 
 watch(isShow, () => isShowRef.value = isShow.value)
@@ -92,10 +92,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
       <v-card-actions class="justify-end">
         <v-btn color="error" @click="close">
           Zamknij
-        </v-btn>
-
-        <v-btn color="primary" @click="toPayment">
-          Płatność
         </v-btn>
       </v-card-actions>
     </v-card>
