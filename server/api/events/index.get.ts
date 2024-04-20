@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import type { NitroRuntimeConfig } from 'nitropack'
 import EventModel from '~/server/dbModels/EventModel'
 
-export default defineEventHandler<{ query: { status: string, userId: string, fieldNum: string } }>(async (event) => {
+export default defineEventHandler<{ query: { status: string, userId: string, fieldNum: string, _id: string } }>(async (event) => {
   const query = getQuery(event)
   const current_date = new Date()
 
@@ -12,6 +12,11 @@ export default defineEventHandler<{ query: { status: string, userId: string, fie
 
   if (query.userId)
     return await findEventsForUser(query) || setUpError(400, 'Invalid status', event)
+
+  if (query._id) {
+    const eventId = new mongoose.Types.ObjectId(String(query._id))
+    return await EventModel.find({_id: eventId}).exec()
+  }
 
   if (query.fieldNum) {
     const parkingObjectNo = Number(query.fieldNum)

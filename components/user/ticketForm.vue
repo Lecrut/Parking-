@@ -39,7 +39,7 @@ const url = useRequestURL()
 const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
 
 function toPayment() {
-  navigateTo(address.value)
+  navigateTo(address.value, {external: true})
 }
 
 watch(isShow, () => isShowRef.value = isShow.value)
