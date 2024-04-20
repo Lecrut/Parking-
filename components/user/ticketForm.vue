@@ -25,12 +25,6 @@ const enterHour = computed(() => mapDate(ticket.value.enterHour))
 const placeNumber = computed(() => ticket.value.fieldNum + 1)
 const ticketPrice = computed(() => countStandardTicketPrice())
 
-function generateQrCodeText() {
-  return `register: ${car.value?.registrationNum
-  }, enter hour: ${ticket.value.enterHour
-  }, field no.: ${ticket.value.fieldNum
-  }, exit hour: ${ticket.value.exitHour}`
-}
 function close() {
   emit('onClose')
 }
@@ -41,7 +35,8 @@ function countStandardTicketPrice() {
   return (mapTicketTypeToPrice('Standard') * Math.ceil(diffInHours)).toString()
 }
 
-const address = computed(() => "/client/payments/" + ticket.value.fieldNum)
+const url = useRequestURL()
+const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
 
 function toPayment() {
   console.log(address.value)
@@ -85,7 +80,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
 
         <v-row justify="center" class="ma-4">
           <QRCodeVue3
-            :value="generateQrCodeText()"
+            :value="address"
             :qr-options="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
             :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }" :dots-options="{
               type: 'dots',
