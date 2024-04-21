@@ -1,10 +1,73 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
 import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/composable/rules'
+import formValidation from '~/composable/formValidation'
+import type { ICar } from '~/models/Car'
+import '@vuepic/vue-datepicker/dist/main.css'
+import { mapTicketTypeToPrice } from '~/composable/prices'
+import type { TicketType } from '~/models/Event'
 
 definePageMeta({
   middleware: ['guest-page-guard'],
 })
+
+const { isValid } = formValidation()
+
+const ticketStore = useTicketStore()
+const { freePlace } = storeToRefs(ticketStore)
+
+const exitDate = ref<Date>(new Date())
+const emailAddress = ref<string>('')
+const registerNum = ref<string>('')
+const carBrand = ref<string>('')
+const carModel = ref<string>('')
+
+function countExitHour(type: string) {
+  switch (type) {
+    case 'Tygodniowy':
+      exitDate.value.setDate(exitDate.value.getDate() + 7)
+      break
+    case 'Dzienny':
+      exitDate.value.setDate(exitDate.value.getDate() + 1)
+      break
+    case 'Miesięczny':
+      exitDate.value.setDate(exitDate.value.getDate() + 30)
+      break
+  }
+  return exitDate.value
+}
+
+function prepareCarModel() {
+  return `${carBrand.value} ${carModel.value} ${registerNum.value}`
+}
+
+function prepareEventModel() {
+  return {
+    car: prepareCarModel() || '',
+    type: ('Dzienny') as TicketType,
+    fieldNum: freePlace.value as number,
+    enterHour: new Date(),
+    exitHour: countExitHour('Dzienny'),
+    price: mapTicketTypeToPrice('Dzienny'),
+    user: emailAddress.value,
+  }
+}
+
+const snackBarText = ref<string>()
+const isSnackbarVisible = ref<boolean>(false)
+
+async function finalize() {
+  await ticketStore.fetchFreeSpace()
+  if (freePlace.value !== -1 && await isValid()) {
+    await ticketStore.addTicket(prepareEventModel())
+    snackBarText.value = 'Pomyślnie zakupiono bilet.'
+  }
+  else if (freePlace.value === -1) {
+    snackBarText.value = 'Brak wolnych miejsc.'
+  }
+  isSnackbarVisible.value = true
+  close()
+}
 
 useHead({
   title: 'Szybki parkings - Parking+',
@@ -39,15 +102,16 @@ useHead({
 
           <form class="w-75 my-2">
             <v-text-field
+              v-model="registerNum"
               label="Numer rejestracyjny"
               :rules="[firstSignRule(), requiredRule(), registerLengthRule()]"
             />
 
-            <v-text-field label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
+            <v-text-field v-model="emailAddress" label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
 
             <v-checkbox label="Akceptuję regulamin" />
 
-            <v-btn>
+            <v-btn @click="finalize()">
               Zatwierdź
             </v-btn>
           </form>
