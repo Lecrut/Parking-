@@ -1,12 +1,10 @@
 import EventModel from '~/server/dbModels/EventModel'
 
-const currentDate = new Date()
-
 export default defineEventHandler(async () => {
   const tickets = await EventModel.find(
     { $or:
       [
-        { $and: [{ exitHour: { $gt: currentDate } }, { enterHour: { $lt: currentDate } }] },
+        { $and: [{ exitHour: { $gt: new Date() } }, { enterHour: { $lt: new Date() } }] },
         { exitHour: null },
       ],
     },
