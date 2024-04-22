@@ -34,15 +34,16 @@ function close() {
 }
 
 function countExitHour(type: string) {
+  const newDate = new Date()
   switch (type) {
     case 'Tygodniowy':
-      exitDate.value.setDate(exitDate.value.getDate() + 7)
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 7))
       break
     case 'Dzienny':
-      exitDate.value.setDate(exitDate.value.getDate() + 1)
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 1))
       break
     case 'Miesięczny':
-      exitDate.value.setDate(exitDate.value.getDate() + 30)
+      exitDate.value = new Date(newDate.setMonth(newDate.getMonth() + 1))
       break
   }
   return exitDate.value
