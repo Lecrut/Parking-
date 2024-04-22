@@ -96,7 +96,7 @@ async function finalize() {
   else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
     isSnackbarVisible.value = true
-    snackbarColor.value = 'primary'
+    snackbarColor.value = '#FFA726'
     close()
   }
 }
