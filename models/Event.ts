@@ -1,5 +1,5 @@
 export interface IEvent {
-  car: string
+  car: string | object
   type: TicketType
   fieldNum: number
   enterHour: Date

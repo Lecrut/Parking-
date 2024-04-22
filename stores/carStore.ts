@@ -10,7 +10,7 @@ export const useCarStore = defineStore('car', () => {
   async function addCar(car: ICar) {
     addCarError.value = false
     try {
-      await $fetch('/api/cars', {
+      return await $fetch('/api/cars', {
         method: 'POST',
         body: JSON.stringify(car),
       })

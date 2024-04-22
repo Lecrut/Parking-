@@ -16,11 +16,22 @@ const { form, valid, isValid } = formValidation()
 const ticketStore = useTicketStore()
 const { freePlace } = storeToRefs(ticketStore)
 
+const carStore = useCarStore()
+const { addCarError } = storeToRefs(carStore)
+
 const exitDate = ref<Date>(new Date())
 const emailAddress = ref<string>('')
 const registerNum = ref<string>('')
-const carBrand = ref<string>('')
-const carModel = ref<string>('')
+const rules = ref<boolean>(false)
+const snackbarColor = ref<string>('primary')
+
+function close() {
+  emailAddress.value = ''
+  registerNum.value = ''
+  rules.value = false
+  form.value?.reset()
+  exitDate.value = new Date()
+}
 
 function countExitHour(type: string) {
   switch (type) {
@@ -37,19 +48,27 @@ function countExitHour(type: string) {
   return exitDate.value
 }
 
-function prepareCarModel() {
-  return `${carBrand.value} ${carModel.value} ${registerNum.value}`
+async function prepareCarModel() {
+  const car = {
+    owner: null,
+    email: emailAddress.value,
+    registrationNum: registerNum.value,
+  }
+
+  // TODO warunki businness logic
+  return await carStore.addCar(car)
 }
 
-function prepareEventModel() {
+async function prepareEventModel() {
   return {
-    car: prepareCarModel() || '',
+    car: (await prepareCarModel())?.id || '',
     type: ('Dzienny') as TicketType,
     fieldNum: freePlace.value as number,
     enterHour: new Date(),
     exitHour: countExitHour('Dzienny'),
     price: mapTicketTypeToPrice('Dzienny'),
-    user: emailAddress.value,
+    user: null,
+    email: emailAddress.value,
   }
 }
 
@@ -59,17 +78,30 @@ const isSnackbarVisible = ref<boolean>(false)
 async function finalize() {
   await ticketStore.fetchFreeSpace()
   if (freePlace.value !== -1 && await isValid()) {
-    await ticketStore.addTicket(prepareEventModel())
+    await ticketStore.addTicket(await prepareEventModel())
+
+    if (addCarError.value) {
+      snackBarText.value = 'Istnieje już samochód o podanym numerze rejestracyjnym.'
+      snackbarColor.value = 'error'
+      isSnackbarVisible.value = true
+      return
+    }
+
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
+    isSnackbarVisible.value = true
+    snackbarColor.value = 'primary'
+    close()
   }
   else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
+    isSnackbarVisible.value = true
+    snackbarColor.value = 'primary'
+    close()
   }
-  isSnackbarVisible.value = true
 }
 
 useHead({
-  title: 'Szybki parkings - Parking+',
+  title: 'Szybki parking - Parking+',
 })
 </script>
 
@@ -108,7 +140,7 @@ useHead({
 
             <v-text-field v-model="emailAddress" label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
 
-            <v-checkbox label="Akceptuję regulamin" />
+            <v-checkbox v-model="rules" label="Akceptuję regulamin" :rules="[requiredRule()]" />
 
             <v-btn @click="finalize()">
               Zatwierdź
@@ -119,6 +151,7 @@ useHead({
     </v-row>
   </v-sheet>
 
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" :color="snackbarColor" />
   <!--  todo: naprawic stopke -->
   <!--  <MyFooter /> -->
 </template>

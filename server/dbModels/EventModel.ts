@@ -26,7 +26,7 @@ export class EventClass implements IEvent {
   @prop({ ref: () => UserClass })
   user: string
 
-  @prop({ type: () => String })
+  @prop({ type: () => String, required: true })
   email: string
 
   @prop({ type: () => String })

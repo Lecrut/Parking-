@@ -31,6 +31,8 @@ const { form, valid, isValid } = formValidation()
 function close() {
   selectedCar.value = ''
   selectedTicketType.value = ''
+  form.value?.reset()
+
   emit('onClose')
 }
 
@@ -54,18 +56,20 @@ async function finalize() {
   if (freePlace.value !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
+    isSnackbarVisible.value = true
+    close()
   }
   else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
+    isSnackbarVisible.value = true
+    close()
   }
-  isSnackbarVisible.value = true
-  close()
 }
 
 const formattedCars = computed(() => {
   return cars.value.map(car => ({
     title: `${car.brand} ${car.model} ${car.registrationNum}`,
-    value: car,
+    value: car._id,
   }))
 })
 

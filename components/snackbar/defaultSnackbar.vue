@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   text: string | undefined
+  color?: string
 }>()
 
 const isShow = defineModel<boolean>('isShow', { default: false })
@@ -12,7 +13,7 @@ const isShow = defineModel<boolean>('isShow', { default: false })
     vertical
     elevation="24"
     :timeout="2000"
-    color="primary"
+    :color="color || 'primary'"
     justify="center"
   >
     <div class="text-subtitle-1 pb-2 mt-2 w-100 justify-center" align="center">
