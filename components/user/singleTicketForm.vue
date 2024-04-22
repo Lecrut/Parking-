@@ -4,18 +4,19 @@ import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { ICar } from '~/models/Car'
 import { requiredRule } from '~/composable/rules'
 import type { TicketType } from '~/models/Event'
+import type { IUser } from '~/models/User'
 
 const props = defineProps < {
   isShow: boolean
   cars: ICar[]
-  userId: string
+  user: IUser | null
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow, cars, userId } = toRefs(props)
+const { isShow, cars, user } = toRefs(props)
 
 const isShowRef = ref < boolean > ()
 const selectedCar = ref < string > ('')
@@ -41,7 +42,8 @@ function prepareEventModel() {
     enterHour: new Date(),
     exitHour: null,
     price: mapTicketTypeToPrice(selectedTicketType.value),
-    user: userId.value,
+    user: user.value?._id || null,
+    email: user.value?.email || '',
   }
 }
 

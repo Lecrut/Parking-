@@ -93,7 +93,7 @@ watch(isShow, () => isShowRef.value = isShow.value)
                 </v-form>
 
                 <v-alert v-if="addCarError" color="error" variant="tonal" class="my-4">
-                  Niepoprawne dane pojazdu
+                  Ten pojazd został już dodany.
                 </v-alert>
               </div>
             </v-col>

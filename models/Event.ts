@@ -5,7 +5,8 @@ export interface IEvent {
   enterHour: Date
   exitHour: Date | null
   price: number
-  user: string
+  user: string | null
+  email: string
   photoUrl?: string
   __v?: string
   _id?: string

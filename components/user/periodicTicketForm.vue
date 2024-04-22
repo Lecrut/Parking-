@@ -7,18 +7,19 @@ import { requiredRule } from '~/composable/rules'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { TicketType } from '~/models/Event'
+import type { IUser } from '~/models/User'
 
 const props = defineProps < {
   isShow: boolean
   cars: ICar[]
-  userId: string
+  user: IUser | null
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow, cars, userId } = toRefs(props)
+const { isShow, cars, user } = toRefs(props)
 
 const { form, valid, isValid } = formValidation()
 
@@ -64,7 +65,8 @@ function prepareEventModel() {
     enterHour: selectedDate.value,
     exitHour: countExitHour(selectedTicketType.value),
     price: mapTicketTypeToPrice(selectedTicketType.value),
-    user: userId.value,
+    user: user.value?._id || null,
+    email: user.value?.email || '',
   }
 }
 

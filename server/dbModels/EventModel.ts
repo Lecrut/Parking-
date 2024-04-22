@@ -1,4 +1,3 @@
-import type { Ref } from '@typegoose/typegoose'
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose'
 import { CarClass } from './CarModel'
 import { UserClass } from './UserModel'
@@ -24,8 +23,11 @@ export class EventClass implements IEvent {
   @prop({ type: () => Number })
   price: number
 
-  @prop({ ref: () => UserClass, required: true })
+  @prop({ ref: () => UserClass })
   user: string
+
+  @prop({ type: () => String })
+  email: string
 
   @prop({ type: () => String })
   photoUrl: string
