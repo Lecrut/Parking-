@@ -11,7 +11,7 @@ definePageMeta({
   middleware: ['guest-page-guard'],
 })
 
-const { isValid } = formValidation()
+const { form, valid, isValid } = formValidation()
 
 const ticketStore = useTicketStore()
 const { freePlace } = storeToRefs(ticketStore)
@@ -66,7 +66,6 @@ async function finalize() {
     snackBarText.value = 'Brak wolnych miejsc.'
   }
   isSnackbarVisible.value = true
-  close()
 }
 
 useHead({
@@ -100,7 +99,7 @@ useHead({
             Wypełnij formularz aby przejść do płatności i otrzymać bilet parkingowy.
           </p>
 
-          <form class="w-75 my-2">
+          <v-form ref="form" v-model="valid" class="w-75 my-2" @submit.prevent="finalize">
             <v-text-field
               v-model="registerNum"
               label="Numer rejestracyjny"
@@ -114,7 +113,7 @@ useHead({
             <v-btn @click="finalize()">
               Zatwierdź
             </v-btn>
-          </form>
+          </v-form>
         </div>
       </v-col>
     </v-row>

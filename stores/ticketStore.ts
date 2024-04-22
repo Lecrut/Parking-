@@ -6,9 +6,9 @@ export const useTicketStore = defineStore('tickets', () => {
   const validTickets: Ref<IEvent[]> = ref([])
   const historyTickets: Ref<IEvent[]> = ref([])
   const allTickets: Ref<IEvent[]> = ref([])
-  const freePlace: Ref<Number> = ref(-1)
+  const freePlace: Ref<number> = ref(-1)
   const ticketToPay: Ref<IEvent | null> = ref(null)
-  
+
   async function addTicket(ticket: IEvent) {
     try {
       await $fetch('/api/events', {
@@ -102,7 +102,7 @@ export const useTicketStore = defineStore('tickets', () => {
     }
   }
 
-  async function fetchTicketByID(ticketID: String) {
+  async function fetchTicketByID(ticketID: string) {
     try {
       const ticket = await $fetch(`/api/events?status=valid&_id=${ticketID}`)
       ticket.map(mapStringToDateFields)

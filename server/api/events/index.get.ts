@@ -15,7 +15,7 @@ export default defineEventHandler<{ query: { status: string, userId: string, fie
 
   if (query._id) {
     const eventId = new mongoose.Types.ObjectId(String(query._id))
-    return await EventModel.find({_id: eventId}).exec()
+    return await EventModel.find({ _id: eventId }).exec()
   }
 
   if (query.fieldNum) {

@@ -30,5 +30,5 @@ export default defineEventHandler((event) => {
 })
 
 function getGuestRoutes() {
-  return ['/api/login', '/api/register']
+  return ['/api/login', '/api/register', '/api/free-space', '/api/events']
 }
