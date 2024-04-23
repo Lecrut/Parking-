@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
   if (authHeader?.split('/')[1] !== 'api')
     return
 
-  if (!authHeader || guestRoutes.includes(authHeader))
+  if (!authHeader || guestRoutes.includes(authHeader.split('?')[0]))
     return
 
   const token = event.node.req.headers.cookie?.split('=')[1]

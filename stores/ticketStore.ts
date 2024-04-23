@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+import type { ICar } from '~/models/Car'
 import type { IEvent } from '~/models/Event'
 
 export const useTicketStore = defineStore('tickets', () => {
@@ -8,6 +9,14 @@ export const useTicketStore = defineStore('tickets', () => {
   const allTickets: Ref<IEvent[]> = ref([])
   const freePlace: Ref<number> = ref(-1)
   const ticketToPay: Ref<IEvent | null> = ref(null)
+
+  function reset() {
+    validTickets.value = []
+    historyTickets.value = []
+    allTickets.value = []
+    freePlace.value = -1
+    ticketToPay.value = null
+  }
 
   async function addTicket(ticket: IEvent) {
     try {
@@ -48,6 +57,16 @@ export const useTicketStore = defineStore('tickets', () => {
       tickets.map(mapStringToDateFields)
 
       validTickets.value = tickets
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function checkIfAnyTicketIsCurrentlyValidForCar(car: ICar) {
+    try {
+      const tickets = await $fetch(`/api/events?carId=${car._id}&status=valid`) as IEvent[]
+      return tickets.length > 0
     }
     catch (error) {
       console.error(error)
@@ -127,5 +146,7 @@ export const useTicketStore = defineStore('tickets', () => {
     fetchHistoryTicketsForUser,
     fetchAllValidTickets,
     fetchTicketsForPlace,
+    checkIfAnyTicketIsCurrentlyValidForCar,
+    reset,
   }
 })

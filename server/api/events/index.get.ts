@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import type { NitroRuntimeConfig } from 'nitropack'
 import EventModel from '~/server/dbModels/EventModel'
 
-export default defineEventHandler<{ query: { status: string, userId: string, fieldNum: string, _id: string } }>(async (event) => {
+export default defineEventHandler<{ query: { status: string, userId: string, fieldNum: string, _id: string, carId: string } }>(async (event) => {
   const query = getQuery(event)
   const current_date = new Date()
 
@@ -25,6 +25,24 @@ export default defineEventHandler<{ query: { status: string, userId: string, fie
     }
     catch (e) {
       return setUpError(401, 'Invalid token', event)
+    }
+  }
+
+  if (query.carId) {
+    const carObjectId = new mongoose.Types.ObjectId(String(query.carId))
+    if (query.status === 'valid') {
+      return await EventModel.find({
+        $and: [
+          { car: carObjectId },
+          { $or:
+            [
+              { $and: [{ exitHour: { $gt: new Date() } }, { enterHour: { $lt: new Date() } }] },
+              { exitHour: null },
+            ],
+          },
+        ],
+      },
+      ).exec()
     }
   }
 

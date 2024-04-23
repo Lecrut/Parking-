@@ -15,6 +15,9 @@ export const useAuthStore = defineStore('auth', () => {
     await $fetch('/api/logout', {
       method: 'POST',
     })
+
+    useCarStore().reset()
+    useTicketStore().reset()
   }
 
   async function registerUser(user: IUser) {

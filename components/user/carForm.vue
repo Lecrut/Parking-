@@ -27,6 +27,9 @@ const carRegistrationNumber = ref('')
 const { isShow } = toRefs(props)
 const isShowRef = ref<boolean>()
 
+const isSnackbarShown = ref(false)
+const snackbarText = ref('')
+
 function resetState() {
   addCarError.value = false
   carModel.value = ''
@@ -41,12 +44,44 @@ function close() {
 
 async function addCar() {
   if (await isValid() && user.value?._id) {
-    await carStore.addCar({
-      brand: carBrand.value.trim(),
-      model: carModel.value.trim(),
-      registrationNum: carRegistrationNumber.value.toUpperCase().split(' ').join(''),
-      owner: user?.value._id,
-    })
+    const registrationNum = carRegistrationNumber.value.toUpperCase().split(' ').join('')
+
+    const existingCar = await carStore.checkIfCarExists(registrationNum)
+
+    try {
+      if (existingCar && existingCar.owner) {
+        if (existingCar.owner !== user?.value._id)
+          throw new Error('Podane auto juz zostalo dodane przez inne konto')
+
+        else
+          throw new Error('Podane auto juz zostalo dodane przez to konto')
+      }
+      else if (existingCar) {
+        await carStore.updateCar({
+          _id: existingCar._id,
+          brand: carBrand.value.trim(),
+          model: carModel.value.trim(),
+          registrationNum,
+          owner: user?.value._id,
+          email: user?.value.email,
+        })
+      }
+      else {
+        await carStore.addCar({
+          brand: carBrand.value.trim(),
+          model: carModel.value.trim(),
+          registrationNum,
+          owner: user?.value._id,
+          email: user?.value.email,
+        })
+      }
+    }
+    catch (e: any) {
+      isSnackbarShown.value = true
+      snackbarText.value = e.message
+      addCarError.value = true
+    }
+
     if (!addCarError.value) {
       resetState()
       emit('showSnackbar')
@@ -112,4 +147,6 @@ watch(isShow, () => isShowRef.value = isShow.value)
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <SnackbarDefaultSnackbar v-model="isSnackbarShown" :text="snackbarText" color="error" />
 </template>

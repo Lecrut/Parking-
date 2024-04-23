@@ -2,7 +2,6 @@
 import NavBar from '~/components/navBars/navBar.vue'
 import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/composable/rules'
 import formValidation from '~/composable/formValidation'
-import type { ICar } from '~/models/Car'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { TicketType } from '~/models/Event'
@@ -56,7 +55,14 @@ async function prepareCarModel() {
     registrationNum: registerNum.value,
   }
 
-  // TODO warunki businness logic
+  const existingCar = await carStore.checkIfCarExists(car.registrationNum)
+  if (existingCar) {
+    if (await ticketStore.checkIfAnyTicketIsCurrentlyValidForCar(existingCar) === false)
+      return { id: existingCar._id, code: 400 }
+
+    throw new Error('Samochód jest już aktualnie zaparkowany')
+  }
+
   return await carStore.addCar(car)
 }
 
@@ -79,7 +85,17 @@ const isSnackbarVisible = ref<boolean>(false)
 async function finalize() {
   await ticketStore.fetchFreeSpace()
   if (freePlace.value !== -1 && await isValid()) {
-    await ticketStore.addTicket(await prepareEventModel())
+    let event
+    try {
+      event = await prepareEventModel()
+    }
+    catch (error: any) {
+      snackBarText.value = error.message
+      snackbarColor.value = 'error'
+      isSnackbarVisible.value = true
+      return
+    }
+    await ticketStore.addTicket(event)
 
     if (addCarError.value) {
       snackBarText.value = 'Istnieje już samochód o podanym numerze rejestracyjnym.'
