@@ -1,11 +1,12 @@
 export interface IEvent {
-  car: string
+  car: string | object
   type: TicketType
   fieldNum: number
   enterHour: Date
   exitHour: Date | null
   price: number
-  user: string
+  user: string | null
+  email: string
   photoUrl?: string
   __v?: string
   _id?: string

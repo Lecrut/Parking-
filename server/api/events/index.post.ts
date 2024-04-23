@@ -4,10 +4,10 @@ import { uploadImageStreamed } from '~/server/utils/blobContainerUtils'
 
 function isEventClass(object: any): object is EventClass {
   return 'car' in object && 'type' in object && 'fieldNum' in object && 'enterHour' in object
-    && 'exitHour' in object && 'price' in object && 'user' in object
+    && 'exitHour' in object && 'price' in object && 'user' in object && 'email' in object
 }
 
-export default defineEventHandler<{ query: {update: string} }>(async (event) => {
+export default defineEventHandler<{ query: { update: string } }>(async (event) => {
   const body = await readBody(event)
   const query = getQuery(event)
 
@@ -17,7 +17,8 @@ export default defineEventHandler<{ query: {update: string} }>(async (event) => 
   if (query.update) {
     const oldEvent = new EventModel(body)
     await EventModel.findByIdAndUpdate(
-        {_id: oldEvent._id},{ exitHour: oldEvent.exitHour }
+      { _id: oldEvent._id },
+      { exitHour: oldEvent.exitHour },
     ).exec()
   }
   else {

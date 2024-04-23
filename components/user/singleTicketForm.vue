@@ -4,18 +4,19 @@ import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { ICar } from '~/models/Car'
 import { requiredRule } from '~/composable/rules'
 import type { TicketType } from '~/models/Event'
+import type { IUser } from '~/models/User'
 
 const props = defineProps < {
   isShow: boolean
   cars: ICar[]
-  userId: string
+  user: IUser | null
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow, cars, userId } = toRefs(props)
+const { isShow, cars, user } = toRefs(props)
 
 const isShowRef = ref < boolean > ()
 const selectedCar = ref < string > ('')
@@ -30,6 +31,8 @@ const { form, valid, isValid } = formValidation()
 function close() {
   selectedCar.value = ''
   selectedTicketType.value = ''
+  form.value?.reset()
+
   emit('onClose')
 }
 
@@ -41,7 +44,8 @@ function prepareEventModel() {
     enterHour: new Date(),
     exitHour: null,
     price: mapTicketTypeToPrice(selectedTicketType.value),
-    user: userId.value,
+    user: user.value?._id || null,
+    email: user.value?.email || '',
   }
 }
 
@@ -52,18 +56,20 @@ async function finalize() {
   if (freePlace.value !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
+    isSnackbarVisible.value = true
+    close()
   }
   else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
+    isSnackbarVisible.value = true
+    close()
   }
-  isSnackbarVisible.value = true
-  close()
 }
 
 const formattedCars = computed(() => {
   return cars.value.map(car => ({
     title: `${car.brand} ${car.model} ${car.registrationNum}`,
-    value: car,
+    value: car._id,
   }))
 })
 

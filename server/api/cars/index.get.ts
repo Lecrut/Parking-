@@ -4,16 +4,22 @@ import CarModel from '~/server/dbModels/CarModel'
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
-  if (!query.userId) {
+  if (!query.userId && !query.registrationNum) {
     return {
       statusCode: 400,
-      body: 'Missing userId',
+      body: 'Missing userId or registrationNum in query params',
     }
   }
 
-  const userObjectId = new mongoose.Types.ObjectId(String(query.userId))
+  let filter = {}
 
-  const userCars = await CarModel.find({ owner: userObjectId }).exec()
+  if (query.userId)
+    filter = { owner: new mongoose.Types.ObjectId(String(query.userId)) }
+
+  if (query.registrationNum)
+    filter = { ...filter, registrationNum: query.registrationNum }
+
+  const userCars = await CarModel.find(filter).exec()
 
   return userCars
 })

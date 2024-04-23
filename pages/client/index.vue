@@ -143,12 +143,12 @@ watch(validTickets, async (newTickets, oldTickets) => {
   </v-sheet>
 
   <periodicTicketForm
-    :is-show="periodicTicketFlag" :cars="notParkedCars" :user-id="user?._id || ''"
+    :is-show="periodicTicketFlag" :cars="notParkedCars" :user="user"
     @on-close="changePeriodicTicketFlag"
   />
 
   <singleTicketForm
-    :is-show="singleTicketFlag" :cars="notParkedCars" :user-id="user?._id || ''"
+    :is-show="singleTicketFlag" :cars="notParkedCars" :user="user"
     @on-close="changeSingleTicketFlag"
   />
 </template>

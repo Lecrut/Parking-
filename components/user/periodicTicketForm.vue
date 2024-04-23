@@ -7,18 +7,19 @@ import { requiredRule } from '~/composable/rules'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
 import type { TicketType } from '~/models/Event'
+import type { IUser } from '~/models/User'
 
 const props = defineProps < {
   isShow: boolean
   cars: ICar[]
-  userId: string
+  user: IUser | null
 } > ()
 
 const emit = defineEmits < {
   (e: 'onClose'): void
 }> ()
 
-const { isShow, cars, userId } = toRefs(props)
+const { isShow, cars, user } = toRefs(props)
 
 const { form, valid, isValid } = formValidation()
 
@@ -38,19 +39,21 @@ function close() {
   selectedCar.value = ''
   selectedTicketType.value = ''
   selectedDate.value = new Date()
+  form.value?.reset()
   emit('onClose')
 }
 
 function countExitHour(type: string) {
+  const newDate = new Date(selectedDate.value)
   switch (type) {
     case 'Tygodniowy':
-      exitDate.value.setDate(exitDate.value.getDate() + 7)
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 7))
       break
     case 'Dzienny':
-      exitDate.value.setDate(exitDate.value.getDate() + 1)
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 1))
       break
     case 'Miesięczny':
-      exitDate.value.setDate(exitDate.value.getDate() + 30)
+      exitDate.value = new Date(newDate.setMonth(newDate.getMonth() + 1))
       break
   }
   return exitDate.value
@@ -64,7 +67,8 @@ function prepareEventModel() {
     enterHour: selectedDate.value,
     exitHour: countExitHour(selectedTicketType.value),
     price: mapTicketTypeToPrice(selectedTicketType.value),
-    user: userId.value,
+    user: user.value?._id || null,
+    email: user.value?.email || '',
   }
 }
 
@@ -75,12 +79,14 @@ async function finalize() {
   if (freePlace.value !== -1 && await isValid()) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
+    isSnackbarVisible.value = true
+    close()
   }
   else if (freePlace.value === -1) {
     snackBarText.value = 'Brak wolnych miejsc.'
+    isSnackbarVisible.value = true
+    close()
   }
-  isSnackbarVisible.value = true
-  close()
 }
 
 const formattedCars = computed(() => {

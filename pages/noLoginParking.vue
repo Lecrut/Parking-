@@ -1,13 +1,124 @@
 <script setup lang="ts">
 import NavBar from '~/components/navBars/navBar.vue'
 import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/composable/rules'
+import formValidation from '~/composable/formValidation'
+import '@vuepic/vue-datepicker/dist/main.css'
+import { mapTicketTypeToPrice } from '~/composable/prices'
+import type { TicketType } from '~/models/Event'
 
 definePageMeta({
   middleware: ['guest-page-guard'],
 })
 
+const { form, valid, isValid } = formValidation()
+
+const ticketStore = useTicketStore()
+const { freePlace } = storeToRefs(ticketStore)
+
+const carStore = useCarStore()
+const { addCarError } = storeToRefs(carStore)
+
+const exitDate = ref<Date>(new Date())
+const emailAddress = ref<string>('')
+const registerNum = ref<string>('')
+const rules = ref<boolean>(false)
+const snackbarColor = ref<string>('primary')
+
+function close() {
+  emailAddress.value = ''
+  registerNum.value = ''
+  rules.value = false
+  form.value?.reset()
+  exitDate.value = new Date()
+}
+
+function countExitHour(type: string) {
+  const newDate = new Date()
+  switch (type) {
+    case 'Tygodniowy':
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 7))
+      break
+    case 'Dzienny':
+      exitDate.value = new Date(newDate.setDate(newDate.getDate() + 1))
+      break
+    case 'Miesięczny':
+      exitDate.value = new Date(newDate.setMonth(newDate.getMonth() + 1))
+      break
+  }
+  return exitDate.value
+}
+
+async function prepareCarModel() {
+  const car = {
+    owner: null,
+    email: emailAddress.value,
+    registrationNum: registerNum.value.toUpperCase().split(' ').join(''),
+  }
+
+  const existingCar = await carStore.checkIfCarExists(car.registrationNum)
+  if (existingCar) {
+    if (await ticketStore.checkIfAnyTicketIsCurrentlyValidForCar(existingCar) === false)
+      return { id: existingCar._id, code: 400 }
+
+    throw new Error('Samochód jest już aktualnie zaparkowany')
+  }
+
+  return await carStore.addCar(car)
+}
+
+async function prepareEventModel() {
+  return {
+    car: (await prepareCarModel())?.id || '',
+    type: ('Dzienny') as TicketType,
+    fieldNum: freePlace.value as number,
+    enterHour: new Date(),
+    exitHour: countExitHour('Dzienny'),
+    price: mapTicketTypeToPrice('Dzienny'),
+    user: null,
+    email: emailAddress.value,
+  }
+}
+
+const snackBarText = ref<string>()
+const isSnackbarVisible = ref<boolean>(false)
+
+async function finalize() {
+  await ticketStore.fetchFreeSpace()
+  if (freePlace.value !== -1 && await isValid()) {
+    let event
+    try {
+      event = await prepareEventModel()
+    }
+    catch (error: any) {
+      snackBarText.value = error.message
+      snackbarColor.value = 'error'
+      isSnackbarVisible.value = true
+      return
+    }
+    await ticketStore.addTicket(event)
+
+    if (addCarError.value) {
+      snackBarText.value = 'Istnieje już samochód o podanym numerze rejestracyjnym.'
+      snackbarColor.value = 'error'
+      isSnackbarVisible.value = true
+      return
+    }
+
+    snackBarText.value = 'Pomyślnie zakupiono bilet.'
+    isSnackbarVisible.value = true
+    snackbarColor.value = 'primary'
+    close()
+  }
+  else if (freePlace.value === -1) {
+    snackBarText.value = 'Brak wolnych miejsc.'
+    isSnackbarVisible.value = true
+    snackbarColor.value = '#FFA726'
+    close()
+  }
+}
+
 useHead({
-  title: 'Szybki parkings - Parking+',
+  title: 'Szybki parking - Parking+',
 })
 </script>
 
@@ -37,25 +148,27 @@ useHead({
             Wypełnij formularz aby przejść do płatności i otrzymać bilet parkingowy.
           </p>
 
-          <form class="w-75 my-2">
+          <v-form ref="form" v-model="valid" class="w-75 my-2" @submit.prevent="finalize">
             <v-text-field
+              v-model="registerNum"
               label="Numer rejestracyjny"
               :rules="[firstSignRule(), requiredRule(), registerLengthRule()]"
             />
 
-            <v-text-field label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
+            <v-text-field v-model="emailAddress" label="Adres Email" placeholder="example@mail.com" type="email" :rules="[emailRule()]" />
 
-            <v-checkbox label="Akceptuję regulamin" />
+            <v-checkbox v-model="rules" label="Akceptuję regulamin" :rules="[requiredRule()]" />
 
-            <v-btn>
+            <v-btn @click="finalize()">
               Zatwierdź
             </v-btn>
-          </form>
+          </v-form>
         </div>
       </v-col>
     </v-row>
   </v-sheet>
 
+  <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" :color="snackbarColor" />
   <!--  todo: naprawic stopke -->
   <!--  <MyFooter /> -->
 </template>

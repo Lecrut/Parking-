@@ -9,7 +9,7 @@ export default defineEventHandler((event) => {
   if (authHeader?.split('/')[1] !== 'api')
     return
 
-  if (!authHeader || guestRoutes.includes(authHeader))
+  if (!authHeader || guestRoutes.includes(authHeader.split('?')[0]))
     return
 
   const token = event.node.req.headers.cookie?.split('=')[1]
@@ -30,5 +30,5 @@ export default defineEventHandler((event) => {
 })
 
 function getGuestRoutes() {
-  return ['/api/login', '/api/register']
+  return ['/api/login', '/api/register', '/api/free-space', '/api/events', '/api/cars']
 }
