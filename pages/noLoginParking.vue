@@ -52,7 +52,7 @@ async function prepareCarModel() {
   const car = {
     owner: null,
     email: emailAddress.value,
-    registrationNum: registerNum.value,
+    registrationNum: registerNum.value.toUpperCase().split(' ').join(''),
   }
 
   const existingCar = await carStore.checkIfCarExists(car.registrationNum)
