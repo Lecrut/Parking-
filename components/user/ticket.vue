@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const fullTicketShow = ref(false)
 const cardColor = ref<string>('')
-const cardVariant = ref<"outlined" | "tonal" | "flat" | "text" | "elevated" | "plain" | undefined>(undefined)
+const cardVariant = ref<'outlined' | 'tonal' | 'flat' | 'text' | 'elevated' | 'plain' | undefined>(undefined)
 
 function hideFullTicket() {
   fullTicketShow.value = !fullTicketShow.value
@@ -40,6 +40,10 @@ function variant() {
       cardColor.value = 'primary'
       cardVariant.value = 'tonal'
     }
+  }
+  else {
+    cardColor.value = 'primary'
+    cardVariant.value = 'tonal'
   }
 }
 
