@@ -81,9 +81,9 @@ onMounted(() => loginError.value = false)
                 Zaloguj
               </v-btn>
 
-              <v-btn to="/auth/reset" class="mx-2 mb-2">
-                Zapomniałeś hasła?
-              </v-btn>
+<!--              <v-btn to="/auth/reset" class="mx-2 mb-2">-->
+<!--                Zapomniałeś hasła?-->
+<!--              </v-btn>-->
             </v-row>
           </v-form>
 
