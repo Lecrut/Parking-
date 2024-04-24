@@ -100,7 +100,6 @@ async function finalize() {
     }
 
     newTicket.value = await ticketStore.addTicket(event) || null
-    isDialogShown.value = true
 
     if (addCarError.value) {
       snackBarText.value = 'Istnieje już samochód o podanym numerze rejestracyjnym.'
@@ -111,6 +110,7 @@ async function finalize() {
 
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
     isSnackbarVisible.value = true
+    isDialogShown.value = true
     snackbarColor.value = 'primary'
     close()
   }
@@ -173,7 +173,7 @@ useHead({
     </v-row>
   </v-sheet>
 
-  <TicketDialog v-model="isDialogShown" :ticket-id="newTicket?._id" />
+  <TicketDialog v-model="isDialogShown" :ticket="newTicket" />
 
   <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" :color="snackbarColor" />
   <!--  todo: naprawic stopke -->
