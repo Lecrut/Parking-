@@ -4,7 +4,7 @@ import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/co
 import formValidation from '~/composable/formValidation'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
-import type { TicketType } from '~/models/Event'
+import type { IEvent, TicketType } from '~/models/Event'
 
 definePageMeta({
   middleware: ['guest-page-guard'],
@@ -23,6 +23,9 @@ const emailAddress = ref<string>('')
 const registerNum = ref<string>('')
 const rules = ref<boolean>(false)
 const snackbarColor = ref<string>('primary')
+
+const newTicket = ref<IEvent | null>(null)
+const isDialogShown = ref<boolean>(false)
 
 function close() {
   emailAddress.value = ''
@@ -95,7 +98,9 @@ async function finalize() {
       isSnackbarVisible.value = true
       return
     }
-    await ticketStore.addTicket(event)
+
+    newTicket.value = await ticketStore.addTicket(event) || null
+    isDialogShown.value = true
 
     if (addCarError.value) {
       snackBarText.value = 'Istnieje już samochód o podanym numerze rejestracyjnym.'
@@ -167,6 +172,8 @@ useHead({
       </v-col>
     </v-row>
   </v-sheet>
+
+  <TicketDialog v-model="isDialogShown" :ticket-id="newTicket?._id" />
 
   <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" :color="snackbarColor" />
   <!--  todo: naprawic stopke -->

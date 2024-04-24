@@ -20,11 +20,12 @@ export const useTicketStore = defineStore('tickets', () => {
 
   async function addTicket(ticket: IEvent) {
     try {
-      await $fetch('/api/events', {
+      const newTicket: IEvent = await $fetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(ticket),
       })
       validTickets.value.push(ticket)
+      return newTicket
     }
     catch (error) {
       console.error(error)

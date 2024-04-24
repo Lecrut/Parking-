@@ -16,7 +16,7 @@ export default defineEventHandler<{ query: { update: string } }>(async (event) =
 
   if (query.update) {
     const oldEvent = new EventModel(body)
-    await EventModel.findByIdAndUpdate(
+    return await EventModel.findByIdAndUpdate(
       { _id: oldEvent._id },
       { exitHour: oldEvent.exitHour },
     ).exec()
@@ -27,6 +27,6 @@ export default defineEventHandler<{ query: { update: string } }>(async (event) =
 
     newEvent.photoUrl = url
 
-    await newEvent.save()
+    return await newEvent.save()
   }
 })
