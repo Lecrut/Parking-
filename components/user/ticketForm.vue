@@ -37,7 +37,10 @@ function countStandardTicketPrice() {
 }
 
 const url = useRequestURL()
-const address = computed(() => `${url.host}/client/payments/${ticket.value._id}`)
+const address = computed(() => ticket.value.type === 'Standard'
+    ? `${url.host}/client/payments/${ticket.value._id}`
+    : `${url.host}/ticket/${ticket.value._id}`
+)
 
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
