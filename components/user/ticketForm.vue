@@ -7,6 +7,7 @@ import { mapTicketTypeToPrice } from '~/composable/prices'
 
 const props = defineProps < {
   isShow: boolean
+  isExpired: boolean | undefined
   ticket: IEvent
   car: ICar | null
 }>()
@@ -15,7 +16,7 @@ const emit = defineEmits<{
   (e: 'onClose'): void
 }>()
 
-const { isShow, ticket, car } = toRefs(props)
+const { isShow, isExpired, ticket, car } = toRefs(props)
 const isShowRef = ref<boolean>()
 
 const getCar = computed(() => car.value ? `${car.value.brand} ${car.value.model}` : ' ')
@@ -36,11 +37,11 @@ function countStandardTicketPrice() {
 }
 
 const url = useRequestURL()
-const address = computed(() => url.host + "/client/payments/" + ticket.value._id)
+const address = computed(() => `${url.host}/client/payments/${ticket.value._id}`)
 
-function toPayment() {
-  navigateTo(address.value, {external: true})
-}
+// function toPayment() {
+//   navigateTo(address.value, { external: true })
+// }
 
 watch(isShow, () => isShowRef.value = isShow.value)
 </script>
@@ -77,10 +78,9 @@ watch(isShow, () => isShowRef.value = isShow.value)
           </v-col>
         </v-row>
 
-        <v-row justify="center" class="ma-4">
+        <v-row v-if="!isExpired" justify="center" class="ma-4">
           <QRCodeVue3
-            :value="address"
-            :qr-options="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+            :value="address" :qr-options="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
             :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }" :dots-options="{
               type: 'dots',
               color: '#26249a',

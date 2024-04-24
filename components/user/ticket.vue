@@ -90,5 +90,5 @@ onMounted(() => variant())
     </v-btn>
   </v-card>
 
-  <TicketForm :is-show="fullTicketShow" :ticket="ticket" :car="car" @on-close="hideFullTicket" />
+  <TicketForm :is-show="fullTicketShow" :is-expired="isExpired" :ticket="ticket" :car="car" @on-close="hideFullTicket" />
 </template>
