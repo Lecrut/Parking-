@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {mapTicketTypeToPrice} from "~/composable/prices";
-import {mapDate} from "../../../../composable/time";
+import {mapDate} from "~/composable/time";
 
 definePageMeta({
   middleware: ['user-page-guard'],
@@ -16,6 +16,9 @@ const placeId = ref(String(route.params.placeId) || '')
 
 const ticketStore = useTicketStore()
 const { ticketToPay } = storeToRefs(ticketStore)
+
+const carStore = useCarStore()
+const { searchedCars } = storeToRefs(carStore)
 
 const successSnackbar = ref(false)
 async function payForPlace() {
@@ -36,6 +39,10 @@ function countStandardTicketPrice() {
 onMounted( async () => {
   if (placeId.value !== '') {
     await ticketStore.fetchTicketByID(placeId.value)
+    if (ticketToPay.value)
+      await carStore.fetchCarByID(ticketToPay.value.car)
+    else
+      navigateTo("/client")
   }
 })
 
@@ -60,6 +67,14 @@ watch(successSnackbar, (newValue, oldValue) => {
 
         <p>
           Miejsce nr. {{ ticketToPay ? Number(ticketToPay.fieldNum) + 1 : 0 }}
+        </p>
+
+        <p>
+          Samochód {{ searchedCars ? searchedCars.brand + ' ' + searchedCars.model : '' }}
+        </p>
+
+        <p>
+          Numer rejestracyjny {{ searchedCars ? searchedCars.registrationNum : '' }}
         </p>
 
         <p>
