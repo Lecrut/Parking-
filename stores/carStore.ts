@@ -6,10 +6,12 @@ import type { ICar } from '~/models/Car'
 export const useCarStore = defineStore('car', () => {
   const cars: Ref<ICar[]> = ref([])
   const addCarError: Ref<boolean> = ref(false)
+  const searchedCars: Ref<ICar | null> = ref(null)
 
   function reset() {
     cars.value = []
     addCarError.value = false
+    searchedCars.value = null
   }
 
   async function checkIfCarExists(registrationNum: string): Promise<ICar | null> {
@@ -52,10 +54,23 @@ export const useCarStore = defineStore('car', () => {
     cars.value = userCars as ICar[]
   }
 
+  async function fetchCarByID(carID: string | object) {
+    try {
+      const cars = await $fetch(`/api/cars?_id=${carID}`)
+      const carTable = cars as ICar[]
+      searchedCars.value = carTable[0]
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     cars,
     addCarError,
+    searchedCars,
     addCar,
+    fetchCarByID,
     fetchCarsForUser,
     checkIfCarExists,
     updateCar,

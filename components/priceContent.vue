@@ -1,25 +1,26 @@
 <script setup lang="ts">
-  const authStore = useAuthStore()
+const authStore = useAuthStore()
 
-  const { user } = storeToRefs(authStore)
+const { user } = storeToRefs(authStore)
 </script>
+
 <template>
   <v-container fluid>
     <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-        elevation="4"
-        max-width="1100"
-        rounded
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
     >
       <v-row justify="center">
         <v-col cols="12" sm="12" md="6">
           <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketOne.jpg"
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketOne.jpg"
           />
         </v-col>
         <v-col cols="12" sm="12" md="6">
@@ -29,7 +30,7 @@
             </div>
 
             <p class="mb-1 mt-1">
-              Płać stałą sumę za każdą rozpoczętą godzinę. Nie wymaga logowania
+              Płać stałą sumę za każdą rozpoczętą godzinę. Wymaga logowania.
             </p>
 
             <p class="text-h6 mt-2 mb-2 font-weight-bold">
@@ -45,10 +46,10 @@
     </v-sheet>
 
     <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-        elevation="4"
-        max-width="1100"
-        rounded
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
     >
       <v-row justify="center">
         <v-col cols="12" sm="12" md="6">
@@ -58,7 +59,7 @@
             </div>
 
             <p class="mb-1 mt-1">
-              Bilet obowiązujący cały dzień od 00:00 do 23:59. Wymaga logowania.
+              Bilet obowiązujący 24 godziny od momentu zakupu. Nie wymaga logowania.
             </p>
 
             <p class="text-h6 mt-2 mb-2 font-weight-bold">
@@ -73,32 +74,32 @@
 
         <v-col cols="12" sm="12" md="6">
           <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketTwo.jpg"
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketTwo.jpg"
           />
         </v-col>
       </v-row>
     </v-sheet>
 
     <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-        elevation="4"
-        max-width="1100"
-        rounded
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
     >
       <v-row justify="center">
         <v-col cols="12" sm="12" md="6">
           <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketThree.jpg"
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketThree.jpg"
           />
         </v-col>
 
@@ -125,10 +126,10 @@
     </v-sheet>
 
     <v-sheet
-        class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
-        elevation="4"
-        max-width="1100"
-        rounded
+      class="d-flex align-center justify-center flex-wrap text-center mx-auto my-10 px-4"
+      elevation="4"
+      max-width="1100"
+      rounded
     >
       <v-row justify="center">
         <v-col cols="12" sm="12" md="6">
@@ -153,12 +154,12 @@
 
         <v-col cols="12" sm="12" md="6">
           <v-img
-              class="mx-auto my-5 elevation-5"
-              rounded="xl"
-              :width="250"
-              aspect-ratio="4/3"
-              cover
-              src="/ticketFour.jpg"
+            class="mx-auto my-5 elevation-5"
+            rounded="xl"
+            :width="250"
+            aspect-ratio="4/3"
+            cover
+            src="/ticketFour.jpg"
           />
         </v-col>
       </v-row>

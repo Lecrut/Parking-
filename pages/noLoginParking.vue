@@ -145,7 +145,7 @@ useHead({
           </div>
 
           <p class="my-2">
-            Wypełnij formularz aby przejść do płatności i otrzymać bilet parkingowy.
+            Wypełnij formularz aby przejść do płatności i otrzymać bilet parkingowy. Otrzymasz bilet dzienny na 24h od momentu zakupu.
           </p>
 
           <v-form ref="form" v-model="valid" class="w-75 my-2" @submit.prevent="finalize">

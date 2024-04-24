@@ -36,14 +36,6 @@ function variant() {
       cardColor.value = '#FF8F00'
       cardVariant.value = 'outlined'
     }
-    else {
-      cardColor.value = 'primary'
-      cardVariant.value = 'tonal'
-    }
-  }
-  else {
-    cardColor.value = 'primary'
-    cardVariant.value = 'tonal'
   }
 }
 
@@ -71,7 +63,7 @@ onMounted(() => variant())
       Szczegóły
     </v-btn>
 
-    <v-img :src="ticket.photoUrl" />
+    <v-img rounded :src="ticket.photoUrl" />
   </v-card>
 
   <v-card v-else :elevation="10" class="pa-3" @click="fullTicketShow = true">
@@ -90,5 +82,5 @@ onMounted(() => variant())
     </v-btn>
   </v-card>
 
-  <TicketForm :is-show="fullTicketShow" :ticket="ticket" :car="car" @on-close="hideFullTicket" />
+  <TicketForm :is-show="fullTicketShow" :is-expired="isExpired" :ticket="ticket" :car="car" @on-close="hideFullTicket" />
 </template>

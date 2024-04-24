@@ -34,6 +34,7 @@ const selectedTicketType = ref < string > ('')
 const selectedDate = ref<Date>(new Date())
 const exitDate = ref<Date>(new Date())
 const isSnackbarVisible = ref < boolean > (false)
+const isPayment = ref(false)
 
 function close() {
   selectedCar.value = ''
@@ -74,9 +75,17 @@ function prepareEventModel() {
 
 const snackBarText = ref<string>()
 
+async function goToPayment() {
+  if (!isPayment.value)
+    if (await isValid())
+      isPayment.value = !isPayment.value
+  else
+    isPayment.value = !isPayment.value
+}
+
 async function finalize() {
   await ticketStore.fetchFreeSpace()
-  if (freePlace.value !== -1 && await isValid()) {
+  if (freePlace.value !== -1) {
     await ticketStore.addTicket(prepareEventModel())
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
     isSnackbarVisible.value = true
@@ -102,17 +111,21 @@ const isDark = computed(() => {
   return current.value.dark
 })
 
-watch(isShow, () => isShowRef.value = isShow.value)
+watch(isShow, () => {
+  if (isShow.value)
+    isPayment.value = false
+  isShowRef.value = isShow.value
+})
 </script>
 
 <template>
   <v-dialog max-width="800px" :model-value="isShowRef" @update:model-value="close">
     <v-card min-height="55vh">
       <v-card-title>
-        Kup bilet okresowy
+        {{ isPayment ? 'Opłać bilet okresowy' : 'Kup bilet okresowy' }}
       </v-card-title>
       <v-card-text class="mt-6">
-        <v-form ref="form" v-model="valid" @submit.prevent="finalize">
+        <v-form v-if="!isPayment" ref="form" v-model="valid" @submit.prevent="finalize">
           <span>Wybierz datę początkową</span>
           <VueDatePicker
             v-model="selectedDate" class="mt-2" :dark="isDark" auto-apply :enable-time-picker="true"
@@ -134,6 +147,18 @@ watch(isShow, () => isShowRef.value = isShow.value)
             Cena: {{ mapTicketTypeToPrice(selectedTicketType) }} zł
           </div>
         </v-form>
+
+        <v-row v-else justify="center" class="align-center justify-center text-center">
+          <v-col cols="12">
+            <div class="text-h5 my-2 mb-5">
+              Płatność
+            </div>
+
+            <p>
+              Kwota do zapłacenia {{ mapTicketTypeToPrice(selectedTicketType) }} zł
+            </p>
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-card-actions class="justify-end">
@@ -141,8 +166,16 @@ watch(isShow, () => isShowRef.value = isShow.value)
           Zamknij
         </v-btn>
 
-        <v-btn @click="finalize">
+        <v-btn v-if="!isPayment" @click="goToPayment">
           Przejdź do płatności
+        </v-btn>
+
+        <v-btn v-if="isPayment" @click="goToPayment">
+          Powrót
+        </v-btn>
+
+        <v-btn v-if="isPayment" @click="finalize">
+          Zapłać
         </v-btn>
       </v-card-actions>
     </v-card>

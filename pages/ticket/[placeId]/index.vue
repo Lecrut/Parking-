@@ -1,14 +1,8 @@
 <script setup lang="ts">
-
-import {mapTicketTypeToPrice} from "~/composable/prices";
 import {mapDate} from "~/composable/time";
 
-definePageMeta({
-  middleware: ['user-page-guard'],
-})
-
 useHead({
-  title: 'Płatność - Parking+',
+  title: 'Bilet - Parking+',
 })
 
 const route = useRoute()
@@ -20,21 +14,6 @@ const { ticketToPay } = storeToRefs(ticketStore)
 const carStore = useCarStore()
 const { searchedCars } = storeToRefs(carStore)
 
-const successSnackbar = ref(false)
-async function payForPlace() {
-  if (ticketToPay.value)
-    await ticketStore.endTicket(ticketToPay.value)
-  successSnackbar.value = true
-}
-
-function countStandardTicketPrice() {
-  if (ticketToPay.value) {
-    const currentDate = new Date()
-    const diffInMilliseconds = currentDate.getTime() - ticketToPay.value.enterHour.getTime()
-    const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
-    return (mapTicketTypeToPrice('Standard') * Math.ceil(diffInHours)).toString()
-  }
-}
 
 onMounted( async () => {
   if (placeId.value !== '') {
@@ -44,11 +23,6 @@ onMounted( async () => {
     else
       navigateTo("/client")
   }
-})
-
-watch(successSnackbar, (newValue, oldValue) => {
-  if (newValue === false && oldValue === true)
-    navigateTo("/client")
 })
 </script>
 
@@ -62,7 +36,7 @@ watch(successSnackbar, (newValue, oldValue) => {
     <v-row justify="center" class="my-3">
       <v-col cols="12">
         <div class="text-h5 my-2 mb-5">
-          Płatność
+          Bilet {{ ticketToPay ? ticketToPay.type : '' }}
         </div>
 
         <p>
@@ -82,20 +56,18 @@ watch(successSnackbar, (newValue, oldValue) => {
         </p>
 
         <p>
-          Kwota do zapłacenia {{ countStandardTicketPrice() }}zł
+          Ważny do {{ ticketToPay ? ticketToPay.exitHour ? mapDate(ticketToPay.exitHour) : '' : '' }}
+        </p>
+
+        <p>
+          Cena {{ ticketToPay ? ticketToPay.price : '' }}zł
         </p>
       </v-col>
       <v-col cols="12">
-        <v-btn class="ma-2" @click="payForPlace">
-          Zapłać
-        </v-btn>
-
-        <v-btn class="ma-2" to="/client" color="error">
+        <v-btn class="ma-2" to="/" color="error">
           Zamknij
         </v-btn>
       </v-col>
     </v-row>
   </v-sheet>
-
-  <SnackbarSuccessSnackbar v-model="successSnackbar" text="Pomyślnie opłacono bilet" />
 </template>

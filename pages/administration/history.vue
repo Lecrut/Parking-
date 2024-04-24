@@ -70,7 +70,7 @@ watch(page, async () => {
                     Aktywny od {{mapDate(ticket.enterHour)}}
                   </p>
                   <p>
-                    {{ticket.exitHour ? "Aktywny do" + mapDate(ticket.exitHour) : "Samochód stoi"}}
+                    {{ticket.exitHour ? "Aktywny do " + mapDate(ticket.exitHour) : "Samochód stoi"}}
                   </p>
                   <p>
                     Cena {{ticket.price}}zł
