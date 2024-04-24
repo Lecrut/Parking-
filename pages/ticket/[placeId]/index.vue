@@ -43,7 +43,7 @@ onMounted( async () => {
           Miejsce nr. {{ ticketToPay ? Number(ticketToPay.fieldNum) + 1 : 0 }}
         </p>
 
-        <p>
+        <p v-if="searchedCars && searchedCars.brand">
           Samochód {{ searchedCars ? searchedCars.brand + ' ' + searchedCars.model : '' }}
         </p>
 
