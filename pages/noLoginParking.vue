@@ -4,7 +4,8 @@ import { emailRule, firstSignRule, registerLengthRule, requiredRule } from '~/co
 import formValidation from '~/composable/formValidation'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { mapTicketTypeToPrice } from '~/composable/prices'
-import type { TicketType } from '~/models/Event'
+import type { IEvent, TicketType } from '~/models/Event'
+import noLoginTicket from '~/components/noLoginTicket.vue'
 
 definePageMeta({
   middleware: ['guest-page-guard'],
@@ -81,6 +82,8 @@ async function prepareEventModel() {
 
 const snackBarText = ref<string>()
 const isSnackbarVisible = ref<boolean>(false)
+const showTicketView = ref<boolean>(false)
+const ticketToShow = ref<IEvent>()
 
 async function finalize() {
   await ticketStore.fetchFreeSpace()
@@ -88,6 +91,7 @@ async function finalize() {
     let event
     try {
       event = await prepareEventModel()
+      ticketToShow.value = event
     }
     catch (error: any) {
       snackBarText.value = error.message
@@ -106,7 +110,9 @@ async function finalize() {
 
     snackBarText.value = 'Pomyślnie zakupiono bilet.'
     isSnackbarVisible.value = true
+    showTicketView.value = true
     snackbarColor.value = 'primary'
+
     close()
   }
   else if (freePlace.value === -1) {
@@ -167,7 +173,7 @@ useHead({
       </v-col>
     </v-row>
   </v-sheet>
-
+  <NoLoginTicket :is-show="showTicketView" :ticket="ticketToShow" />
   <SnackbarDefaultSnackbar v-model="isSnackbarVisible" :text="snackBarText" :color="snackbarColor" />
   <!--  todo: naprawic stopke -->
   <!--  <MyFooter /> -->
